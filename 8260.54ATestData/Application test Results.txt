@@ -1,0 +1,72 @@
+** SEE NOTE AT BOTTOM FOR NEW DISCOVERY THAT MIGHT EFFECT COMPUTED RESULTS **
+
+Calculations done in TerpsTest are carried out to a minimum of 15 significant
+digits and the text format representation of the calculations are done on
+an as needed bais right before output to the screen or text-to-text comparisions.
+
+For the Inverse results Test88, 153, 156, 181, 184 have a angular textual
+reporting difference of 0.00001 from that shown in Order 8260.54A.  This 
+amounts to approximately 1.75 centimeters per 1,000,000 meters difference.
+
+The internal double representation of the values (converted from a string to
+a double) are accurate to within 1e-7 which is higher than the 1-e5 string
+representation.
+
+To determine the source of the difference I downloaded a program called
+Inverse from the National Geodetic Survey, located on NOAA's web site.
+They maintain a Fortran implementation of Vincent's calculations both in
+source code and Fortran binary executables.  I also downloaded a Microsoft
+Excell spreadsheet from the Austrailain government that does these calculations.
+
+Comparision of the results of TestTerps agaisnt both the NGS and AU governement
+programs shows matching accuracies of 15 significant digits as well as 5 decimal
+place textual formatting.
+
+Further investigation reveals that the string differences is a result of how the
+sprintf function formats fixed decimal values for floats and doubles.  It takes
+the number of decimal places to display + 1 and truncates the string, the last
+string character is used to determine which way to round the value.  In some cases this
+causes the textual display to be 1e-X off from what is shown in the 8260.54A
+test results page.  Interally the numbers are carried at a much higher precision.
+
+
+Conclusion:
+It is unknown what function was used to format deciaml values in 8260.54A Test88, 153,
+156, 181, 184 in 8260.54A.  If this can be determined then I can use this as well
+to match outputs exactly.  Otherwise this is a non issue.
+
+Document 8260.54A, Appendix 2, WGS84 Inverse Test Results -
+Test88
+Test153
+Test156
+Test181
+Test184
+Show the reverse azimuth +/- 0.00001 of the actual inputs, per sources noted below.
+
+Sources:
+NGS Inverse Fortran source code and excecutable:
+http://www.ngs.noaa.gov/PC_PROD/Inv_Fwd/
+
+AU Microsoft Excell Spreadsheet:
+http://www.ga.gov.au/geodesy/datums/vincenty.xls 
+
+
+***************************************************************************************
+**                 POSSIBLE DISCOVERY OF SOLUTION TO ABOVE MEMO                      **
+***************************************************************************************
+12-9-2008
+While writing the TestPointToArcTangents validation suite I had similar issues as noted
+above.  After much trial and error I discoved that in order for the results from my
+test suite to match that provided in 8260.54A that 1e-8 needed to be used as the input
+tolerence value.  Using 1e-9 caused enough of a diffence that many of the computations
+were coming out slightly different than that provided by 8260.54A.
+
+One other note: For the complete application I changed Eps from 0.5e-13 (as published in
+8260.54A) to 0.5e-15.  This needed to be done in order for some test to pass validation.
+	Tangent Fixed Radius Arc fails validation when eps = 1e-13
+	Locus Tan Fixed Radius Arc fails validation when eps = 1e-13
+	
+I will investigate using 1e-8 on other routines as well.  My only concern is figuring
+out which routines require what tolerence values to use.  8260.54A states that Tol of
+1-e9 and Eps of 0.5e-13 worked well.  My discovery is that FAA did not hold to these
+values thoughout the calculations.

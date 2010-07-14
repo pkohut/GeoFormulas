@@ -1,0 +1,27 @@
+Excel and CSV data files created from direct data pulls of website
+http://fsims.faa.gov/wdocs/orders/8260_54a.htm  (Attachment C)
+on November 10, 2008
+(item 1) "8260.54a Test Cases and Expected Results.xlsx" is direct pull of data with no edits
+(item 2) "8660.54a Test Cases and Expected Results-rev.xlsx" is modified (item 1) to format numbers
+         to show same precision as shown on original source website.  Otherwise files are the same.
+(item 3) CSV files created by saving individual workbooks from (item 2) as comma delimited files.
+         Afterwards CSV's were edited to comment out all headers in the file with the character '#'.
+		 No further edits dones.
+(item 4) The '-' character for negative values exported from Excell to CSV as '?'.  The CSV '?' were
+		 all changed to '-' by hand to match the Excell spreadsheets.
+(item 5) In 8260.54A the test case for "Pt is on Locus" shows in error, Locus End Longitude as latitude
+		 values (70:24:20.88368N, should be 70:24:20.88368W).  I have changed this in the PtIsOnLocus.csv
+		 file.
+(item 6) In 8260.54A the test case for "Locus Crs At Point" shows in error, Locus End Longitude as latitude
+		 values (70:24:20.88368N, should be 70:24:20.88368W).  I have changed this in the LocusCrsAtPoint.csv
+		 file.
+(item 7) In 8260.54A the test case for "Locus Arc Intersect" has erronous input values for Test11, Test41,
+		 Test43, Test51, Test53, Test55, Test56, Test60, Test61, Test62, Test63, Test64, Test65, Test66,
+		 Test67, Test68, Test69, Test70.
+		 
+		 This appears to be some sort of formatting error with the publishing of 8260.54A.  I've gone ahead
+		 and fixed the data inputs both in my Excel spreadsheet and the my test case data.
+
+Order 8260.54A Effective Date 12/07/07, Appendix 2
+Retrieved on October 15, 2008 at
+http://www.faa.gov/about/office_org/headquarters_offices/avs/offices/afs/afs400/afs420/policies_guidance/orders/media/Order_8260.54A.pdf
