@@ -11,6 +11,18 @@ The [WGS84 Ellipsoid Calculator](http://www.pkautomation.com/wgs84_geodesic_calc
 
 GeoFormulas has some dependency on the STL. The version that comes with MSVC 7.1 and 8.0 are sufficient to build the GeoFormulas library.
 
+__WGS84 Ellipsoid Calculation Types__
+
+    Arc Intercept             Geodesic Locus Intersect            Point on LocusP
+    Course Intersect          Geometric Mean Meridional           Point to Arc Tangents
+    Direct Arc Length         Locus Arc Intersect                 Pt is on Arc
+    Discretized Arc Length    Locus Course at Point               Pt is on Geodesic
+    Distance Intersection     Locus Intersect                     Pt is on Locus
+    Distance to LocusP        Locus Perpendicular Intercept       Tangent Fixed Radius Arc
+    Distance to LocusD        Locus Tangent Fixed Radius Arc      Vincenty Direct
+    ECEF                      Perpendicular Intercept             Vincenty Inverse
+    Geodesic Arc Intercept    Perpendicular Tangent Points
+
 TerpsTest
 ---------
 TerpsTest is a test harness driven by GeoFormulas. The test data and expected results are published in [FAA Order 8260.54A](http://www.faa.gov/documentLibrary/media/Order/8260_54A.pdf) Appendix 2, Attachment C.
