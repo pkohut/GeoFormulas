@@ -7,8 +7,6 @@ GeoForumlas is a collection of ellipsoid formulas, written in C++, that are base
 
 > Algorithms and methods are described for calculating geodetic locations (latitudes and longitudes) on the World Geodetic System of 1984 (WGS-84) ellipsoid, resulting from intersections of geodesic and non-geodesic paths. These algorithms utilize existing distance and azimuth calculation methods to compute intersections and tangent points needed for area navigation procedure construction. The methods apply corrections to an initial spherical approximation until the error is less than the maximum allowable error, as specified by the user.
 
-The [WGS84 Ellipsoid Calculator](http://www.pkautomation.com/wgs84_geodesic_calc.html) is a standalone Windows application that utilizes these formulas, and has been used by some in the GeoCaching community to generate and solve GeoCache puzzles.
-
 GeoFormulas has some dependency on the STL. The version that comes with MSVC 7.1 and 8.0 are sufficient to build the GeoFormulas library.
 
 __WGS84 Ellipsoid Calculation Types__
@@ -36,6 +34,7 @@ __Application test Results.txt__ is an implementation log tracking some my thoug
 TerpsTest is heavily dependent on [Boost::RegEx](http://www.boost/org/) to parse the CSV test data, so the Boost library must be installed with the RegEx module compiled. The initial goal of TerpsTest was to speed its development and library dependency was not taken into consideration, sorry.
 
 By downloading and/or using this software you agree to the following terms of use:
+
 
 Legal Stuff
 -----------
