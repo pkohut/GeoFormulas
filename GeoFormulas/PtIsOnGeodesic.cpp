@@ -35,7 +35,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	bool PtIsOnGeodesic(const LLPoint & pt1, const LLPoint & pt2, const LLPoint & pt3, int lengthCode, PtIsOnGeodesicResult & result )
+	bool _stdcall PtIsOnGeodesic(const LLPoint & pt1, const LLPoint & pt2, const LLPoint & pt3, int lengthCode, PtIsOnGeodesicResult & result )
 	{
 		InverseResult invResult;
 		if(!DistVincenty(pt1, pt3, invResult))

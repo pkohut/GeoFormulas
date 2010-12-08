@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	bool PtIsOnLocus(const Locus & loc, const LLPoint & testPt, LLPoint & projPt, const double & dTol)
+	bool _stdcall PtIsOnLocus(const Locus & loc, const LLPoint & testPt, LLPoint & projPt, double dTol)
 	{
 		InverseResult result;
 		if(!DistVincenty(loc.geoStart, loc.geoEnd, result))

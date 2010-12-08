@@ -29,8 +29,8 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	int LocusIntersect(const Locus & loc1, const Locus & loc2, LLPoint & intersect,
-		const double & dTol, const double & dEps)
+	int _stdcall LocusIntersect(const Locus & loc1, const Locus & loc2, LLPoint & intersect,
+		double dTol, double dEps)
 	{
 		InverseResult result;
 		DistVincenty(loc1.locusStart, loc1.locusEnd, result);

@@ -30,7 +30,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	double DistToLocusD(const Locus & loc, const double & dDistance, const double & dEps)
+	double _stdcall DistToLocusD(const Locus & loc, double dDistance, double dEps)
 	{
 		InverseResult result;
 		double distToLoc = 0.0;

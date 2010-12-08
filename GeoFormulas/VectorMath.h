@@ -25,14 +25,15 @@
 #include <math.h>
 
 namespace VMath {
-	class Vector3
+	
+    class GEOAPI Vector3
 	{
 	public:
 		Vector3()
 		{
 			x = y = z = 0.0;
 		}
-		Vector3(const double & _x, const double & _y, const double & _z)
+		Vector3(double _x, double _y, double _z)
 		{
 			x = _x; y = _y; z = _z;
 		}

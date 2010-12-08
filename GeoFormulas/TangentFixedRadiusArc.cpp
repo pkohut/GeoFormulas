@@ -29,9 +29,9 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	int TangentFixedRadiusArc(const LLPoint & pt1, const double & crs12, const LLPoint & pt3,
-		const double & crs3, const double & radius, int & dir,
-		LLPoint & centerPt, LLPoint & tanPt1, LLPoint & tanPt2, const double & dTol)
+	int _stdcall TangentFixedRadiusArc(const LLPoint & pt1, double crs12, const LLPoint & pt3,
+		double crs3, double radius, int & dir,
+		LLPoint & centerPt, LLPoint & tanPt1, LLPoint & tanPt2, double dTol)
 	{
 		LLPoint pt2;
 		bool bVal = CrsIntersect(pt1, crs12, pt3, crs3 + M_PI, dTol, pt2);
@@ -60,10 +60,10 @@ namespace GeoCalcs {
 			dir = 1;
 
 		double A = vertexAngle / 2.0;
-		if(radius > fabs(SphereRadius * A))
+		if(radius > fabs(SphereRadius() * A))
 			return 0;
 
-		double DTA = fabs(SphereRadius * asin(tan(radius / SphereRadius) / tan(A)));
+		double DTA = fabs(SphereRadius() * asin(tan(radius / SphereRadius()) / tan(A)));
 		double distToStart = dist12 - DTA;
 		int k = 0;
 		double dErr = 0.0;

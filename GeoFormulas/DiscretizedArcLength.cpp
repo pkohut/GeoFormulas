@@ -29,8 +29,8 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	double DiscretizedArcLength(const LLPoint & center, const double & dRadius, const double & dStartCrs,
-		const double & dEndCrs, int nOrient, int nSegments, const double & dTol)
+	double _stdcall DiscretizedArcLength(const LLPoint & center, double dRadius, double dStartCrs,
+		double dEndCrs, int nOrient, int nSegments, double dTol)
 	{
 		if(nSegments < 1)
 			nSegments = 1;

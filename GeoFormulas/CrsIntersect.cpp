@@ -29,8 +29,8 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	bool  CrsIntersect(const LLPoint & llPt1, const double & az13,
-		const LLPoint & llPt2, const double & az23, const double & dTol, LLPoint & llIntersect)
+	bool _stdcall CrsIntersect(const LLPoint & llPt1, double az13,
+		const LLPoint & llPt2, double az23, double dTol, LLPoint & llIntersect)
 	{
 		double az31, dist13, az32, dist23;
 		az31 = az32 = 0.0;
@@ -43,9 +43,9 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	bool CrsIntersect(const LLPoint & llPt1, const double & az13,
-		double & az31, double & dist13, const LLPoint & llPt2, const double & az23,
-		double & az32, double & dist23, const double & dTol, LLPoint & llIntersect)
+	bool _stdcall CrsIntersect(const LLPoint & llPt1, double az13,
+		double & az31, double & dist13, const LLPoint & llPt2, double az23,
+		double & az32, double & dist23, double dTol, LLPoint & llIntersect)
 	{
 		LLPoint pt1 = llPt1;
 		LLPoint pt2 = llPt2;
@@ -76,12 +76,12 @@ namespace GeoCalcs {
 		double cosB = cos(angle2);
 		double sinB = sin(angle2);
 
-		double C = acos( -cosA * cosB + sinA * sinB * cos(dist12 / SphereRadius));
+		double C = acos( -cosA * cosB + sinA * sinB * cos(dist12 / SphereRadius()));
 
 		double cosC = cos(C);
 		double sinC = sin(C);
-		double a = SphereRadius * acos( (cosA + cosB * cosC) / (sinB * sinC) );
-		double b = SphereRadius * acos( (cosB + cosA * cosC) / (sinA * sinC) );
+		double a = SphereRadius() * acos( (cosA + cosB * cosC) / (sinB * sinC) );
+		double b = SphereRadius() * acos( (cosB + cosA * cosC) / (sinA * sinC) );
 
 		if(_fpclass(a) == _FPCLASS_QNAN || _fpclass(b) == _FPCLASS_QNAN)
 			return false;

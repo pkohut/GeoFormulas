@@ -22,14 +22,18 @@
 /****************************************************************************/
 
 #pragma once
+#include "Geolib.h"
 #include "VectorMath.h"
 
-namespace GeoCalcs {
+ namespace GeoCalcs {
 
 	/**
 	*	\remark Order 8260.54A, Appendix 2, 2.1.1
 	*/
+    GEOAPI
     typedef struct LLPOINT {
+        double latitude;
+        double longitude;
         LLPOINT()
 			: latitude(0.0), longitude(0.0) { }
 
@@ -42,8 +46,7 @@ namespace GeoCalcs {
 			longitude = dLon;
 		}
 
-        double latitude;
-        double longitude;
+
     } LLPoint;
 
     
@@ -51,6 +54,7 @@ namespace GeoCalcs {
 	*	\brief Locus of Points Relative to a Geodesic
 	*	\remark Order 8260.54A, Appendix 2, 2.1.4
 	*/
+    GEOAPI
     typedef struct LOCUS {
         LLPoint geoStart;	/**< start point of geodesic */
         LLPoint geoEnd;		/**< end point of geodesic */
@@ -78,6 +82,7 @@ namespace GeoCalcs {
 	*	When DistVincenty returns true, INVERSE_RESULT referenced
 	*	parameter to DistVincenty will be be updated.
 	*/
+    GEOAPI
     typedef struct INVERSE_RESULT {
         double azimuth;			/**< calculated azimuth in radians */
         double reverseAzimuth;	/**< calculated reverse azimuth in radians */
@@ -96,6 +101,7 @@ namespace GeoCalcs {
 	*	When PtIsOnGeodesic returns true, then referenced instance of
 	*	PTISONGEODESICV_RESULT is updated with computed values.
 	*/
+    GEOAPI
     typedef struct PTISONGEODESIC_RESULT {
         LLPoint geoStart;	/**< Geodetic coordinate of line start point */
         LLPoint geoEnd;		/**< Geodetic coordinate of line end point */
@@ -114,7 +120,9 @@ namespace GeoCalcs {
 	*	298.25722356366546517369570015525
 	*	\remarks WGS84 Ellipsoid constant
 	*/
-#define InverseFlattening 298.25722356366546517369570015525
+//#define InverseFlattening 298.25722356366546517369570015525
+    GEOAPI
+    const inline double _stdcall InverseFlattening(void) { return 298.25722356366546517369570015525; }
 
 	/*
 	*	\brief Ellipsoid Flattening constant
@@ -122,7 +130,9 @@ namespace GeoCalcs {
 	*	Approximately 0.00335281
 	*	\remarks WGS84 Ellipsoid constant
 	*/
-#define Flattening 1.0 / InverseFlattening
+//#define Flattening 1.0 / InverseFlattening
+    GEOAPI
+    const inline double _stdcall Flattening(void) { return 1.0 / InverseFlattening(); }
 
 	/*
 	*	\brief Ellipsoid Semi Major Axis
@@ -130,7 +140,9 @@ namespace GeoCalcs {
 	*	6378137.0
 	*	\remarks WGS84 Ellipsoid constant
 	*/
-#define SemiMajorAxis 6378137.0
+//#define SemiMajorAxis 6378137.0
+    GEOAPI
+    const inline double _stdcall SemiMajorAxis(void) { return 6378137.0; }
 
 	/*
 	*	\brief Ellipsoid Semi Minor Axis
@@ -138,7 +150,9 @@ namespace GeoCalcs {
 	*	Approximately 6356752.314245
 	*	\remarks WGS84 Ellipsoid constant
 	*/
-#define SemiMinorAxis SemiMajorAxis * (1 - Flattening)
+//#define SemiMinorAxis SemiMajorAxis * (1 - Flattening)
+    GEOAPI
+    const inline double _stdcall SemiMinorAxis(void) { return SemiMajorAxis() * (1 - Flattening()); }
 
 
 	/*	\brief SphereRadius in meters	
@@ -152,7 +166,9 @@ namespace GeoCalcs {
 	*	places is safe. I'm just leaving it this way because that was
 	*	what was calculated with the large precision calculator.
 	*/
-#define SphereRadius 6367435.679716102288521224771085329133283527893713982476828820197
+//#define SphereRadius 6367435.679716102288521224771085329133283527893713982476828820197
+    GEOAPI
+    const inline double _stdcall SphereRadius(void) { return 6367435.679716102288521224771085329133283527893713982476828820197; }
 //	const double SphereRadius = sqrt(SemiMajorAxis * SemiMinorAxis);
 
 
@@ -177,7 +193,8 @@ namespace GeoCalcs {
 	*	fails validation.
 	*	
 	*/
-    inline double Eps(void) { return 0.5e-15; }
+    GEOAPI
+    inline double _stdcall Eps(void) { return 0.5e-15; }
 
 	/*
 	*	\brief Tolerance
@@ -194,12 +211,14 @@ namespace GeoCalcs {
 	*	about tolerances used in the "TerpsTest" application.
 	*	
 	*/
-	inline double Tol(void) { return 1.0e-9; }
+    GEOAPI 
+	inline double _stdcall Tol(void) { return 1.0e-9; }
 
 	/*
 	*	\brief The square of the ellipsoid eccentricity
 	*/
-    inline double eSq(void) { return Flattening * (2.0 - Flattening); }
+    GEOAPI
+    inline double _stdcall eSq(void) { return Flattening() * (2.0 - Flattening()); }
 
    	/*
 	*	\brief Point Is on Geodesic Tolerance
@@ -212,7 +231,8 @@ namespace GeoCalcs {
 	*	pass the WGS84PtIsOnGeodesic Test Results presented on page A2-93 of Order 8260.54A.
 	*	Change TolPtIsOnGeodesic to 1e-3 for the 1mm resolution if 0.5e-3 causes any QA issues.
 	*/
-	inline double TolPtIsOnGeodesic(void) { return .5e-3; }
+    GEOAPI
+	inline double _stdcall TolPtIsOnGeodesic(void) { return .5e-3; }
 
 
 
@@ -222,95 +242,126 @@ namespace GeoCalcs {
 	//////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////
 
-	double PrimeVerticalCurvature(const double & dAngle);
-
-	double GeometricMeanMeridional(const double & dAngle);
+    GEOAPI
+	double _stdcall PrimeVerticalCurvature(double dAngle);
+    
+    GEOAPI
+	double _stdcall GeometricMeanMeridional(double dAngle);
 	
-	VMath::Vector3 ECEF( const LLPoint & llPt, const double & dAltitude);
+    GEOAPI
+	VMath::Vector3 _stdcall ECEF( const LLPoint & llPt, double dAltitude);
 
+    GEOAPI
+    bool _stdcall DistVincenty(const LLPoint & pt1, const LLPoint & pt2, InverseResult & result);
 
-    bool DistVincenty(const LLPoint & pt1, const LLPoint & pt2, InverseResult & result);
+    GEOAPI
+    LLPoint _stdcall DestVincenty(const LLPoint & pt, double brng, double dist);
 
-    LLPoint DestVincenty(const LLPoint & pt, const double & brng, const double & dist);
+    GEOAPI
+    bool _stdcall PtIsOnGeodesic(const LLPoint & pt1, const LLPoint & pt2, const LLPoint & pt3, int lengthCode, PtIsOnGeodesicResult & result );
 
-    bool PtIsOnGeodesic(const LLPoint & pt1, const LLPoint & pt2, const LLPoint & pt3, int lengthCode, PtIsOnGeodesicResult & result );
+    GEOAPI
+    void _stdcall FindLinearRoot(double *x, double *errArray, double & root);
 
-    void FindLinearRoot(double *x, double *errArray, double & root);
-
-    bool PtIsOnArc( const LLPoint & llArcCenter, const double & dArcRadius,
-        const double & dArcStartAzimuth, const double & dArcEndAzimuth, const int & nArcDirection,
+    GEOAPI
+    bool _stdcall PtIsOnArc( const LLPoint & llArcCenter, double dArcRadius,
+        double dArcStartAzimuth, double dArcEndAzimuth, int nArcDirection,
         const LLPoint & llTestPt, int & bOnArc );
 
-    double GetArcExtent(const double & dStartCrs, const double & dEndCrs, const int nOrientation, const double & dTol);
+    GEOAPI
+    double _stdcall GetArcExtent(double dStartCrs, double dEndCrs, const int nOrientation, double dTol);
 
-    double DiscretizedArcLength(const LLPoint & center, const double & dRadius,
-        const double & dStartCrs, const double & dEndCrs,
-        int nOrient, int nSegments, const double & dTol);
+    GEOAPI
+    double _stdcall DiscretizedArcLength(const LLPoint & center, double dRadius,
+        double dStartCrs, double dEndCrs,
+        int nOrient, int nSegments, double dTol);
 
-    double DirectArcLength(const LLPoint & center, const double & dRadius, const double & dStartCrs,
-        const double & dEndCrs, int nOrient, const double & dTol);
+    GEOAPI
+    double _stdcall DirectArcLength(const LLPoint & center, double dRadius, double dStartCrs,
+        double dEndCrs, int nOrient, double dTol);
 
-    double DistToLocusD(const Locus & loc, const double & dDistance, const double & dEps);
+    GEOAPI
+    double _stdcall DistToLocusD(const Locus & loc, double dDistance, double dEps);
 
-    double DistToLocusP(const Locus & loc, const LLPoint & geoPt, const double & dTol, const double & eps);
+    GEOAPI
+    double _stdcall DistToLocusP(const Locus & loc, const LLPoint & geoPt, double dTol, double eps);
 
-    LLPoint PointOnLocusP(const Locus & loc, const LLPoint & geoPt, const double & dTol, const double & eps);
+    GEOAPI
+    LLPoint _stdcall PointOnLocusP(const Locus & loc, const LLPoint & geoPt, double dTol, double eps);
 
-    bool PtIsOnLocus(const Locus & loc, const LLPoint & testPt, LLPoint & projPt, const double & dTol);
+    GEOAPI
+    bool _stdcall PtIsOnLocus(const Locus & loc, const LLPoint & testPt, LLPoint & projPt, double dTol);
 
-    LLPoint PerpIntercept(const LLPoint & llPt1, const double & dCrs13, const LLPoint & llPt2,
-        double & dCrsFromPt, double & dDistFromPt, const double & dTol);
+    GEOAPI
+    LLPoint _stdcall PerpIntercept(const LLPoint & llPt1, double dCrs13, const LLPoint & llPt2,
+        double & dCrsFromPt, double & dDistFromPt, double dTol);
 
-    double SignAzimuthDifference(const double & az1, const double & az2);
+    GEOAPI
+    double _stdcall SignAzimuthDifference(double az1, double az2);
 
-    double LocusCrsAtPoint(const Locus & locus, const LLPoint & testPt, LLPoint & geoPt, double & dPerpCrs, const double dTol);
+    GEOAPI
+    double _stdcall LocusCrsAtPoint(const Locus & locus, const LLPoint & testPt, LLPoint & geoPt, double & dPerpCrs, const double dTol);
 
-    bool  CrsIntersect(const LLPoint & llPt1, const double & az13,
-        const LLPoint & llPt2, const double & az23, const double & dTol, LLPoint & llIntersect);
+    GEOAPI
+    bool  _stdcall CrsIntersect(const LLPoint & llPt1, double az13,
+        const LLPoint & llPt2, double az23, double dTol, LLPoint & llIntersect);
 
-    bool CrsIntersect(const LLPoint & llPt1, const double & az13,
-        double & az31, double & dist13, const LLPoint & llPt2, const double & az23,
-        double & az32, double & dist23, const double & dTol, LLPoint & llIntersect);
+    GEOAPI
+    bool _stdcall CrsIntersect(const LLPoint & llPt1, double az13,
+        double & az31, double & dist13, const LLPoint & llPt2, double az23,
+        double & az32, double & dist23, double dTol, LLPoint & llIntersect);
 
-    int ArcIntercept(const LLPoint & center1, const double & radius1,
-        const LLPoint & center2, const double & radius2,
-        LLPoint & intPtC1, LLPoint & intPtC2, const double & dTol);
+    GEOAPI
+    int _stdcall ArcIntercept(const LLPoint & center1, double radius1,
+        const LLPoint & center2, double radius2,
+        LLPoint & intPtC1, LLPoint & intPtC2, double dTol);
 
-    int DistanceIntersection(const LLPoint & pt1, const double & dist13, const LLPoint & pt2, const double & dist23,
-        LLPoint & intPtC1, LLPoint & intPtC2, const double & dTol);
+    GEOAPI
+    int _stdcall DistanceIntersection(const LLPoint & pt1, double dist13, const LLPoint & pt2, double dist23,
+        LLPoint & intPtC1, LLPoint & intPtC2, double dTol);
 
-    int GeodesicArcIntercept(const LLPoint & pt1, const double & crs1,
-        const LLPoint & center, const double & radius,
-        LLPoint & intPtC1, LLPoint & intPtC2, const double & dTol);
+    GEOAPI
+    int _stdcall GeodesicArcIntercept(const LLPoint & pt1, double crs1,
+        const LLPoint & center, double radius,
+        LLPoint & intPtC1, LLPoint & intPtC2, double dTol);
 
-    int TangentFixedRadiusArc(const LLPoint & pt1, const double & crs12, const LLPoint & pt3,
-        const double & crs3, const double & radius, int & dir,
-        LLPoint & centerPt, LLPoint & tanPt1, LLPoint & tanPt2, const double & dTol);
+    GEOAPI
+    int _stdcall TangentFixedRadiusArc(const LLPoint & pt1, double crs12, const LLPoint & pt3,
+        double crs3, double radius, int & dir,
+        LLPoint & centerPt, LLPoint & tanPt1, LLPoint & tanPt2, double dTol);
 
-    int GeoLocusIntersect(const LLPoint & gStart, const LLPoint & gEnd, const Locus & loc, LLPoint & intersect,
-        const double & dTol, const double & dEps);
+    GEOAPI
+    int _stdcall GeoLocusIntersect(const LLPoint & gStart, const LLPoint & gEnd, const Locus & loc, LLPoint & intersect,
+        double dTol, double dEps);
 
-    int LocusArcIntersect(const Locus & locus, const LLPoint & arcCenter, const double & arcRadius,
-        LLPoint & intersection1, LLPoint & intersection2, const double & dTol,
-        const double & dEps);
+    GEOAPI
+    int _stdcall LocusArcIntersect(const Locus & locus, const LLPoint & arcCenter, double arcRadius,
+        LLPoint & intersection1, LLPoint & intersection2, double dTol,
+        double dEps);
 
-    int LocusIntersect(const Locus & loc1, const Locus & loc2, LLPoint & intersect,
-        const double & dTol, const double & dEps);
+    GEOAPI
+    int _stdcall LocusIntersect(const Locus & loc1, const Locus & loc2, LLPoint & intersect,
+        double dTol, double dEps);
 
-    int LocusTanFixedRadiusArc(const Locus & loc1, const Locus & loc2, const double & radius,
+    GEOAPI
+    int _stdcall LocusTanFixedRadiusArc(const Locus & loc1, const Locus & loc2, double radius,
         int & dir, LLPoint & center, LLPoint & intersection1, LLPoint & intersection2,
-        const double & dTol, const double & dEps);
+        double dTol, double dEps);
 
-    int LocusPerpIntercept(const Locus & loc, const LLPoint & pt2, double & crsFromPt,
+    GEOAPI
+    int _stdcall LocusPerpIntercept(const Locus & loc, const LLPoint & pt2, double & crsFromPt,
         double & distFromPt, LLPoint & intPt, double dTol);
 
-    int PointToArcTangents(const LLPoint & point, const LLPoint & center, const double & radius,
-        LLPoint & tanPt1, LLPoint & tanPt2, const double & dTol);
+    GEOAPI
+    int _stdcall PointToArcTangents(const LLPoint & point, const LLPoint & center, double radius,
+        LLPoint & tanPt1, LLPoint & tanPt2, double dTol);
 
-    void PerpTangentPoints(const LLPoint & lineStart, const double & crs,
-        const LLPoint & center, const double & radius,
-        LLPoint linePts[2], LLPoint tanPts[2], const double & dTol);
+    GEOAPI
+    void _stdcall PerpTangentPoints(const LLPoint & lineStart, double crs,
+        const LLPoint & center, double radius,
+        LLPoint * linePts, LLPoint * tanPts, double dTol);
 
-    double Mod(double a, double b);
+    GEOAPI
+    double _stdcall Mod(double a, double b);
 
 }

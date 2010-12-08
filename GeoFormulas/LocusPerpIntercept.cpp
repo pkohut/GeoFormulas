@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	int LocusPerpIntercept(const Locus & loc, const LLPoint & pt2, double & crsFromPt,
+	int _stdcall LocusPerpIntercept(const Locus & loc, const LLPoint & pt2, double & crsFromPt,
 		double & distFromPt, LLPoint & intPt, double dTol)
 	{
 		InverseResult result;

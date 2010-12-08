@@ -29,9 +29,9 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	int ArcIntercept(const LLPoint & center1, const double & radius1,
-		const LLPoint & center2, const double & radius2,
-		LLPoint & intPtC1, LLPoint & intPtC2, const double & dTol)
+	int _stdcall ArcIntercept(const LLPoint & center1, double radius1,
+		const LLPoint & center2, double radius2,
+		LLPoint & intPtC1, LLPoint & intPtC2, double dTol)
 	{
 
 		int nIntersects = DistanceIntersection(center1, radius1, center2, radius2, intPtC1, intPtC2, dTol);

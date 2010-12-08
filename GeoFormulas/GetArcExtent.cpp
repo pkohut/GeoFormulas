@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	double GetArcExtent(const double & dStartCrs, const double & dEndCrs, const int nOrientation, const double & dTol)
+	double _stdcall GetArcExtent(double dStartCrs, double dEndCrs, const int nOrientation, double dTol)
 	{
 		double dstartCrs = dStartCrs;
 		double dendCrs = dEndCrs;

@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	VMath::Vector3 ECEF( const LLPoint & llPt, const double & dAltitude )
+	VMath::Vector3 _stdcall ECEF( const LLPoint & llPt, double dAltitude )
 	{
 		VMath::Vector3 pt;
 		double dPrimeVerticalCurvature = PrimeVerticalCurvature(llPt.latitude);

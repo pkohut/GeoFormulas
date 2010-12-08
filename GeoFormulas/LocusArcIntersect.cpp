@@ -29,9 +29,9 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	int LocusArcIntersect(const Locus & locus, const LLPoint & arcCenter, const double & arcRadius,
-		LLPoint & intersection1, LLPoint & intersection2, const double & dTol,
-		const double & dEps)
+	int _stdcall LocusArcIntersect(const Locus & locus, const LLPoint & arcCenter, double arcRadius,
+		LLPoint & intersection1, LLPoint & intersection2, double dTol,
+		double dEps)
 	{
 		int nIntersections = 0;
 

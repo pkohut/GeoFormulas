@@ -29,9 +29,9 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	int LocusTanFixedRadiusArc(const Locus & loc1, const Locus & loc2, const double & radius,
+	int _stdcall LocusTanFixedRadiusArc(const Locus & loc1, const Locus & loc2, double radius,
 		int & dir, LLPoint & center, LLPoint & intersection1, LLPoint & intersection2,
-		const double & dTol, const double & dEps)
+		double dTol, double dEps)
 	{
 		InverseResult result;
 		DistVincenty(loc1.locusStart, loc1.locusEnd, result);
@@ -55,7 +55,7 @@ namespace GeoCalcs {
 
 		double angle = fabs(SignAzimuthDifference(rcrs1, rcrs2));
 
-		double vertexAngle = 2 * acos(sin(angle / 2.0) * cos(radius / SphereRadius));
+		double vertexAngle = 2 * acos(sin(angle / 2.0) * cos(radius / SphereRadius()));
 
 		double locAngle = atan((loc1.endDist - loc1.startDist) / geoLen1);
 

@@ -29,8 +29,8 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	double PrimeVerticalCurvature( const double & dAngle )
+	double _stdcall PrimeVerticalCurvature( double dAngle )
 	{
-		return SemiMajorAxis / sqrt(1.0 - eSq() * (sin(dAngle) * sin(dAngle)));
+		return SemiMajorAxis() / sqrt(1.0 - eSq() * (sin(dAngle) * sin(dAngle)));
 	}
 }

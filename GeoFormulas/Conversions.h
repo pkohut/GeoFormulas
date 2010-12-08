@@ -22,18 +22,22 @@
 /****************************************************************************/
 
 #pragma once
+#include "Geolib.h"
 #include "RNavConversionException.h"
 #include <limits>
 
 #define _USE_MATH_DEFINES 1
 #include <math.h>
 
-inline bool IsApprox(const double & a, const double & b,
+GEOAPI
+inline bool _stdcall IsApprox(double a, double b,
 					 const double precision = 1e-11)
 {
 	return( fabs(a - b) <= precision * std::min<const double>( fabs(a), fabs(b) ) );
 }
-inline bool IsNearZero(const double & a, const double & epsilon = 2e-6)
+
+GEOAPI
+inline bool _stdcall IsNearZero(double a, double epsilon = 2e-6)
 {
 	return (fabs(a) < epsilon);
 }
@@ -41,23 +45,23 @@ inline bool IsNearZero(const double & a, const double & epsilon = 2e-6)
 	//////////////////////////////////////////////////////////////////////////
 	// functions returning common constants
 //	inline double FeetPerMeter(void) { return 3.28083989501312335958005249343832020997375328083989501312335958; }
-	inline double FeetPerMeter(void) { return 1.0 / 0.3048; }
-	inline double MetersPerFoot(void) { return 0.3048; }
+GEOAPI	inline double _stdcall FeetPerMeter(void) { return 1.0 / 0.3048; }
+GEOAPI	inline double _stdcall MetersPerFoot(void) { return 0.3048; }
 
 	// returns the number of feet per nautical mile ( 1852.0 / 0.3048 )
 //	inline double FeetPerNm(void) { return 6076.115485564304461942257217847769028871391076115485564304461942; }
-	inline double FeetPerNm(void) { return 1852.0 / 0.3048; }
+GEOAPI	inline double _stdcall FeetPerNm(void) { return 1852.0 / 0.3048; }
 
 	// returns the number of nautical miles per foot ( 0.3048 / 1852.0 )
 //	inline double NmPerFoot(void) { return 1.645788336933045356371490280777537796976241900647948164146868251e-4; }
-	inline double NmPerFoot(void) { return 0.3048 / 1852.0; }
+GEOAPI	inline double _stdcall NmPerFoot(void) { return 0.3048 / 1852.0; }
 
 	// returns meters per nautical mile ( 1852.0 )
-	inline double MetersPerNm(void) { return 1852.0; }
+GEOAPI	inline double _stdcall MetersPerNm(void) { return 1852.0; }
 
 	// returns Nautical miles per 1 meter ( 1.0 / 1852.0 )
 //	inline double NmPerMeter(void) { return 5.399568034557235421166306695464362850971922246220302375809935205e-4; }
-	inline double NmPerMeter(void) { return 1.0 / 1852.0; }
+GEOAPI	inline double _stdcall NmPerMeter(void) { return 1.0 / 1852.0; }
 
 
 	// returns PI
@@ -71,28 +75,28 @@ inline bool IsNearZero(const double & a, const double & epsilon = 2e-6)
 	//////////////////////////////////////////////////////////////////////////
 	// Distance conversion functions
 	// returns the conversion from feet to meters ( feet * 0.3048 )
-	inline double FeetToMeters(const double dFeet) { return dFeet * MetersPerFoot(); }
+GEOAPI	inline double _stdcall FeetToMeters(const double dFeet) { return dFeet * MetersPerFoot(); }
 
 	// return the conversion from meters to feet { meters / 0.3048 )
-	inline double MetersToFeet(const double dMeters) { return dMeters * FeetPerMeter(); }
+GEOAPI	inline double _stdcall MetersToFeet(const double dMeters) { return dMeters * FeetPerMeter(); }
 
 	// returns the conversion from feet to nautical miles (  feet * (0.3048 / 1852.0) )
-	inline double FeetToNm(const double dFeet) { return dFeet * NmPerFoot(); }
+GEOAPI	inline double _stdcall FeetToNm(const double dFeet) { return dFeet * NmPerFoot(); }
 
 	// returns the conversion from nautical miles to feet ( nm * (1852.0 / 0.3048) )
-	inline double NmToFeet(const double dNm) { return dNm * FeetPerNm(); }
+GEOAPI	inline double _stdcall NmToFeet(const double dNm) { return dNm * FeetPerNm(); }
 
 	// returns the conversion from meters to nautical miles ( meters / 1852.0 )
-	inline double MetersToNm(const double dMeters) { return dMeters * NmPerMeter(); }
+GEOAPI	inline double _stdcall MetersToNm(const double dMeters) { return dMeters * NmPerMeter(); }
 
 	// returns the conversion from nautical miles to meters ( nm * 1852.0; )
-	inline double NmToMeters(const double dNm) { return dNm * MetersPerNm(); }
+GEOAPI	inline double _stdcall NmToMeters(const double dNm) { return dNm * MetersPerNm(); }
 
 
 	//////////////////////////////////////////////////////////////////////////
 	// Angular conversion functions
-	inline double Deg2Rad(const double dVal) { return dVal * (M_PI / 180.0); }
-	inline double Rad2Deg(const double dVal) { return dVal * (180.0 / M_PI); }
+GEOAPI	inline double _stdcall Deg2Rad(const double dVal) { return dVal * (M_PI / 180.0); }
+GEOAPI	inline double _stdcall Rad2Deg(const double dVal) { return dVal * (180.0 / M_PI); }
 //	inline double Deg2Rad(const double dVal) { return dVal * (pi<double>() / 180.0); }
 //	inline double Rad2Deg(const double dVal) { return dVal * (180.0 / pi<double>()); }
 	
@@ -101,9 +105,9 @@ inline bool IsNearZero(const double & a, const double & epsilon = 2e-6)
 	//////////////////////////////////////////////////////////////////////////
 	// Temperature conversion functions
 	// returns the conversion from Celsius to Fahrenheit
-	inline double CelsiusToFahrenheit(const double dCelsius) { return 1.8 * dCelsius + 32.0; }
+GEOAPI	inline double _stdcall CelsiusToFahrenheit(const double dCelsius) { return 1.8 * dCelsius + 32.0; }
 
 	// returns the conversion from Fahrenheit to Celsius
-	inline double FahrenheitToCelsius(const double dFahrenheit) { return (dFahrenheit - 32) / 1.8; }
+GEOAPI	inline double _stdcall FahrenheitToCelsius(const double dFahrenheit) { return (dFahrenheit - 32) / 1.8; }
 
 	

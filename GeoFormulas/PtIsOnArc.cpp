@@ -29,8 +29,8 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	bool PtIsOnArc( const LLPoint & llArcCenter, const double & dArcRadius,
-		const double & dArcStartAzimuth, const double & dArcEndAzimuth, const int & nArcDirection,
+	bool _stdcall PtIsOnArc( const LLPoint & llArcCenter, double dArcRadius,
+		double dArcStartAzimuth, double dArcEndAzimuth, int nArcDirection,
 		const LLPoint & llTestPt, int & bOnArc )
 
 	{

@@ -29,9 +29,9 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	void PerpTangentPoints(const LLPoint & lineStart, const double & crs,
-		const LLPoint & center, const double & radius,
-		LLPoint linePts[2], LLPoint tanPts[2], const double & dTol)
+	void _stdcall PerpTangentPoints(const LLPoint & lineStart, double crs,
+		const LLPoint & center, double radius,
+		LLPoint linePts[2], LLPoint tanPts[2], double dTol)
 	{
 		InverseResult result;
 		DistVincenty(lineStart, center, result);

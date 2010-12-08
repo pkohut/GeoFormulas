@@ -29,8 +29,8 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	LLPoint PerpIntercept(const LLPoint & llPt1, const double & dCrs13, const LLPoint & llPt2,
-		double & dCrsFromPt, double & dDistFromPt, const double & dTol)
+	LLPoint _stdcall PerpIntercept(const LLPoint & llPt1, double dCrs13, const LLPoint & llPt2,
+		double & dCrsFromPt, double & dDistFromPt, double dTol)
 	{
 		InverseResult result;
 		LLPoint pt1 = llPt1;
@@ -49,8 +49,8 @@ namespace GeoCalcs {
 			dCrsFromPt = dDistFromPt = 0.0;
 			return pt1;
 		}
-		double dA = dist12 / SphereRadius;
-		double dist13 = SphereRadius * atan(tan(dA) * fabs(cos(dAngle)));
+		double dA = dist12 / SphereRadius();
+		double dist13 = SphereRadius() * atan(tan(dA) * fabs(cos(dAngle)));
 
 		if(dAngle > M_PI_2)
 		{

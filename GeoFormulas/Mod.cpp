@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	double Mod(double a, double b)
+	double _stdcall Mod(double a, double b)
 	{
 		double mod = a - b * int(a / b);
 		if(mod < 0)

@@ -34,24 +34,25 @@ namespace GeoCalcs {
 	* as Creative Commons Attribution,
 	* http://creativecommons.org/licenses/by/3.0/	
 	*/
-	LLPoint DestVincenty(const LLPoint & pt, const double & brng, const double & dist)
+	LLPoint _stdcall DestVincenty(const LLPoint & pt, double brng, double dist)
 	{
 		double s = dist;
 		double alpha1 = brng;
 		double sinAlpha1 = sin(alpha1);
 		double cosAlpha1 = cos(alpha1);
 
-		double tanU1 = (1.0 - Flattening) * tan(pt.latitude);
+		double tanU1 = (1.0 - Flattening()) * tan(pt.latitude);
 		double cosU1 = 1.0 / sqrt((1.0 + tanU1*tanU1));
 		double sinU1 = tanU1 * cosU1;
 		double sigma1 = atan2(tanU1, cosAlpha1);
 		double sinAlpha = cosU1 * sinAlpha1;
 		double cosSqAlpha = 1.0 - sinAlpha * sinAlpha;
-		double uSq = cosSqAlpha * (SemiMajorAxis * SemiMajorAxis - SemiMinorAxis * SemiMinorAxis) / (SemiMinorAxis * SemiMinorAxis);
+		double uSq = cosSqAlpha * (SemiMajorAxis() * SemiMajorAxis() - SemiMinorAxis() * SemiMinorAxis()) /
+                                  (SemiMinorAxis() * SemiMinorAxis());
 		double A = 1.0 + uSq / 16384.0 * (4096.0 + uSq * (-768.0 + uSq * (320.0 - 175.0 * uSq)));
 		double B = uSq / 1024.0 * (256.0 + uSq * (-128.0 + uSq * (74.0 - 47.0 * uSq)));
 
-		double sigma = s / (SemiMinorAxis * A);
+		double sigma = s / (SemiMinorAxis() * A);
 		double sigmaP = M_2PI;
 		double sinSigma = sin(sigma);
 		double cosSigma = cos(sigma);
@@ -66,15 +67,15 @@ namespace GeoCalcs {
 				B / 6.0 * cos2SigmaM * (-3.0 + 4.0 * sinSigma * sinSigma) * (-3.0 + 4.0 * cos2SigmaSq)));
 
 			sigmaP = sigma;
-			sigma = s / (SemiMinorAxis * A) + deltaSigma;
+			sigma = s / (SemiMinorAxis() * A) + deltaSigma;
 		}
 
 		double tmp = sinU1 * sinSigma - cosU1 * cosSigma * cosAlpha1;
 		double lat2 = atan2(sinU1 * cosSigma + cosU1 * sinSigma * cosAlpha1, 
-			(1.0 - Flattening) * sqrt(sinAlpha * sinAlpha + tmp * tmp));
+			(1.0 - Flattening()) * sqrt(sinAlpha * sinAlpha + tmp * tmp));
 		double lambda = atan2(sinSigma * sinAlpha1, cosU1 * cosSigma - sinU1 * sinSigma * cosAlpha1);
-		double C = Flattening / 16.0 * cosSqAlpha * (4.0 + Flattening * (4.0 -3.0 * cosSqAlpha));
-		double L = lambda - (1.0 - C) * Flattening * sinAlpha *
+		double C = Flattening() / 16.0 * cosSqAlpha * (4.0 + Flattening() * (4.0 -3.0 * cosSqAlpha));
+		double L = lambda - (1.0 - C) * Flattening() * sinAlpha *
 			(sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1.0 + 2.0 * cos2SigmaM * cos2SigmaM)));
 
 		return LLPoint(lat2, pt.longitude + L);
