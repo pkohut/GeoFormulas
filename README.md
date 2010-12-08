@@ -7,6 +7,8 @@ GeoForumlas is a collection of ellipsoid formulas, written in C++, that are base
 
 > Algorithms and methods are described for calculating geodetic locations (latitudes and longitudes) on the World Geodetic System of 1984 (WGS-84) ellipsoid, resulting from intersections of geodesic and non-geodesic paths. These algorithms utilize existing distance and azimuth calculation methods to compute intersections and tangent points needed for area navigation procedure construction. The methods apply corrections to an initial spherical approximation until the error is less than the maximum allowable error, as specified by the user.
 
+GeoFormulas can now be built as a DLL or staticly linked library. VBA macros for Microsoft Excel are also included in the directory, which allows full usage of the GeoFormulas API via the DLL. See the bottom of GeoExcelStub.cls for examples using the API.
+
 GeoFormulas has some dependency on the STL. The version that comes with MSVC 7.1 and 8.0 are sufficient to build the GeoFormulas library.
 
 __WGS84 Ellipsoid Calculation Types__
@@ -20,6 +22,7 @@ __WGS84 Ellipsoid Calculation Types__
     Distance to LocusD        Locus Tangent Fixed Radius Arc      Vincenty Direct
     ECEF                      Perpendicular Intercept             Vincenty Inverse
     Geodesic Arc Intercept    Perpendicular Tangent Points
+	
 
 TerpsTest
 ---------
