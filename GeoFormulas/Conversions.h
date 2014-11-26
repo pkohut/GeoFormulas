@@ -33,7 +33,7 @@ GEOAPI
 inline bool _stdcall IsApprox(double a, double b,
 					 const double precision = 1e-11)
 {
-	return( fabs(a - b) <= precision * std::min<const double>( fabs(a), fabs(b) ) );
+	return( fabs(a - b) <= precision * std::fmin<const double>( fabs(a), fabs(b) ) );
 }
 
 GEOAPI
