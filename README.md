@@ -45,6 +45,7 @@ All calculations are performed on a WGS84 ellipsoid. The input and output is don
 * Latitudes and Longitudes - HDMS: N23 12 06.3227, N23.12.06.3227, 23 12 06.3227N, 23.12.06.3227N, are all examples of the same input value. After input validation the input is transformed and stored internally as a double. Outputs are shown in HDD MM SS.ss
 * Distances: Input units are Meters, Nautical Miles, and Feet. Internally the input is converted and stored in meters. Output units can be meters, NM, or feet.
 * Bearings, angles, and azimuths: Inputs are in DD.ddd decimal degrees. Internally the input is converted and stored as radians. Output is always decimal degrees.
+
 ---
 #### Inverse (Vincenty)
 *Input:*  
@@ -52,6 +53,7 @@ Pt1, Pt2
 
 *Output:*  
 Crs12, Dist12
+
 ---
 #### Direct (Vincenty)
 *Input:*  
@@ -59,6 +61,7 @@ Pt1, Crs12, and Dist12
 
 *Output:*  
 Pt2
+
 ---
 #### Is Point on Geodesic
 *Input:*  
@@ -67,6 +70,7 @@ Test Pt3
 
 *Output:*  
 True if Pt3 is on geodesic, false otherwise.
+
 ---
 #### Is Point on Arc
 Is point on arc image  
@@ -80,6 +84,7 @@ Arc direction
 
 *Output:*  
 True if Pt1 is on arc, false otherwise.
+
 ---
 #### Arc Length
 *Input:*  
@@ -91,6 +96,7 @@ Arc direction Number of Segments (1 - 32)
 
 *Output:*  
 Computed direct arc length Computed discretized arc length
+
 ---
 #### Bearing - Bearing Intercept
 Bearing - Bearing intercept image
@@ -104,6 +110,7 @@ Crs23
 Pt3  
 Dist13, Az31  
 Dist23, Az32
+
 ---
 #### Distance - Distance Intercept (Arc Intercept)
 Distance - Distance Intercepte  
@@ -116,6 +123,7 @@ Arc 2 radius
 *Output:*  
 Pt3 - Intersection 1  
 Pt4 - Intersection 2
+
 ---
 #### Geodesic - Arc Intercept
 Geodesic - Arc Intercept image  
@@ -128,6 +136,7 @@ Arc 2 radius
 *Output:*  
 Pt3 - Intercept 1  
 Pt4 - Intercept 2
+
 ---
 #### Tangent Fixed Radius Arc
 Tangent fixed radius arc image  
@@ -142,6 +151,7 @@ Arc radius
 Pt4 - Arc center  
 Pt5 - Tangent start point  
 Pt6 - Tangent end point
+
 ---
 #### Perpendicular Intercept
 Perpendicular Intercept image  
@@ -156,6 +166,7 @@ Dist13
 Az13  
 Dist23  
 Az23
+
 ---
 #### Point to Arc Tangents
 Point to arc tangents image  
@@ -167,6 +178,7 @@ Arc radius
 *Output:*   
 Pt3 - Tangent point 1  
 Pt4 - Tangent point 2
+
 ---
 #### Perpendicular Tangent Points
 Perpendicular tangent points image  
@@ -181,6 +193,7 @@ Pt3 - Tangent point 1
 Pt4 - Tangent point 2  
 Pt5 - Intercept point 1  
 Pt6 - Intercept point 2
+
 ---
 #### Is Point on Locus
 Is point on locus image  
@@ -194,6 +207,7 @@ End point offset - locus end point Pt4
 
 *Output:*  
 True if Pt5 is on locus between Pt3 and Pt4, false otherwise.
+
 ---
 #### Locus Course at Point
 Locus course at point image  
@@ -209,6 +223,7 @@ Pt4 - Locus end point
 Dist13  
 Dist24  
 Pt6 - Pt5 projected perpendicular onto geodesic
+
 ---
 #### Geodesic - Locus Intersect
 Geodesic - locus intersect image  
@@ -227,6 +242,7 @@ Pt6 - Locus end point
 Dist35  
 Dist46  
 Pt7 - Intercept point on locus
+
 ---
 #### Locus - Arc Intersect
 Locus - arc intersect image  
@@ -244,6 +260,7 @@ Pt4 - Locus start point
 Pt5 - Locus end point  
 Pt6 - Arc intercept point 1 on locus  
 Pt7 - Arc intercept point 2 on locus
+
 ---
 #### Locus - Locus Intersect
 Locus - locus intersect image  
@@ -267,6 +284,7 @@ Locus 2
 Pt7 - Locus start point  
 Pt8 - Locus end point  
 Pt9 - Intercept of locus 1 and locus 2
+
 ---
 #### Locus Tangent Fixed Radius Arc
 Locus tangent fixed radius arc image  
@@ -290,6 +308,7 @@ Locus 2
 Pt7 - Locus start point  
 Pt8 - Locus end point  
 Pt9 - Intercept of locus 1 and locus 2
+
 ---
 #### Locus Perpendicular Intercept
 Locus perpendicular intercept image  
@@ -304,6 +323,7 @@ dist 24
 Pt3 - Locus start point  
 Pt4 - Locus end point  
 Pt6 - Pt projected onto locus
+
 ---
 Legal Stuff
 -----------
