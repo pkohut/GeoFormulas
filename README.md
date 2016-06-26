@@ -38,7 +38,273 @@ TerpsTest is heavily dependent on [Boost::RegEx](http://www.boost/org/) to parse
 
 By downloading and/or using this software you agree to the following terms of use:
 
+---
+Calculation Descriptions
+------------------------
+All calculations are performed on a WGS84 ellipsoid. The input and output is done in the following units -
+* Latitudes and Longitudes - HDMS: N23 12 06.3227, N23.12.06.3227, 23 12 06.3227N, 23.12.06.3227N, are all examples of the same input value. After input validation the input is transformed and stored internally as a double. Outputs are shown in HDD MM SS.ss
+* Distances: Input units are Meters, Nautical Miles, and Feet. Internally the input is converted and stored in meters. Output units can be meters, NM, or feet.
+* Bearings, angles, and azimuths: Inputs are in DD.ddd decimal degrees. Internally the input is converted and stored as radians. Output is always decimal degrees.
+---
+#### Inverse (Vincenty)
+*Input:*  
+Pt1, Pt2
 
+*Output:*  
+Crs12, Dist12
+---
+#### Direct (Vincenty)
+*Input:*  
+Pt1, Crs12, and Dist12
+
+*Output:*  
+Pt2
+---
+#### Is Point on Geodesic
+*Input:*  
+Geodesic defined by Pt1 and Pt2  
+Test Pt3  
+
+*Output:*  
+True if Pt3 is on geodesic, false otherwise.
+---
+#### Is Point on Arc
+Is point on arc image  
+*Input:*  
+Test Pt1  
+Pt2 - Center of arc  
+Start azimuth  
+End azimuth  
+Arc radius  
+Arc direction
+
+*Output:*  
+True if Pt1 is on arc, false otherwise.
+---
+#### Arc Length
+*Input:*  
+Test Pt1 - Center of Arc  
+Start azimuth  
+End azimuth  
+Arc radius  
+Arc direction Number of Segments (1 - 32)
+
+*Output:*  
+Computed direct arc length Computed discretized arc length
+---
+#### Bearing - Bearing Intercept
+Bearing - Bearing intercept image
+*Input:*  
+Pt1  
+Crs13  
+Pt2  
+Crs23
+
+*Output:*  
+Pt3  
+Dist13, Az31  
+Dist23, Az32
+---
+#### Distance - Distance Intercept (Arc Intercept)
+Distance - Distance Intercepte  
+*Input:*  
+Pt1 - Center pt of arc 1  
+Arc 1 radius  
+Pt2 - Center pt of arc 2  
+Arc 2 radius
+
+*Output:*  
+Pt3 - Intersection 1  
+Pt4 - Intersection 2
+---
+#### Geodesic - Arc Intercept
+Geodesic - Arc Intercept image  
+*Input:*
+Pt1  
+Bearing (azimuth)  
+Pt2 - Center pt of arc 1  
+Arc 2 radius
+
+*Output:*  
+Pt3 - Intercept 1  
+Pt4 - Intercept 2
+---
+#### Tangent Fixed Radius Arc
+Tangent fixed radius arc image  
+*Input:*  
+Pt1  
+Bearing (azimuth 12)  
+Pt3  
+Bearing (azimuth 32)  
+Arc radius
+
+*Output:*  
+Pt4 - Arc center  
+Pt5 - Tangent start point  
+Pt6 - Tangent end point
+---
+#### Perpendicular Intercept
+Perpendicular Intercept image  
+*Input:*  
+Pt1  
+Bearing (azimuth)  
+Pt2
+
+*Output:*  
+Pt3 - Intercept point  
+Dist13  
+Az13  
+Dist23  
+Az23
+---
+#### Point to Arc Tangents
+Point to arc tangents image  
+*Input:*  
+Pt1  
+Pt2 - Arc center point  
+Arc radius
+
+*Output:*   
+Pt3 - Tangent point 1  
+Pt4 - Tangent point 2
+---
+#### Perpendicular Tangent Points
+Perpendicular tangent points image  
+*Input:*  
+Pt1  
+Azimuth  
+Pt2 - Arc center point  
+Arc radius
+
+*Output:*  
+Pt3 - Tangent point 1  
+Pt4 - Tangent point 2  
+Pt5 - Intercept point 1  
+Pt6 - Intercept point 2
+---
+#### Is Point on Locus
+Is point on locus image  
+*Input:*  
+Pt5 - Test point  
+Locus definition  
+Pt1 - Geodesic start point  
+Pt2 - Geodesic end point  
+Start point offset - locus start point Pt3  
+End point offset - locus end point Pt4
+
+*Output:*  
+True if Pt5 is on locus between Pt3 and Pt4, false otherwise.
+---
+#### Locus Course at Point
+Locus course at point image  
+*Input:*  
+Pt1 - Geodesic start point  
+Pt2 - Geodesic end point  
+Pt5 - Point on locus (geodesic offset point)  
+Bearing - Locus bearing
+
+*Output:*  
+Pt3 - Locus start point  
+Pt4 - Locus end point  
+Dist13  
+Dist24  
+Pt6 - Pt5 projected perpendicular onto geodesic
+---
+#### Geodesic - Locus Intersect
+Geodesic - locus intersect image  
+*Input:*  
+Pt1 - Geodesic start point  
+Pt2 - Geodesic end point  
+Locus definition  
+Pt3 - Geodesic start point  
+Pt4 - Geodesic end point  
+Start point offset - locus start point Pt5  
+End point offset - locus end point Pt6
+
+*Output:*  
+Pt5 - Locus start point  
+Pt6 - Locus end point  
+Dist35  
+Dist46  
+Pt7 - Intercept point on locus
+---
+#### Locus - Arc Intersect
+Locus - arc intersect image  
+*Input:*  
+Pt1 - Center point of arc  
+Arc radius  
+Locus definition  
+Pt2 - Geodesic start point  
+Pt3 - Geodesic end point  
+Dist24 - locus start point Pt4  
+Dist35 - locus end point Pt5
+
+*Output:*  
+Pt4 - Locus start point  
+Pt5 - Locus end point  
+Pt6 - Arc intercept point 1 on locus  
+Pt7 - Arc intercept point 2 on locus
+---
+#### Locus - Locus Intersect
+Locus - locus intersect image  
+*Input:*  
+Locus 1 definition  
+Pt1 - Geodesic start point  
+Pt2 - Geodesic end point  
+Dist13  
+dist 24  
+Locus 2 definition  
+Pt5 - Geodesic start point  
+Pt6 - Geodesic end point  
+Dist57  
+Dist68
+
+*Output:*  
+Locus 1  
+Pt3 - Locus start point  
+Pt4 - Locus end point  
+Locus 2  
+Pt7 - Locus start point  
+Pt8 - Locus end point  
+Pt9 - Intercept of locus 1 and locus 2
+---
+#### Locus Tangent Fixed Radius Arc
+Locus tangent fixed radius arc image  
+*Input:*  
+Arc Radius Locus 1 definition  
+Pt1 - Geodesic start point  
+Pt2 - Geodesic end point  
+Dist13  
+dist 24  
+Locus 2 definition  
+Pt5 - Geodesic start point  
+Pt6 - Geodesic end point  
+Dist57  
+Dist68
+
+*Output:*  
+Locus 1  
+Pt3 - Locus start point  
+Pt4 - Locus end point  
+Locus 2  
+Pt7 - Locus start point  
+Pt8 - Locus end point  
+Pt9 - Intercept of locus 1 and locus 2
+---
+#### Locus Perpendicular Intercept
+Locus perpendicular intercept image  
+*Input:*  
+Pt5 - Point to project onto locus Locus 1 definition  
+Pt1 - Geodesic start point  
+Pt2 - Geodesic end point  
+Dist13  
+dist 24
+
+*Output:*  
+Pt3 - Locus start point  
+Pt4 - Locus end point  
+Pt6 - Pt projected onto locus
+---
 Legal Stuff
 -----------
     Licensed under the Apache License, Version 2.0 (the "License");
