@@ -64,7 +64,7 @@ Pt2
 
 ---
 #### Is Point on Geodesic
-<img alt="Is point on geodesic image" style="float: right;" src="images/PtIsOnGeodesic.png">
+<img align="right" alt="Is point on geodesic image" style="float: right;" src="images/PtIsOnGeodesic.png">
 
 *Input:*  
 Geodesic defined by Pt1 and Pt2  
@@ -75,7 +75,7 @@ True if Pt3 is on geodesic, false otherwise.
 
 ---
 #### Is Point on Arc
-<img alt="Is point on arc image" src="images/PtIsOnArc.png">
+<img align="right" alt="Is point on arc image" src="images/PtIsOnArc.png">
 
 *Input:*  
 Test Pt1  
@@ -87,6 +87,7 @@ Arc direction
 
 *Output:*  
 True if Pt1 is on arc, false otherwise.
+<br><br>
 
 ---
 #### Arc Length
@@ -102,7 +103,7 @@ Computed direct arc length Computed discretized arc length
 
 ---
 #### Bearing - Bearing Intercept
-<img alt="Bearing - Bearing intercept image" src="images/CrsIntersect.png">
+<img align="right" alt="Bearing - Bearing intercept image" src="images/CrsIntersect.png">
 
 *Input:*  
 Pt1  
@@ -114,10 +115,11 @@ Crs23
 Pt3  
 Dist13, Az31  
 Dist23, Az32
+<br><br>
 
 ---
 #### Distance - Distance Intercept (Arc Intercept)
-<img alt="Distance - Distance Intercept" src="images/ArcIntersect.png">
+<img align="right" alt="Distance - Distance Intercept" src="images/ArcIntersect.png">
 
 *Input:*  
 Pt1 - Center pt of arc 1  
@@ -128,10 +130,11 @@ Arc 2 radius
 *Output:*  
 Pt3 - Intersection 1  
 Pt4 - Intersection 2
+<br><br><br><br>
 
 ---
 #### Geodesic - Arc Intercept
-<img alt="Geodesic - Arc Intercept image" src="images/GeodesicArcIntersect.png">
+<img align="right" alt="Geodesic - Arc Intercept image" src="images/GeodesicArcIntersect.png">
 
 *Input:*
 Pt1  
@@ -142,10 +145,11 @@ Arc 2 radius
 *Output:*  
 Pt3 - Intercept 1  
 Pt4 - Intercept 2
+<br><br><br><br><br><br>
 
 ---
 #### Tangent Fixed Radius Arc
-<img alt="Tangent fixed radius arc image" src="images/TangentFixedRadiusArc.png">
+<img align="right" alt="Tangent fixed radius arc image" src="images/TangentFixedRadiusArc.png">
 
 *Input:*  
 Pt1  
@@ -158,10 +162,11 @@ Arc radius
 Pt4 - Arc center  
 Pt5 - Tangent start point  
 Pt6 - Tangent end point
+<br><br><br><br><br>
 
 ---
 #### Perpendicular Intercept
-<img alt="Perpendicular Intercept image" src="images/PerpIntercept.png">
+<img align="right" alt="Perpendicular Intercept image" src="images/PerpIntercept.png">
 
 *Input:*  
 Pt1  
@@ -177,7 +182,7 @@ Az23
 
 ---
 #### Point to Arc Tangents
-<img alt="Point to arc tangents image" src="images/PointsToArcTangents.png">
+<img align="right" alt="Point to arc tangents image" src="images/PointsToArcTangents.png">
 
 *Input:*  
 Pt1  
@@ -187,10 +192,11 @@ Arc radius
 *Output:*   
 Pt3 - Tangent point 1  
 Pt4 - Tangent point 2
+<br><br><br><br><br><br><br><br>
 
 ---
 #### Perpendicular Tangent Points
-<img alt="Perpendicular tangent points image" src="images/PerpTangentPoints.png">
+<img align="right" alt="Perpendicular tangent points image" src="images/PerpTangentPoints.png">
 
 *Input:*  
 Pt1  
@@ -203,10 +209,11 @@ Pt3 - Tangent point 1
 Pt4 - Tangent point 2  
 Pt5 - Intercept point 1  
 Pt6 - Intercept point 2
+<br><br><br><br><br><br>
 
 ---
 #### Is Point on Locus
-<img alt="Is point on locus image" src="images/PtIsOnLocus.png">
+<img align="right" alt="Is point on locus image" src="images/PtIsOnLocus.png">
 
 *Input:*  
 Pt5 - Test point  
@@ -218,10 +225,12 @@ End point offset - locus end point Pt4
 
 *Output:*  
 True if Pt5 is on locus between Pt3 and Pt4, false otherwise.
+<br><br><br><br><br>
+
 
 ---
 #### Locus Course at Point
-<img alt="Locus course at point image" src="images/LocusCrsAtPoint.png">
+<img align="right" alt="Locus course at point image" src="images/LocusCrsAtPoint.png">
 
 *Input:*  
 Pt1 - Geodesic start point  
@@ -235,10 +244,11 @@ Pt4 - Locus end point
 Dist13  
 Dist24  
 Pt6 - Pt5 projected perpendicular onto geodesic
+<br><br><br>
 
 ---
 #### Geodesic - Locus Intersect
-<img alt="Geodesic - locus intersect image" src="images/GeoLocusIntercept.png">
+<img align="right" alt="Geodesic - locus intersect image" src="images/GeoLocusIntercept.png">
 
 *Input:*  
 Pt1 - Geodesic start point  
@@ -258,7 +268,7 @@ Pt7 - Intercept point on locus
 
 ---
 #### Locus - Arc Intersect
-<img alt="Locus - arc intersect image" src="images/LocusArcIntersect.png">
+<img align="right" alt="Locus - arc intersect image" src="images/LocusArcIntersect.png">
 
 *Input:*  
 Pt1 - Center point of arc  
@@ -274,10 +284,11 @@ Pt4 - Locus start point
 Pt5 - Locus end point  
 Pt6 - Arc intercept point 1 on locus  
 Pt7 - Arc intercept point 2 on locus
+<br><br>
 
 ---
 #### Locus - Locus Intersect
-<img alt="Locus - locus intersect image" src="images/LocusLocusIntersect.png">
+<img align="right" alt="Locus - locus intersect image" src="images/LocusLocusIntersect.png">
 
 *Input:*  
 Locus 1 definition  
@@ -302,7 +313,7 @@ Pt9 - Intercept of locus 1 and locus 2
 
 ---
 #### Locus Tangent Fixed Radius Arc
-<img alt="Locus tangent fixed radius arc image" src="images/LocusTangentFixedRadiusArc.png">
+<img align="right" alt="Locus tangent fixed radius arc image" src="images/LocusTangentFixedRadiusArc.png">
 
 *Input:*  
 Arc Radius Locus 1 definition  
@@ -327,7 +338,7 @@ Pt9 - Intercept of locus 1 and locus 2
 
 ---
 #### Locus Perpendicular Intercept
-<img alt="Locus perpendicular intercept image" src="images/LocusPerpIntersect.png">
+<img align="right" alt="Locus perpendicular intercept image" src="images/LocusPerpIntersect.png">
 *Input:*  
 Pt5 - Point to project onto locus Locus 1 definition  
 Pt1 - Geodesic start point  
@@ -339,6 +350,7 @@ dist 24
 Pt3 - Locus start point  
 Pt4 - Locus end point  
 Pt6 - Pt projected onto locus
+<br><br><br><br><br><br>
 
 ---
 Legal Stuff
