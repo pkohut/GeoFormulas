@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	int _stdcall GeoLocusIntersect(const LLPoint & gStart, const LLPoint & gEnd, const Locus & loc, LLPoint & intersect,
+	int GeoLocusIntersect(const LLPoint & gStart, const LLPoint & gEnd, const Locus & loc, LLPoint & intersect,
 		double dTol, double dEps)
 	{
 		LLPoint pt1;

@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	int _stdcall GeodesicArcIntercept(const LLPoint & pt1, double crs1,
+	int GeodesicArcIntercept(const LLPoint & pt1, double crs1,
 		const LLPoint & center, double radius,
 		LLPoint & intPtC1, LLPoint & intPtC2, double dTol)
 	{
@@ -52,9 +52,9 @@ namespace GeoCalcs {
 		DistVincenty(perpPt, pt1, result);
 		double crs = result.azimuth;
 
-		if(IsApprox(cos(perpDist / SphereRadius()), 0.0, 1e-8))
+		if(IsApprox(cos(perpDist / kSphereRadius), 0.0, 1e-8))
 			return 0;
-		double dist = SphereRadius() * acos(cos(radius/SphereRadius()) / cos(perpDist / SphereRadius()));
+		double dist = kSphereRadius * acos(cos(radius/kSphereRadius) / cos(perpDist / kSphereRadius));
 
 		LLPoint pt;
 		pt = DestVincenty(perpPt, crs, dist);
@@ -80,14 +80,14 @@ namespace GeoCalcs {
 			DistVincenty(center, pt, result);
 			double dAngle = fabs(SignAzimuthDifference(result.azimuth, result.reverseAzimuth));
 			double B = fabs(SignAzimuthDifference(bcrs, rcrs) + M_PI - dAngle );
-			double A = acos(sin(B) * cos( fabs(dErr) / SphereRadius()));
+			double A = acos(sin(B) * cos( fabs(dErr) / kSphereRadius));
 			double c;
 			if(fabs(sin(A)) < dTol)
 				c = dErr;
 			else if(fabs(A) < dTol)
 				c = dErr / cos(B);
 			else
-				c = SphereRadius() * asin(sin(dErr / SphereRadius()) / sin(A));
+				c = kSphereRadius * asin(sin(dErr / kSphereRadius) / sin(A));
 
 			if(dErr > 0)
 				dist = dist + c;

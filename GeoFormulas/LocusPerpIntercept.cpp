@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	int _stdcall LocusPerpIntercept(const Locus & loc, const LLPoint & pt2, double & crsFromPt,
+	int LocusPerpIntercept(const Locus & loc, const LLPoint & pt2, double & crsFromPt,
 		double & distFromPt, LLPoint & intPt, double dTol)
 	{
 		InverseResult result;
@@ -40,7 +40,7 @@ namespace GeoCalcs {
 		if(fabs(loc.startDist - loc.endDist) < dTol)
 		{		
 			LLPoint geoPt = PerpIntercept(loc.geoStart, gcrs, pt2, crsFromPt, distFromPt, dTol);
-			intPt = PointOnLocusP(loc, geoPt, dTol, Eps());
+			intPt = PointOnLocusP(loc, geoPt, dTol, kEps);
 			DistVincenty(pt2, intPt, result);
 			distFromPt = result.distance;
 			crsFromPt = result.azimuth;
@@ -68,7 +68,7 @@ namespace GeoCalcs {
 		while(k == 0 || (fabs(errarray[1]) > dTol && k < maxCount))
 		{
 			geoPt = DestVincenty(loc.geoStart, gcrs, distarray[1]);
-			locPt = PointOnLocusP(loc /*loc.geoStart*/, geoPt, dTol, Eps());
+			locPt = PointOnLocusP(loc /*loc.geoStart*/, geoPt, dTol, kEps);
 
 			double dPerpCrs;
 			lcrs = LocusCrsAtPoint(loc, locPt, geoPt, dPerpCrs, 1e-8);

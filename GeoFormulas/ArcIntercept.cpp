@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	int _stdcall ArcIntercept(const LLPoint & center1, double radius1,
+	int ArcIntercept(const LLPoint & center1, double radius1,
 		const LLPoint & center2, double radius2,
 		LLPoint & intPtC1, LLPoint & intPtC2, double dTol)
 	{

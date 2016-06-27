@@ -214,7 +214,7 @@ bool ParseLocusTanFixedRadiusArc(string sLine1, string sLine2, string sLine3)
 	LLPoint intersection1, intersection2;
 	LLPoint arcCenter;
 	int nVal = LocusTanFixedRadiusArc(locus1, locus2, arcRadius, arcDirection, arcCenter,
-		intersection1, intersection2, Tol(), Eps());
+		intersection1, intersection2, kTol, kEps);
 
 	if(nVal == 0)
 	{

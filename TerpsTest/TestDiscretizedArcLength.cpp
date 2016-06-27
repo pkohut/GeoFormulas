@@ -78,13 +78,13 @@ bool ParseDiscretizedArcLength(string sString)
 	int nSegments = 16;
 	double dDist1 = DiscretizedArcLength(LLPoint(Deg2Rad(ParseLatitude(sArcCenterLat)), Deg2Rad(ParseLongitude(sArcCenterLong))),
 				NmToMeters(atof(sArcRadius.c_str())), Deg2Rad(atof(sStartAz.c_str())), Deg2Rad(atof(sEndAz.c_str())),
-				atoi(sDirection.c_str()), nSegments, Tol());
+				atoi(sDirection.c_str()), nSegments, kTol);
 	dDist1 = MetersToNm(dDist1);
 
 
 	double dDist2 = DirectArcLength(LLPoint(Deg2Rad(ParseLatitude(sArcCenterLat)), Deg2Rad(ParseLongitude(sArcCenterLong))),
 				NmToMeters(atof(sArcRadius.c_str())), Deg2Rad(atof(sStartAz.c_str())), Deg2Rad(atof(sEndAz.c_str())),
-				atoi(sDirection.c_str()), Tol());
+				atoi(sDirection.c_str()), kTol);
 	dDist2 = MetersToNm(dDist2);
 
 //	double dError = dDist2 - dDist1;

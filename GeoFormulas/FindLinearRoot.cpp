@@ -30,7 +30,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	void _stdcall FindLinearRoot( double *x, double *errArray, double & root )
+	void FindLinearRoot( double *x, double *errArray, double & root )
 	{		
 		if(x[0] == x[1]) {
 			root = std::numeric_limits<double>::signaling_NaN();

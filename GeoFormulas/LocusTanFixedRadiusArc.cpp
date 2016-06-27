@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	int _stdcall LocusTanFixedRadiusArc(const Locus & loc1, const Locus & loc2, double radius,
+	int LocusTanFixedRadiusArc(const Locus & loc1, const Locus & loc2, double radius,
 		int & dir, LLPoint & center, LLPoint & intersection1, LLPoint & intersection2,
 		double dTol, double dEps)
 	{
@@ -55,7 +55,7 @@ namespace GeoCalcs {
 
 		double angle = fabs(SignAzimuthDifference(rcrs1, rcrs2));
 
-		double vertexAngle = 2 * acos(sin(angle / 2.0) * cos(radius / SphereRadius()));
+		double vertexAngle = 2 * acos(sin(angle / 2.0) * cos(radius / kSphereRadius));
 
 		double locAngle = atan((loc1.endDist - loc1.startDist) / geoLen1);
 

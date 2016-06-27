@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	int _stdcall TangentFixedRadiusArc(const LLPoint & pt1, double crs12, const LLPoint & pt3,
+	int TangentFixedRadiusArc(const LLPoint & pt1, double crs12, const LLPoint & pt3,
 		double crs3, double radius, int & dir,
 		LLPoint & centerPt, LLPoint & tanPt1, LLPoint & tanPt2, double dTol)
 	{
@@ -60,10 +60,10 @@ namespace GeoCalcs {
 			dir = 1;
 
 		double A = vertexAngle / 2.0;
-		if(radius > fabs(SphereRadius() * A))
+		if(radius > fabs(kSphereRadius * A))
 			return 0;
 
-		double DTA = fabs(SphereRadius() * asin(tan(radius / SphereRadius()) / tan(A)));
+		double DTA = fabs(kSphereRadius * asin(tan(radius / kSphereRadius) / tan(A)));
 		double distToStart = dist12 - DTA;
 		int k = 0;
 		double dErr = 0.0;

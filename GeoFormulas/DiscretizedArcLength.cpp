@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	double _stdcall DiscretizedArcLength(const LLPoint & center, double dRadius, double dStartCrs,
+	double DiscretizedArcLength(const LLPoint & center, double dRadius, double dStartCrs,
 		double dEndCrs, int nOrient, int nSegments, double dTol)
 	{
 		if(nSegments < 1)
@@ -51,7 +51,7 @@ namespace GeoCalcs {
 		// need to figure out how to make this flexable based on the value in dRadius
 		// bigger radius need more segments than 16 and smaller segments need less.
 		// For now 16 is enough to pass the 8260.54A test case.
-		while( k == 0 || ((dError > Tol()) && (k <= 0)) )
+		while( k == 0 || ((dError > kTol) && (k <= 0)) )
 		{
 			nCount++;
 			double dTheta = dSubtAngle / nSegments;
@@ -78,7 +78,7 @@ namespace GeoCalcs {
 
 				double d = VMath::Vector3::Dot(vChord1, vChord2);
 
-				if(IsNearZero(x1, Tol()) && IsNearZero(x2, Tol()) && IsNearZero(d, Tol()))
+				if(IsNearZero(x1, kTol) && IsNearZero(x2, kTol) && IsNearZero(d, kTol))
 				{
 					dArcLength = 0.0;
 					break;

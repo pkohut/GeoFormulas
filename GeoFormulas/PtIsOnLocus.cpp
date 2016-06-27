@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	bool _stdcall PtIsOnLocus(const Locus & loc, const LLPoint & testPt, LLPoint & projPt, double dTol)
+	bool PtIsOnLocus(const Locus & loc, const LLPoint & testPt, LLPoint & projPt, double dTol)
 	{
 		InverseResult result;
 		if(!DistVincenty(loc.geoStart, loc.geoEnd, result))
@@ -45,7 +45,7 @@ namespace GeoCalcs {
 			return false;
 		if(!ptResult.result)
 			return false;
-		LLPoint compPt = PointOnLocusP(loc, projPt, dTol, Eps());
+		LLPoint compPt = PointOnLocusP(loc, projPt, dTol, kEps);
 
 		// step 5 (page A2-28) says to use projPt, but that is in error
 		DistVincenty(testPt, compPt, result);

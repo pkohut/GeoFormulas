@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	LLPoint _stdcall PointOnLocusP(const Locus & loc, const LLPoint & geoPt, double tol, double eps)
+	LLPoint PointOnLocusP(const Locus & loc, const LLPoint & geoPt, double tol, double eps)
 	{
 		double distp = DistToLocusP(loc, geoPt, tol, eps);
 		if(distp == 0)

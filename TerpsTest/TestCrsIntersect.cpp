@@ -94,7 +94,7 @@ bool ParseTestCrsIntersect(string sString)
 //	double dDistToPt2FromIntersection = NmToMeters(atof(soDistToPt2FromIntersection.c_str()));
 
 	LLPoint llIntersect;
-	bool bVal = CrsIntersect(pt1, dAzAtPt1, pt2, dAzAtPt2, Tol(), llIntersect);
+	bool bVal = CrsIntersect(pt1, dAzAtPt1, pt2, dAzAtPt2, kTol, llIntersect);
 
 	string sllInterLat = ConvertLatitudeDdToDms(Rad2Deg(llIntersect.latitude));
 	string sllInterlon = ConvertLongitudeDdToDms(Rad2Deg(llIntersect.longitude));

@@ -27,7 +27,7 @@
 using namespace std;
 
 namespace GeoCalcs {
-	double _stdcall DistToLocusP(const Locus & loc, const LLPoint & geoPt, double dTtol, double eps)
+	double DistToLocusP(const Locus & loc, const LLPoint & geoPt, double dTtol, double eps)
 	{
 		InverseResult result;
 

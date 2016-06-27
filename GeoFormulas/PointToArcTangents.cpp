@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	int _stdcall PointToArcTangents(const LLPoint & point, const LLPoint & center, double radius,
+	int PointToArcTangents(const LLPoint & point, const LLPoint & center, double radius,
 		LLPoint & tanPt1, LLPoint & tanPt2, double dTol)
 	{
 		InverseResult result;
@@ -49,8 +49,8 @@ namespace GeoCalcs {
 			return 0;
 		}
 
-		double a = distToCenter / SphereRadius();
-		double b = radius / SphereRadius();
+		double a = distToCenter / kSphereRadius;
+		double b = radius / kSphereRadius;
 		double c = acos(tan(b) / tan(a));
 		//        double orgC = c;
 		int k = 0;

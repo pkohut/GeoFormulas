@@ -34,11 +34,11 @@ namespace GeoCalcs {
 	* as Creative Commons Attribution,
 	* http://creativecommons.org/licenses/by/3.0/	
 	*/
-	bool _stdcall DistVincenty(const LLPoint & pt1, const LLPoint & pt2, InverseResult & result)
+	bool DistVincenty(const LLPoint & pt1, const LLPoint & pt2, InverseResult & result)
 	{
 		double L = pt2.longitude - pt1.longitude;
-		double U1 = atan((1-Flattening()) * tan(pt1.latitude));
-		double U2 = atan((1-Flattening()) * tan(pt2.latitude));
+		double U1 = atan((1-kFlattening) * tan(pt1.latitude));
+		double U2 = atan((1-kFlattening) * tan(pt2.latitude));
 
 		double sinU1 = sin(U1);
 		double cosU1 = cos(U1);
@@ -85,20 +85,20 @@ namespace GeoCalcs {
 
 			if (_isnan(cos2SigmaM))
 				cos2SigmaM = 0.0;  // equatorial line: cosSqAlpha=0 (§6)
-			C = Flattening() / 16.0 * cosSqAlpha * (4.0 + Flattening() * (4.0 - 3.0 * cosSqAlpha));
+			C = kFlattening / 16.0 * cosSqAlpha * (4.0 + kFlattening * (4.0 - 3.0 * cosSqAlpha));
 			lambdaP = lambda;
-			lambda = L + (1.0 - C) * Flattening() * sinAlpha *
+			lambda = L + (1.0 - C) * kFlattening * sinAlpha *
 				(sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1.0 + 2.0 * cos2SigmaM *cos2SigmaM)));
-		} while (fabs(lambda-lambdaP) > Eps() && ++iterLimit < 40);
+		} while (fabs(lambda-lambdaP) > kEps && ++iterLimit < 40);
 
-		double uSq = cosSqAlpha * (SemiMajorAxis() * SemiMajorAxis() - SemiMinorAxis() * SemiMinorAxis()) /
-                                  (SemiMinorAxis() * SemiMinorAxis());
+		double uSq = cosSqAlpha * (kSemiMajorAxis * kSemiMajorAxis - kSemiMinorAxis * kSemiMinorAxis) /
+                                  (kSemiMinorAxis * kSemiMinorAxis);
 		double A = 1.0 + uSq / 16384.0 * (4096.0 + uSq * (-768.0 + uSq * (320.0 - 175.0 * uSq)));
 		double B = uSq / 1024.0 * (256.0 + uSq * (-128.0 + uSq * (74.0 - 47.0 * uSq)));
 		double deltaSigma = B * sinSigma * (cos2SigmaM + B / 4.0 * (cosSigma * (-1.0 + 2.0 * cos2SigmaM * cos2SigmaM)-
 			B / 6.0 * cos2SigmaM * (-3.0 + 4.0 * sinSigma * sinSigma) * (-3.0 + 4.0 * cos2SigmaM * cos2SigmaM)));
 
-		result.distance = SemiMinorAxis() * A * (sigma - deltaSigma);
+		result.distance = kSemiMinorAxis * A * (sigma - deltaSigma);
 		result.azimuth = atan2(cosU2 * sinLambda, dCosU1SinU2 - dSinU1CosU2 * cosLambda);
 		result.reverseAzimuth = M_PI + atan2(cosU1 * sinLambda, -dSinU1CosU2 + dCosU1SinU2 * cosLambda);
 

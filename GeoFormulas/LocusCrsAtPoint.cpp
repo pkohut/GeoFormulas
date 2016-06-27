@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	double _stdcall LocusCrsAtPoint(const Locus & locus, const LLPoint & testPt, LLPoint & geoPt, double & dPerpCrs, const double dTol)
+	double LocusCrsAtPoint(const Locus & locus, const LLPoint & testPt, LLPoint & geoPt, double & dPerpCrs, const double dTol)
 	{
 		if(!PtIsOnLocus(locus, testPt, geoPt, dTol))
 			return -1.0;
@@ -45,7 +45,7 @@ namespace GeoCalcs {
 		DistVincenty(locus.geoStart, locus.geoEnd, result);
 		double dGeoLen = result.distance;
 
-		double dDistToLocus = DistToLocusP(locus, geoPt, dTol, Eps());
+		double dDistToLocus = DistToLocusP(locus, geoPt, dTol, kEps);
 		double dSlope = atan((locus.endDist - locus.startDist) / dGeoLen);
 
 		dPerpCrs = dPerpCrs + dSlope;

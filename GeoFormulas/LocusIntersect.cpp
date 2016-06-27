@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	int _stdcall LocusIntersect(const Locus & loc1, const Locus & loc2, LLPoint & intersect,
+	int LocusIntersect(const Locus & loc1, const Locus & loc2, LLPoint & intersect,
 		double dTol, double dEps)
 	{
 		InverseResult result;

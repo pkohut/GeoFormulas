@@ -80,7 +80,7 @@ bool ParseTestPerpIntercept(string sString)
 	pt3 = PerpIntercept(LLPoint(Deg2Rad(ParseLatitude(soStartLat)), Deg2Rad(ParseLongitude(soStartLong))),
 		Deg2Rad(atof(soAz.c_str())),
 		LLPoint(Deg2Rad(ParseLatitude(soTestPtLat)), Deg2Rad(ParseLongitude(soTestPtLong))),
-		dCalcedCrsFromPt, dCalcedDistFromPt, Tol());
+		dCalcedCrsFromPt, dCalcedDistFromPt, kTol);
 
 	string sLat = ConvertLatitudeDdToDms(Rad2Deg(pt3.latitude));
 	string sLon = ConvertLongitudeDdToDms(Rad2Deg(pt3.longitude));

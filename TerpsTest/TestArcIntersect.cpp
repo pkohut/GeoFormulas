@@ -94,7 +94,7 @@ bool ParseTestArcIntersect(string sString)
 	}
 
 	LLPoint intPtC1, intPtC2;
-	int nIndex = ArcIntercept(arc1Center, arc1Radius, arc2Center, arc2Radius, intPtC1, intPtC2, Tol());
+	int nIndex = ArcIntercept(arc1Center, arc1Radius, arc2Center, arc2Radius, intPtC1, intPtC2, kTol);
 	if(nIndex < 1)
 	{
 		if(soIntersection1Lat != "N/A")

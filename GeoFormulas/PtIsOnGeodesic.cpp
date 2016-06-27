@@ -35,7 +35,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	bool _stdcall PtIsOnGeodesic(const LLPoint & pt1, const LLPoint & pt2, const LLPoint & pt3, int lengthCode, PtIsOnGeodesicResult & result )
+	bool PtIsOnGeodesic(const LLPoint & pt1, const LLPoint & pt2, const LLPoint & pt3, int lengthCode, PtIsOnGeodesicResult & result )
 	{
 		InverseResult invResult;
 		if(!DistVincenty(pt1, pt3, invResult))
@@ -56,9 +56,9 @@ namespace GeoCalcs {
 
 		double distError = invResult.distance;
 
-		if(distError <= TolPtIsOnGeodesic())
+		if(distError <= kTolPtIsOnGeodesic)
 		{
-			if(lengthCode > 0 || dist13 - dist12 <= TolPtIsOnGeodesic())
+			if(lengthCode > 0 || dist13 - dist12 <= kTolPtIsOnGeodesic)
 				result.result = true;
 			else
 				result.result = false;
@@ -68,7 +68,7 @@ namespace GeoCalcs {
 			if(!DistVincenty(pt3, testPt2, invResult))
 				return false;
 			distError = invResult.distance;
-			if(distError <= TolPtIsOnGeodesic())
+			if(distError <= kTolPtIsOnGeodesic)
 				result.result = true;
 			else
 				result.result = false;

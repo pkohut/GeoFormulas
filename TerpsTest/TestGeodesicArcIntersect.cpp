@@ -93,7 +93,7 @@ bool ParseTestGeodesicArcIntersect(string sString)
 	}
 
 	LLPoint intPtC1, intPtC2;
-	int nIndex = GeodesicArcIntercept(geodesicStart, geodesicAzimuth, arcCenter, arcRadius, intPtC1, intPtC2, Tol());
+	int nIndex = GeodesicArcIntercept(geodesicStart, geodesicAzimuth, arcCenter, arcRadius, intPtC1, intPtC2, kTol);
 	if(nIndex < 1)
 	{
 		if(soIntersection1Lat != "N/A")

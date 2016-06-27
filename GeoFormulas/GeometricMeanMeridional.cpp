@@ -29,8 +29,8 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	double _stdcall GeometricMeanMeridional( double dAngle )
+	double GeometricMeanMeridional( double dAngle )
 	{
-		return SemiMajorAxis() * (1.0 - eSq()) / pow(1 - eSq() * (sin(dAngle) * sin(dAngle)), 1.5);
+		return kSemiMajorAxis * (1.0 - keSq) / pow(1 - keSq * (sin(dAngle) * sin(dAngle)), 1.5);
 	}
 }

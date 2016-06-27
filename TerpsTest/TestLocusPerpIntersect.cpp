@@ -192,7 +192,7 @@ bool ParseLocusPerpIntercept(string sLine1, string sLine2)
 	LLPoint intersection1, intersection2;
 	double dCrsFromPt, dDistFromPt;
 	LLPoint intPt;
-	int nVal = LocusPerpIntercept(locus1, testPt, dCrsFromPt, dDistFromPt, intPt, Tol());
+	int nVal = LocusPerpIntercept(locus1, testPt, dCrsFromPt, dDistFromPt, intPt, kTol);
 
 	if(nVal == 0)
 	{

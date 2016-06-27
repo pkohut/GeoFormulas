@@ -186,7 +186,7 @@ bool ParseLocusArcIntersect(string sLine1, string sLine2, string sLine3)
 		int x = 0;
 		x++;
 	}
-	int nVal = LocusArcIntersect(locus, arcCenter, arcRadius, intersection1, intersection2, Tol(), Eps());
+	int nVal = LocusArcIntersect(locus, arcCenter, arcRadius, intersection1, intersection2, kTol, kEps);
 	if(nVal == 0)
 	{
 		if(sIntersection1Lat.compare("N/A") != 0 || sIntersection2Lat.compare("N/A") != 0)

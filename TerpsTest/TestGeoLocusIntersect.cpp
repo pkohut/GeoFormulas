@@ -163,7 +163,7 @@ bool ParseGeoLocusIntersect(string sLine1, string sLine2, string sLine3)
             LLPoint geoEnd(Deg2Rad(ParseLatitude(sGeodesicEndLat)), Deg2Rad(ParseLongitude(sGeodesicEndLong)));
             
             LLPoint intersection;
-            int nVal = GeoLocusIntersect(geoStart, geoEnd, locus, intersection, Tol(), Eps());
+            int nVal = GeoLocusIntersect(geoStart, geoEnd, locus, intersection, kTol, kEps);
             if(nVal == 0)
 			{
 				if(sIntersectionLat.compare("N/A") != 0)

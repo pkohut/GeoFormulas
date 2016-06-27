@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	double _stdcall DirectArcLength(const LLPoint & center, double dRadius, double dStartCrs,
+	double DirectArcLength(const LLPoint & center, double dRadius, double dStartCrs,
 		double dEndCrs, int nOrient, double dTol)
 	{
 		double dSubtAngle = GetArcExtent(dStartCrs, dEndCrs, nOrient, dTol);

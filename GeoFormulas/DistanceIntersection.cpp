@@ -29,7 +29,7 @@ namespace GeoCalcs {
 	/**
 	*
 	*/
-	int _stdcall DistanceIntersection(const LLPoint & pt1, double dist13, const LLPoint & pt2, double dist23,
+	int DistanceIntersection(const LLPoint & pt1, double dist13, const LLPoint & pt2, double dist23,
 		LLPoint & intPtC1, LLPoint & intPtC2, double dTol)
 	{
 		InverseResult result;
@@ -50,11 +50,11 @@ namespace GeoCalcs {
 		double b = dist13;
 		double c = dist12;
 
-		double cosA_R = cos(a / SphereRadius());
-		double cosB_R = cos(b / SphereRadius());
-		double cosC_R = cos(c / SphereRadius());
-		double sinB_R = sin(b / SphereRadius());
-		double sinC_R = sin(c / SphereRadius());
+		double cosA_R = cos(a / kSphereRadius);
+		double cosB_R = cos(b / kSphereRadius);
+		double cosC_R = cos(c / kSphereRadius);
+		double sinB_R = sin(b / kSphereRadius);
+		double sinC_R = sin(c / kSphereRadius);
 
 		double A = acos( (cosA_R - cosB_R * cosC_R) / (sinB_R * sinC_R) );
 

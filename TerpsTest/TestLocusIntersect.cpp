@@ -201,7 +201,7 @@ bool ParseLocusIntersect(string sLine1, string sLine2, string sLine3)
 
 	LLPoint intersection;
 
-	int nVal = LocusIntersect(locus1, locus2, intersection, Tol(), Eps());
+	int nVal = LocusIntersect(locus1, locus2, intersection, kTol, kEps);
 
 	if(nVal == 0)
 	{
