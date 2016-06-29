@@ -149,16 +149,15 @@
 
 	/*	\brief SphereRadius in meters	
 	*
-	*	WGS84 Ellipsoid constant. Calculated to large precision.
+	*	WGS84 Ellipsoid constant.
 	*	\warning
 	*	If a calculated sphere radius is used, such as sqrt(SemiMajorAxis *
 	*	SemiMinorAxis) then FindLinearRoot may return a root of QNAN
-	*	because x[0] == x[1]. Don't recall off the top which test suite
-	*	causes this type of result, but using the constant of out 29
-	*	places is safe. I'm just leaving it this way because that was
-	*	what was calculated with the large precision calculator.
+	*	because x[0] == x[1].  In order for some of the Terps tests to
+	*   pass, the returned value must be checked and handled appropriately
+	*   by the calling function.
 	*/
-	const double kSphereRadius = 6367435.6797161022885;
+	const double kSphereRadius = sqrt(kSemiMajorAxis * kSemiMinorAxis);
 
 
 	/*

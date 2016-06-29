@@ -152,6 +152,9 @@ namespace GeoCalcs {
 		while(k == 0 || ((dErr > dTol) && (k <= nMaxCount)))
 		{
 			FindLinearRoot(distarray, errarray, dist13);
+			if (_isnan(dist13))
+				break;
+
 			LLPoint newPt = DestVincenty(pt1, dAz13, dist13);
 			DistVincenty(pt2, newPt, result);
 			aacrs23 = result.azimuth;

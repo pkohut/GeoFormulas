@@ -65,7 +65,8 @@ namespace GeoCalcs {
 
 		int k = 0;
 		int maxCount = 15;
-		while(k == 0 || (fabs(errarray[1]) > dTol && k < maxCount))
+		double newDist = 0.0;
+		while(k == 0 || (!isnan(newDist) && fabs(errarray[1]) > dTol && k < maxCount))
 		{
 			geoPt = DestVincenty(loc.geoStart, gcrs, distarray[1]);
 			locPt = PointOnLocusP(loc /*loc.geoStart*/, geoPt, dTol, kEps);
@@ -87,7 +88,6 @@ namespace GeoCalcs {
 				break;
 			}
 
-			double newDist;
 			if(k == 0)
 				newDist = distarray[1] + errarray[1] * cos(locAngle);
 			else

@@ -126,7 +126,7 @@ namespace GeoCalcs {
 
 				double newDistbase = 1.001 * distbase;
 
-				while(k < maxCount && fabs(errarray[1]) > dTol)
+				while(k < maxCount && !isnan(newDistbase) && fabs(errarray[1]) > dTol)
 				{
 					perpPt = DestVincenty(locus.geoStart, gcrs, newDistbase);
 					locPt = PointOnLocusP(locus, perpPt, dTol, dEps);
@@ -141,11 +141,6 @@ namespace GeoCalcs {
 
 					FindLinearRoot(distarray, errarray, newDistbase);
 					k++;
-				}
-				if(k == maxCount)
-				{
-					int x = 0;
-					x++;
 				}
 			}
 

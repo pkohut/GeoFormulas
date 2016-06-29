@@ -71,7 +71,7 @@ namespace GeoCalcs {
 		double distarray[2];
 		double errarray[2];
 		distarray[0] = distarray[1] = errarray[0] = errarray[1] = 0.0;
-		while(k == 0 || (k < maxCount && fabs(dErr) > dTol))
+		while(k == 0 || (!_isnan(distbase) && k < maxCount && fabs(dErr) > dTol))
 		{
 			if(k > 0)
 			{
