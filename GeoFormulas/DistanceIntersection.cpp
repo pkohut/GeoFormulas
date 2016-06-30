@@ -55,12 +55,10 @@ namespace GeoCalcs {
         double cosC_R = cos(c / kSphereRadius);
         double sinB_R = sin(b / kSphereRadius);
         double sinC_R = sin(c / kSphereRadius);
-
         double A = acos((cosA_R - cosB_R * cosC_R) / (sinB_R * sinC_R));
 
         intPtC1 = DestVincenty(pt1, crs12 - A, dist13);
         intPtC2 = DestVincenty(pt1, crs12 + A, dist13);
-
         return 2;
     }
 }

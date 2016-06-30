@@ -37,10 +37,10 @@ namespace GeoCalcs {
 
         if (!DistVincenty(loc.geoStart, loc.geoEnd, result))
             distToLoc = numeric_limits<double>::signaling_NaN();
-        double geoLen = result.distance;
-        if (geoLen > 0.0)
+
+        if (result.distance > 0.0)
         {
-            distToLoc = loc.startDist + (dDistance / geoLen) * (loc.endDist - loc.startDist);
+            distToLoc = loc.startDist + (dDistance / result.distance) * (loc.endDist - loc.startDist);
         }
         return distToLoc;
     }
