@@ -22,12 +22,16 @@
 /****************************************************************************/
 
 #pragma once
-#include "Geolib.h"
-#include "RNavConversionException.h"
-#include <limits>
 
 #define _USE_MATH_DEFINES 1
-#include <math.h>
+
+#include <cmath>
+#include <limits>
+
+#include "Geolib.h"
+#include "RNavConversionException.h"
+
+
 
 GEOAPI
 inline bool IsApprox(double a, double b,
