@@ -32,28 +32,22 @@ namespace GeoCalcs {
     int GeoLocusIntersect(const LLPoint &gStart, const LLPoint &gEnd, const Locus &loc, LLPoint &intersect,
                           double dTol, double dEps)
     {
-        LLPoint pt1;
-        double gAz, crs31, dist13;
-        double locStAz, crs32, dist23;
         InverseResult result;
-
         DistVincenty(gStart, gEnd, result);
-        gAz = result.azimuth;
-        double fcrs = gAz;
+        double gAz = result.azimuth;
 
         DistVincenty(loc.locusStart, loc.locusEnd, result);
-        locStAz = result.azimuth;
-        double locLength = result.distance;
 
+        double crs31, crs32, dist13, dist23;
+        double locStAz = result.azimuth;
+        double locLength = result.distance;
+        LLPoint pt1;
         if (!CrsIntersect(loc.locusStart, locStAz, crs31, dist13, gStart, gAz, crs32, dist23, dTol, pt1))
             return 0;
 
-        double distBase = dist23;
-        double crsBase = crs32;
-
         DistVincenty(loc.geoStart, loc.geoEnd, result);
-        double tcrs = result.azimuth;
 
+        double tcrs = result.azimuth;
         double crsFromPt, distFromPt;
         LLPoint ptInt = PerpIntercept(loc.geoStart, tcrs, pt1, crsFromPt, distFromPt, dTol);
 
@@ -61,18 +55,16 @@ namespace GeoCalcs {
 
         double distarray[2];
         double errarray[2];
-
         errarray[1] = distFromPt - fabs(distLoc);
-        distarray[1] = distBase;
+        distarray[1] = dist23;
 
-        double tetha = fabs(SignAzimuthDifference(crsFromPt, crsBase));
-        distBase = distBase - errarray[1] / cos(tetha);
+        double distBase = dist23 - errarray[1] / cos(fabs(SignAzimuthDifference(crsFromPt, crs32)));
 
         int k = 0;
-        int maxCount = 10;
+        const int maxCount = 10;
         while (!isnan(distBase) && fabs(errarray[1]) > dTol && k < maxCount)
         {
-            pt1 = DestVincenty(gStart, fcrs, distBase);
+            pt1 = DestVincenty(gStart, gAz, distBase);
             errarray[0] = errarray[1];
             distarray[0] = distarray[1];
             distarray[1] = distBase;
@@ -86,15 +78,15 @@ namespace GeoCalcs {
         }
         intersect = pt1;
 
-        DistVincenty(pt1, loc.locusStart, result);
+        DistVincenty(intersect, loc.locusStart, result);
         double distLocStPt1 = result.distance;
-        DistVincenty(pt1, loc.locusEnd, result);
-        double distLocEndPt1 = result.distance;
+        DistVincenty(intersect, loc.locusEnd, result);
+
         // found intersect point must be on or between locus
         // If 5e-3 is to tight a tolerance then try setting to 5e-2
         // For the 8260.54A Appendix test cases 1e-3 was to tight, 5e-3
         // works just fine.
-        if (!IsNearZero(locLength - (distLocStPt1 + distLocEndPt1), 5e-3))
+        if (!IsNearZero(locLength - (distLocStPt1 + result.distance), 5e-3))
             return 0;
         return 1;
     }
