@@ -1,12 +1,12 @@
-/** \file GeoCalcs.h
-*   \brief 
+/** \file GeoFormulas.h
+*   \brief
 */
 
 /****************************************************************************/
-/*  GeoCalcs.h                                                              */
+/*  GeoFormulas.h                                                           */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -53,7 +53,7 @@ namespace GeoCalcs {
 
     } LLPoint;
 
-    // @formatter:off    
+    // @formatter:off
     /**
     *   \brief Locus of Points Relative to a Geodesic
     *   \remark Order 8260.54A, Appendix 2, 2.1.4
@@ -67,7 +67,7 @@ namespace GeoCalcs {
         double startDist;   /**< distance from geodesic to locus at geoStart */
         double endDist;     /**< distance from geodesic to locus at geoEnd
                             *
-                            * if startDist == endDist, the locus is parallel to the geodesic<br>                            
+                            * if startDist == endDist, the locus is parallel to the geodesic<br>
                             * if startDist != endDist, the locus is splayed.<br>
                             * if dist is positive then locus lies to the right of geodesic<br>
                             * if dist is negative then locus lies to the left of geodesic
@@ -117,7 +117,7 @@ namespace GeoCalcs {
                             */
         int result;         /**< Set true if point is on geodesic, false otherwise. */
     } PtIsOnGeodesicResult;
-    
+
     // @formatter:on
 
     /*
@@ -153,7 +153,7 @@ namespace GeoCalcs {
     const double kSemiMinorAxis = kSemiMajorAxis * (1 - kFlattening);
 
 
-    /*  \brief SphereRadius in meters   
+    /*  \brief SphereRadius in meters
     *
     *   WGS84 Ellipsoid constant.
     *   \warning
@@ -184,7 +184,7 @@ namespace GeoCalcs {
     *   set as stated in section 3.3 of 8260.54A then the
     *   Tangent Fixed Radius Arc and Locus Tan Fixed Radius Arc
     *   fails validation.
-    *   
+    *
     */
     const double kEps = 0.5e-15;
 
@@ -201,7 +201,7 @@ namespace GeoCalcs {
     *
     *   See file "Application test Results.txt" for information
     *   about tolerances used in the "TerpsTest" application.
-    *   
+    *
     */
     const double kTol = 1.0e-9;
 
