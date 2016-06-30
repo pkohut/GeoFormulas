@@ -25,8 +25,8 @@
 #include <string>
 #include <fstream>
 #include "LatLongConversions.h"
-#include "..\GeoFormulas\Conversions.h"
-#include "..\GeoFormulas\GeoFormulas.h"
+#include "Conversions.h"
+#include "GeoFormulas.h"
 #include <boost/regex.hpp>
 
 using namespace boost;

@@ -25,8 +25,8 @@
 //#include "stdafx.h"
 #include <assert.h>
 #include "LatLongConversions.h"
-#include "..\GeoFormulas\Conversions.h"
-#include "..\GeoFormulas\GeoFormulas.h"
+#include "Conversions.h"
+#include "GeoFormulas.h"
 #include <boost/typeof/std/bitset.hpp>
 
 using namespace std;

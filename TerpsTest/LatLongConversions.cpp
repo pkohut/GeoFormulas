@@ -24,7 +24,7 @@
 //#include "stdafx.h"
 #include <boost/regex.hpp>
 #include "LatLongConversions.h"
-#include "..\GeoFormulas\Conversions.h"
+#include "Conversions.h"
 
 using namespace boost;
 using namespace std;
