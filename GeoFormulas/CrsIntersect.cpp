@@ -35,7 +35,9 @@ namespace GeoCalcs {
         double az31, dist13, az32, dist23;
         az31 = az32 = 0.0;
         dist13 = dist23 = 0.0;
-        return CrsIntersect(llPt1, az13, az31, dist13, llPt2, az23, az32, dist23, dTol, llIntersect);
+        return CrsIntersect(llPt1, az13, az31, dist13,
+                            llPt2, az23, az32, dist23,
+                            dTol, llIntersect);
 
     }
 
@@ -52,6 +54,7 @@ namespace GeoCalcs {
         double dAz13 = az13;
         double dAz23 = az23;
         InverseResult result;
+
         DistVincenty(pt1, pt2, result);
         double dist12 = result.distance;
         double crs12 = result.azimuth;
@@ -123,23 +126,20 @@ namespace GeoCalcs {
         bool bSwapped = false;
         if (dist23 < dist13)
         {
-            LLPoint newPt = pt1;
-            pt1 = pt2;
-            pt2 = newPt;
-            double aaz13 = dAz13;
-            dAz13 = dAz23;
-            dAz23 = aaz13;
-            dist13 = dist23;
+            std::swap(pt1, pt2);
+            std::swap(dAz13, dAz23);
             bSwapped = true;
         }
 
         double distarray[2], errarray[2];
         distarray[0] = dist13;
+        distarray[1] = 1.01 * dist13;
+
         llIntersect = DestVincenty(pt1, dAz13, dist13);
         DistVincenty(pt2, llIntersect, result);
         double aacrs23 = result.azimuth;
         errarray[0] = SignAzimuthDifference(aacrs23, dAz23);
-        distarray[1] = 1.01 * dist13;
+
         llIntersect = DestVincenty(pt1, dAz13, distarray[1]);
         DistVincenty(pt2, llIntersect, result);
         aacrs23 = result.azimuth;
@@ -166,9 +166,10 @@ namespace GeoCalcs {
             distarray[1] = dist13;
             errarray[0] = errarray[1];
             errarray[1] = SignAzimuthDifference(aacrs23, dAz23);
-            k++;
             llIntersect = newPt;
+            k++;
         }
+
         // display if k == maxinteratorcount (10) and show error message
         // because results might not have converged.
         if (k > nMaxCount && dErr > 1e-8)
@@ -176,13 +177,8 @@ namespace GeoCalcs {
 
         if (bSwapped)
         {
-            LLPoint newPt = pt1;
-            pt1 = pt2;
-            pt2 = newPt;
-            double aaz13 = dAz13;
-            dAz13 = dAz23;
-            dAz23 = aaz13;
-            dist13 = dist23;
+            std::swap(pt1, pt2);
+            std::swap(dAz13, dAz23);
         }
         DistVincenty(llIntersect, pt1, result);
         az31 = result.azimuth;
