@@ -70,7 +70,7 @@ namespace GeoCalcs {
 
         int k = 0;
         int maxCount = 10;
-        while( !_isnan(distBase) && fabs(errarray[1]) > dTol && k < maxCount )
+        while( !isnan(distBase) && fabs(errarray[1]) > dTol && k < maxCount )
         {
             pt1 = DestVincenty(gStart, fcrs, distBase);
             errarray[0] = errarray[1];

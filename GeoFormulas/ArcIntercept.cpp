@@ -62,7 +62,7 @@ namespace GeoCalcs {
             double crsarray[2];
             errarray[1] = dErr;
             crsarray[1] = crs1x;
-            while(k <= 10 && !_isnan(crs1x) && fabs(errarray[1]) > dTol)
+            while(k <= 10 && !isnan(crs1x) && fabs(errarray[1]) > dTol)
             {
                 pt = DestVincenty(center1, crs1x, radius1);
                 DistVincenty(center2, pt, result);

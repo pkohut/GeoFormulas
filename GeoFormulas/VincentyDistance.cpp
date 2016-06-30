@@ -83,7 +83,7 @@ namespace GeoCalcs {
             cosSqAlpha = 1.0 - sinAlpha * sinAlpha;
             cos2SigmaM = cosSigma - 2.0 * dSinU1SinU2 / cosSqAlpha;
 
-            if (_isnan(cos2SigmaM))
+            if (isnan(cos2SigmaM))
                 cos2SigmaM = 0.0;  // equatorial line: cosSqAlpha=0
             C = kFlattening / 16.0 * cosSqAlpha * (4.0 + kFlattening * (4.0 - 3.0 * cosSqAlpha));
             lambdaP = lambda;

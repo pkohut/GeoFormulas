@@ -83,7 +83,7 @@ namespace GeoCalcs {
         double a = kSphereRadius * acos( (cosA + cosB * cosC) / (sinB * sinC) );
         double b = kSphereRadius * acos( (cosB + cosA * cosC) / (sinA * sinC) );
 
-        if(_fpclass(a) == _FPCLASS_QNAN || _fpclass(b) == _FPCLASS_QNAN)
+        if(isnan(a) || isnan(b))
             return false;
 
         llIntersect = DestVincenty(pt1, dAz13, b);
@@ -152,7 +152,7 @@ namespace GeoCalcs {
         while(k == 0 || ((dErr > dTol) && (k <= nMaxCount)))
         {
             FindLinearRoot(distarray, errarray, dist13);
-            if (_isnan(dist13))
+            if (isnan(dist13))
                 break;
 
             LLPoint newPt = DestVincenty(pt1, dAz13, dist13);

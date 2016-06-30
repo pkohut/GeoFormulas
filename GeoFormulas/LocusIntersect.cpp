@@ -70,7 +70,7 @@ namespace GeoCalcs {
         double errarray[2];
         distarray[0] = distarray[1] = errarray[0] = errarray[1] = 0.0;
 
-        while( (k == 0) || (!_isnan(distbase) && k < maxCount && fabs(dErr) > dTol))
+        while( (k == 0) || (!isnan(distbase) && k < maxCount && fabs(dErr) > dTol))
         {
             if(k > 0)
                 pint1 = DestVincenty(loc1.geoStart, tcrs1, distbase);

@@ -104,7 +104,7 @@ namespace GeoCalcs {
             while(fabs(dErr) > dTol && k <= 10)
             {
                 FindLinearRoot(distarray, errarray, dist);
-                if (_isnan(dist))
+                if (isnan(dist))
                     break;
 
                 pt = DestVincenty(perpPt, crs, dist);

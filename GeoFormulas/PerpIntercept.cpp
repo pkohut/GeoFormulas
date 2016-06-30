@@ -106,7 +106,7 @@ namespace GeoCalcs {
         {
             double oldDist13 = dist13;
             FindLinearRoot(distarray, errarray, dist13);
-            if(_isnan(dist13))
+            if(isnan(dist13))
                 dist13 = oldDist13;
             pt3 = DestVincenty(pt1, crs13, dist13);
 
