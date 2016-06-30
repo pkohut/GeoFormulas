@@ -50,27 +50,22 @@ namespace GeoCalcs {
         }
 
         DistVincenty(perpPt, pt1, result);
-        double crs = result.azimuth;
 
         if (IsApprox(cos(perpDist / kSphereRadius), 0.0, 1e-8))
             return 0;
+
+        double crs = result.azimuth;
         double dist = kSphereRadius * acos(cos(radius / kSphereRadius) / cos(perpDist / kSphereRadius));
+        LLPoint pt = DestVincenty(perpPt, crs, dist);
 
-        LLPoint pt;
-        pt = DestVincenty(perpPt, crs, dist);
-
-        int nIntersects = 2;
+        const int nIntersects = 2;
         for (int i = 0; i < nIntersects; i++)
         {
-            int k = 10;
             DistVincenty(center, pt, result);
-            double radDist = result.distance;
             double rcrs = result.reverseAzimuth;
+            double dErr = radius - result.distance;
 
-            double dErr = radius - radDist;
-
-            double distarray[2];
-            double errarray[2];
+            double distarray[2], errarray[2];
             distarray[0] = dist;
             errarray[0] = dErr;
 
@@ -96,12 +91,10 @@ namespace GeoCalcs {
 
             pt = DestVincenty(perpPt, crs, dist);
             DistVincenty(center, pt, result);
-            radDist = result.distance;
-
             distarray[1] = dist;
-            errarray[1] = radius - radDist;
+            errarray[1] = radius - result.distance;
 
-            while (fabs(dErr) > dTol && k <= 10)
+            while (fabs(dErr) > dTol)
             {
                 FindLinearRoot(distarray, errarray, dist);
                 if (isnan(dist))
@@ -109,12 +102,11 @@ namespace GeoCalcs {
 
                 pt = DestVincenty(perpPt, crs, dist);
                 DistVincenty(center, pt, result);
-                radDist = result.distance;
                 distarray[0] = distarray[1];
                 errarray[0] = errarray[1];
                 distarray[1] = dist;
-                errarray[1] = radius - radDist;
-                k++;
+                errarray[1] = radius - result.distance;
+                break;
             }
 
             if (i == 0)
@@ -127,8 +119,7 @@ namespace GeoCalcs {
             crs = crs + M_PI;
             pt = DestVincenty(perpPt, crs, dist);
             DistVincenty(center, pt, result);
-            radDist = result.distance;
-            errarray[0] = radius - radDist;
+            errarray[0] = radius - result.distance;
         }
 
         return nIntersects;
