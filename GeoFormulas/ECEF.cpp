@@ -31,10 +31,10 @@ namespace GeoCalcs {
     */
     VMath::Vector3 ECEF(const LLPoint &llPt, double dAltitude)
     {
-        VMath::Vector3 pt;
         double dPrimeVerticalCurvature = PrimeVerticalCurvature(llPt.latitude);
         double dCosLat = cos(llPt.latitude);
 
+        VMath::Vector3 pt;
         pt.x = (dPrimeVerticalCurvature + dAltitude) * dCosLat * cos(llPt.longitude);
         pt.y = (dPrimeVerticalCurvature + dAltitude) * dCosLat * sin(llPt.longitude);
         pt.z = ((1.0 - keSq) * dPrimeVerticalCurvature + dAltitude) * sin(llPt.latitude);
