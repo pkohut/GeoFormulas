@@ -223,7 +223,19 @@ namespace GeoCalcs {
     */
     const double kTolPtIsOnGeodesic = 0.5e-3;
 
-
+    /*
+     *   \brief Clamps a value between a pair of boundary values
+     *   \note Defining here so library will not depend on C++ Boost
+     *   Returns
+     *     lo if v < lo
+     *     hi if hi < v
+     *     otherwise, v
+     */
+    template<class T>
+    const T& clamp(const T& v, const T& lo, const T& hi)
+    {
+        return std::max(lo, std::min(v, hi));
+    }
 
     //////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
