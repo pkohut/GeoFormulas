@@ -277,17 +277,7 @@ string Pad0(string szOrg, size_t nMinDigits)
 
 double ConvertDmsToDd(double const & dDeg, double const & dMin, double const & dSec)
 {
-//  if(sign < 0)
-//      return -dDeg - ((dMin + (dSec / 60.0)) / 60.0);
-//  return dDeg + ((dMin + (dSec / 60.0)) / 60.0);
-    int bSignBit = false;
-    if(dDeg == 0)
-    {
-        unsigned long * pVal = (unsigned long*) &dDeg;
-        bSignBit = *(++pVal) & 1 << 31;
-    }
-
-    if(dDeg < 0 || bSignBit)
+    if(dDeg < 0.0)
         return (-(fabs(dDeg)+ (dMin / 60.0) + (dSec / 3600.0)));
     return (dDeg + (dMin / 60.0) + (dSec / 3600.0));
 }
