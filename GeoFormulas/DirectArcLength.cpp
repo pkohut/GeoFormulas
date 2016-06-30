@@ -33,8 +33,8 @@ namespace GeoCalcs {
                            double dStartCrs, double dEndCrs,
                            int nOrient, double dTol)
     {
-        double dSubAngle = GetArcExtent(dStartCrs, dEndCrs, nOrient, dTol);
+        double dSubtendedAngle = GetArcExtent(dStartCrs, dEndCrs, nOrient, dTol);
         double R = sqrt(GeometricMeanMeridional(center.latitude) * PrimeVerticalCurvature(center.latitude));
-        return fabs(dSubAngle * R * sin(dRadius / R));
+        return fabs(dSubtendedAngle * R * sin(dRadius / R));
     }
 }
