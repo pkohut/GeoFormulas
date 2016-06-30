@@ -29,14 +29,14 @@ namespace GeoCalcs {
     /**
     *
     */
-    int TangentFixedRadiusArc(const LLPoint & pt1, double crs12, const LLPoint & pt3,
-        double crs3, double radius, int & dir,
-        LLPoint & centerPt, LLPoint & tanPt1, LLPoint & tanPt2, double dTol)
+    int TangentFixedRadiusArc(const LLPoint &pt1, double crs12, const LLPoint &pt3,
+                              double crs3, double radius, int &dir,
+                              LLPoint &centerPt, LLPoint &tanPt1, LLPoint &tanPt2, double dTol)
     {
         LLPoint pt2;
         bool bVal = CrsIntersect(pt1, crs12, pt3, crs3 + M_PI, dTol, pt2);
 
-        if(bVal == false)
+        if (bVal == false)
             return 0;
 
         InverseResult result;
@@ -51,16 +51,16 @@ namespace GeoCalcs {
 
         double vertexAngle = SignAzimuthDifference(crs21, crs23);
 
-        if(fabs(sin(vertexAngle)) < dTol)
+        if (fabs(sin(vertexAngle)) < dTol)
             return 0;
 
-        if(vertexAngle > 0.0)
+        if (vertexAngle > 0.0)
             dir = -1;
         else
             dir = 1;
 
         double A = vertexAngle / 2.0;
-        if(radius > fabs(kSphereRadius * A))
+        if (radius > fabs(kSphereRadius * A))
             return 0;
 
         double DTA = fabs(kSphereRadius * asin(tan(radius / kSphereRadius) / tan(A)));
@@ -68,13 +68,13 @@ namespace GeoCalcs {
         int k = 0;
         double dErr = 0.0;
         LLPoint startPt, endPt;
-        while(k == 0 || (fabs(dErr) > dTol && k <= 10))
+        while (k == 0 || (fabs(dErr) > dTol && k <= 10))
         {
             distToStart = distToStart - dErr / fabs(sin(vertexAngle));
             startPt = DestVincenty(pt1, crs12, distToStart);
             DistVincenty(startPt, pt2, result);
             double perpCrs = result.azimuth;
-            if(dir < 0)
+            if (dir < 0)
                 perpCrs = perpCrs + M_PI_2;
             else
                 perpCrs = perpCrs - M_PI_2;
@@ -90,7 +90,7 @@ namespace GeoCalcs {
         tanPt2 = endPt;
 
         DistVincenty(pt2, tanPt2, result);
-        if(fabs(SignAzimuthDifference(result.azimuth, crs3)) > M_PI_2)
+        if (fabs(SignAzimuthDifference(result.azimuth, crs3)) > M_PI_2)
             return 0;
 
         return 1;

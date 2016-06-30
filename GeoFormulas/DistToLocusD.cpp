@@ -30,15 +30,15 @@ namespace GeoCalcs {
     /**
     *
     */
-    double DistToLocusD(const Locus & loc, double dDistance, double dEps)
+    double DistToLocusD(const Locus &loc, double dDistance, double dEps)
     {
         InverseResult result;
         double distToLoc = 0.0;
 
-        if(!DistVincenty(loc.geoStart, loc.geoEnd, result))
+        if (!DistVincenty(loc.geoStart, loc.geoEnd, result))
             distToLoc = numeric_limits<double>::signaling_NaN();
         double geoLen = result.distance;
-        if(geoLen > 0.0)
+        if (geoLen > 0.0)
         {
             distToLoc = loc.startDist + (dDistance / geoLen) * (loc.endDist - loc.startDist);
         }

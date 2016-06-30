@@ -27,11 +27,11 @@
 using namespace std;
 
 namespace GeoCalcs {
-    double DistToLocusP(const Locus & loc, const LLPoint & geoPt, double dTtol, double eps)
+    double DistToLocusP(const Locus &loc, const LLPoint &geoPt, double dTtol, double eps)
     {
         InverseResult result;
 
-        if(!DistVincenty(loc.geoStart, geoPt, result))
+        if (!DistVincenty(loc.geoStart, geoPt, result))
             return numeric_limits<double>::signaling_NaN();
 
         return DistToLocusD(loc, result.distance, eps);

@@ -29,9 +29,10 @@ namespace GeoCalcs {
     /**
     *
     */
-    double LocusCrsAtPoint(const Locus & locus, const LLPoint & testPt, LLPoint & geoPt, double & dPerpCrs, const double dTol)
+    double LocusCrsAtPoint(const Locus &locus, const LLPoint &testPt, LLPoint &geoPt, double &dPerpCrs,
+                           const double dTol)
     {
-        if(!PtIsOnLocus(locus, testPt, geoPt, dTol))
+        if (!PtIsOnLocus(locus, testPt, geoPt, dTol))
             return -1.0;
 
         double dLocusCrs = 0.0;
@@ -50,12 +51,12 @@ namespace GeoCalcs {
 
         dPerpCrs = dPerpCrs + dSlope;
 
-        if(dDistToLocus < 0)
+        if (dDistToLocus < 0)
             dLocusCrs = dPerpCrs - M_PI_2;
         else
             dLocusCrs = dPerpCrs + M_PI_2;
 
-        if(dLocusCrs > M_2PI)
+        if (dLocusCrs > M_2PI)
             dLocusCrs = dLocusCrs - M_2PI;
 
         return dLocusCrs;

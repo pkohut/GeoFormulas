@@ -33,20 +33,20 @@ namespace GeoCalcs {
     {
         double dstartCrs = dStartCrs;
         double dendCrs = dEndCrs;
-        if(fabs(dstartCrs - dendCrs) < dTol)
+        if (fabs(dstartCrs - dendCrs) < dTol)
             return M_2PI;
-        if(nOrientation < 0)
+        if (nOrientation < 0)
         {
             double dTemp = dstartCrs;
             dstartCrs = dendCrs;
             dendCrs = dTemp;
         }
         double dAngle;
-        if(dstartCrs > dendCrs)
+        if (dstartCrs > dendCrs)
             dAngle = dstartCrs - dendCrs;
         else
             dAngle = M_2PI + dstartCrs - dendCrs;
-        if(nOrientation < 0)
+        if (nOrientation < 0)
             dAngle = -dAngle;
         return dAngle;
 

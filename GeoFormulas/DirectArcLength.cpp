@@ -29,8 +29,8 @@ namespace GeoCalcs {
     /**
     *
     */
-    double DirectArcLength(const LLPoint & center, double dRadius, double dStartCrs,
-        double dEndCrs, int nOrient, double dTol)
+    double DirectArcLength(const LLPoint &center, double dRadius, double dStartCrs,
+                           double dEndCrs, int nOrient, double dTol)
     {
         double dSubtAngle = GetArcExtent(dStartCrs, dEndCrs, nOrient, dTol);
         double R = sqrt(GeometricMeanMeridional(center.latitude) * PrimeVerticalCurvature(center.latitude));

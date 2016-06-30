@@ -29,10 +29,10 @@ namespace GeoCalcs {
     /**
     *
     */
-    bool PtIsOnLocus(const Locus & loc, const LLPoint & testPt, LLPoint & projPt, double dTol)
+    bool PtIsOnLocus(const Locus &loc, const LLPoint &testPt, LLPoint &projPt, double dTol)
     {
         InverseResult result;
-        if(!DistVincenty(loc.geoStart, loc.geoEnd, result))
+        if (!DistVincenty(loc.geoStart, loc.geoEnd, result))
             return false;
         double fcrs = result.azimuth;
 
@@ -41,15 +41,15 @@ namespace GeoCalcs {
         projPt = PerpIntercept(loc.geoStart, fcrs, testPt, dCrsFromPt, dDistFromPt, dTol);
 
         PTISONGEODESIC_RESULT ptResult;
-        if(!PtIsOnGeodesic(loc.geoStart, loc.geoEnd, projPt, 0, ptResult))
+        if (!PtIsOnGeodesic(loc.geoStart, loc.geoEnd, projPt, 0, ptResult))
             return false;
-        if(!ptResult.result)
+        if (!ptResult.result)
             return false;
         LLPoint compPt = PointOnLocusP(loc, projPt, dTol, kEps);
 
         // step 5 (page A2-28) says to use projPt, but that is in error
         DistVincenty(testPt, compPt, result);
-        if(result.distance < dTol)
+        if (result.distance < dTol)
             return true;
         return false;
     }

@@ -32,7 +32,7 @@ namespace GeoCalcs {
     double Mod(double a, double b)
     {
         double mod = a - b * int(a / b);
-        if(mod < 0)
+        if (mod < 0)
             mod = mod + b;
         return mod;
     }

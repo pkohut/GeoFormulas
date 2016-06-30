@@ -29,9 +29,9 @@ namespace GeoCalcs {
     /**
     *
     */
-    int LocusArcIntersect(const Locus & locus, const LLPoint & arcCenter, double arcRadius,
-        LLPoint & intersection1, LLPoint & intersection2, double dTol,
-        double dEps)
+    int LocusArcIntersect(const Locus &locus, const LLPoint &arcCenter, double arcRadius,
+                          LLPoint &intersection1, LLPoint &intersection2, double dTol,
+                          double dEps)
     {
         int nIntersections = 0;
 
@@ -44,46 +44,58 @@ namespace GeoCalcs {
 
         int n1 = GeodesicArcIntercept(locus.locusStart, fcrs, arcCenter, arcRadius, intPt1, intPt2, dTol);
 
-        if(n1 == 0)
+        if (n1 == 0)
             return 0;
-        else if(n1 == 1) {      
+        else if (n1 == 1)
+        {
             bool bVal1 = PtIsOnGeodesic(locus.locusStart, locus.locusEnd, intPt1, 0, ptResult1);
             bool bVal2 = PtIsOnGeodesic(locus.locusStart, locus.locusEnd, intPt2, 0, ptResult2);
-            if(bVal1 && bVal2) {
-                if(!ptResult1.result)
+            if (bVal1 && bVal2)
+            {
+                if (!ptResult1.result)
                 {
                     intPt1 = intPt2;
                 }
-            } else if(bVal2 && ptResult2.result) {
-                intPt1 = intPt2;
-            } else if(bVal1 && !ptResult1.result) {
-                n1--;           
             }
-        } else if(n1 == 2) {
+            else if (bVal2 && ptResult2.result)
+            {
+                intPt1 = intPt2;
+            }
+            else if (bVal1 && !ptResult1.result)
+            {
+                n1--;
+            }
+        }
+        else if (n1 == 2)
+        {
             bool bVal1 = PtIsOnGeodesic(locus.locusStart, locus.locusEnd, intPt1, 0, ptResult1);
             bool bVal2 = PtIsOnGeodesic(locus.locusStart, locus.locusEnd, intPt2, 0, ptResult2);
-            if(!bVal1 && !bVal2)
+            if (!bVal1 && !bVal2)
                 n1 = 0;
-            else if(bVal1 && !bVal2) {
+            else if (bVal1 && !bVal2)
+            {
                 n1 = 1;
-                if(!ptResult1.result)
+                if (!ptResult1.result)
                     n1 = 0;
             }
-            else if(!bVal1 && bVal2) {
+            else if (!bVal1 && bVal2)
+            {
                 n1 = 1;
-                if(!ptResult2.result)
+                if (!ptResult2.result)
                     n1 = 0;
-                else {
+                else
+                {
                     intPt1 = intPt2;
                 }
             }
-            else {
-                if(!ptResult1.result && ptResult2.result)
+            else
+            {
+                if (!ptResult1.result && ptResult2.result)
                 {
                     n1 = 1;
                     intPt1 = intPt2;
                 }
-                else if(ptResult1.result && !ptResult2.result)
+                else if (ptResult1.result && !ptResult2.result)
                 {
                     n1 = 1;
                 }
@@ -91,17 +103,16 @@ namespace GeoCalcs {
         }
 
 
-
         DistVincenty(locus.geoStart, locus.geoEnd, result);
         double gcrs = result.azimuth;
         //        double gdist = result.distance;
 
-        for(int i = 0; i < n1; i++)
+        for (int i = 0; i < n1; i++)
         {
             LLPoint intPt;
-            if(i == 0)
+            if (i == 0)
                 intPt = intPt1;
-            if(i == 1)
+            if (i == 1)
                 intPt = intPt2;
             double dCrsFromPt, dDistFromPt;
             LLPoint perpPt = PerpIntercept(locus.geoStart, gcrs, intPt, dCrsFromPt, dDistFromPt, dTol);
@@ -117,8 +128,8 @@ namespace GeoCalcs {
             double errarray[2];
             double distarray[2];
             errarray[1] = distCenter - arcRadius;
-            if(fabs(errarray[1]) >= dTol)
-            {       
+            if (fabs(errarray[1]) >= dTol)
+            {
                 distarray[1] = distbase;
 
                 int k = 0;
@@ -126,7 +137,7 @@ namespace GeoCalcs {
 
                 double newDistbase = 1.001 * distbase;
 
-                while(k < maxCount && !isnan(newDistbase) && fabs(errarray[1]) > dTol)
+                while (k < maxCount && !isnan(newDistbase) && fabs(errarray[1]) > dTol)
                 {
                     perpPt = DestVincenty(locus.geoStart, gcrs, newDistbase);
                     locPt = PointOnLocusP(locus, perpPt, dTol, dEps);
@@ -145,11 +156,11 @@ namespace GeoCalcs {
             }
 
             LLPoint geoPt;
-            if(PtIsOnLocus(locus, locPt, geoPt, 1e-6)) //dTol))
+            if (PtIsOnLocus(locus, locPt, geoPt, 1e-6)) //dTol))
             {
-                if(i == 0)
+                if (i == 0)
                     intPt1 = locPt;
-                if(i == 1)
+                if (i == 1)
                     intPt2 = locPt;
                 nIntersections++;
             }
@@ -157,7 +168,7 @@ namespace GeoCalcs {
         intersection1 = intPt1;
         intersection2 = intPt2;
         DistVincenty(intersection1, intersection2, result);
-        if(n1 == 2 && IsNearZero(result.distance, 0.5e-8))
+        if (n1 == 2 && IsNearZero(result.distance, 0.5e-8))
         {
             nIntersections = 1;
         }

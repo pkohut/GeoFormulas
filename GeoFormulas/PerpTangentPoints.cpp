@@ -29,9 +29,9 @@ namespace GeoCalcs {
     /**
     *
     */
-    void PerpTangentPoints(const LLPoint & lineStart, double crs,
-        const LLPoint & center, double radius,
-        LLPoint * linePts, LLPoint * tanPts, double dTol)
+    void PerpTangentPoints(const LLPoint &lineStart, double crs,
+                           const LLPoint &center, double radius,
+                           LLPoint *linePts, LLPoint *tanPts, double dTol)
     {
         InverseResult result;
         DistVincenty(lineStart, center, result);
@@ -41,7 +41,7 @@ namespace GeoCalcs {
 
         double angle1 = SignAzimuthDifference(crs, crsStartToCenter);
 
-        if(fabs(distStartToCenter * (crsStartToCenter - crs)) < dTol)
+        if (fabs(distStartToCenter * (crsStartToCenter - crs)) < dTol)
         {
             tanPts[0] = DestVincenty(lineStart, crs, distStartToCenter - radius);
             tanPts[1] = DestVincenty(lineStart, crs, distStartToCenter + radius);
@@ -64,7 +64,7 @@ namespace GeoCalcs {
         double dErr = 0.0;
         double signAngle1 = angle1 >= 0.0 ? 1.0 : -1.0;
 
-        while(k == 0 || (fabs(dErr) > dTol && k < maxCount))
+        while (k == 0 || (fabs(dErr) > dTol && k < maxCount))
         {
             linePts[0] = DestVincenty(perpPt, crs21 + M_PI, delta);
             DistVincenty(linePts[0], perpPt, result);
@@ -84,7 +84,7 @@ namespace GeoCalcs {
 
         dErr = 0.0;
         k = 0;
-        while(k == 0 || (fabs(dErr) > dTol && k < maxCount))
+        while (k == 0 || (fabs(dErr) > dTol && k < maxCount))
         {
             linePts[1] = DestVincenty(perpPt, crs21, delta);
             DistVincenty(linePts[1], perpPt, result);

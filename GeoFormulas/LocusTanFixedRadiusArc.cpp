@@ -29,9 +29,9 @@ namespace GeoCalcs {
     /**
     *
     */
-    int LocusTanFixedRadiusArc(const Locus & loc1, const Locus & loc2, double radius,
-        int & dir, LLPoint & center, LLPoint & intersection1, LLPoint & intersection2,
-        double dTol, double dEps)
+    int LocusTanFixedRadiusArc(const Locus &loc1, const Locus &loc2, double radius,
+                               int &dir, LLPoint &center, LLPoint &intersection1, LLPoint &intersection2,
+                               double dTol, double dEps)
     {
         InverseResult result;
         DistVincenty(loc1.locusStart, loc1.locusEnd, result);
@@ -44,8 +44,9 @@ namespace GeoCalcs {
         DistVincenty(loc2.locusEnd, loc2.locusStart, result);
         double crs32 = result.azimuth + M_PI;
 
-        int nVal = TangentFixedRadiusArc(loc1.locusStart, crs12, loc2.locusEnd, crs32, radius, dir, center, intersection1, intersection2, dTol);
-        if(nVal == 0)
+        int nVal = TangentFixedRadiusArc(loc1.locusStart, crs12, loc2.locusEnd, crs32, radius, dir, center,
+                                         intersection1, intersection2, dTol);
+        if (nVal == 0)
             return 0;
 
         DistVincenty(center, intersection1, result);
@@ -71,9 +72,9 @@ namespace GeoCalcs {
         double distarray[2];
         double errarray[2];
         distarray[0] = distarray[1] = errarray[0] = errarray[1] = 0.0;
-        while(k == 0 || (!isnan(distbase) && k < maxCount && fabs(dErr) > dTol))
+        while (k == 0 || (!isnan(distbase) && k < maxCount && fabs(dErr) > dTol))
         {
-            if(k > 0)
+            if (k > 0)
             {
                 geoPt1 = DestVincenty(loc1.geoStart, gcrs1, distbase);
             }
@@ -85,7 +86,7 @@ namespace GeoCalcs {
 
             center = DestVincenty(intersection1, lcrs1, radius);
 
-            if(!LocusPerpIntercept(loc2, center, dCrsFromPt, dDistFromPt, intersection2, dTol))
+            if (!LocusPerpIntercept(loc2, center, dCrsFromPt, dDistFromPt, intersection2, dTol))
             {
                 intersection2.Set(-HUGE_VAL, -HUGE_VAL);
             }
@@ -99,7 +100,7 @@ namespace GeoCalcs {
             errarray[0] = errarray[1];
             errarray[1] = dErr;
 
-            if(k == 0)
+            if (k == 0)
                 distbase = distbase + dErr * (cos(locAngle) / sin(vertexAngle));
             else
                 FindLinearRoot(distarray, errarray, distbase);

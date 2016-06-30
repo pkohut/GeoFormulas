@@ -29,22 +29,22 @@ namespace GeoCalcs {
     /**
     *
     */
-    int ArcIntercept(const LLPoint & center1, double radius1,
-        const LLPoint & center2, double radius2,
-        LLPoint & intPtC1, LLPoint & intPtC2, double dTol)
+    int ArcIntercept(const LLPoint &center1, double radius1,
+                     const LLPoint &center2, double radius2,
+                     LLPoint &intPtC1, LLPoint &intPtC2, double dTol)
     {
 
         int nIntersects = DistanceIntersection(center1, radius1, center2, radius2, intPtC1, intPtC2, dTol);
-        if(nIntersects == 0)
+        if (nIntersects == 0)
             return 0;
 
 
-        for(int i = 0; i < nIntersects; i++)
+        for (int i = 0; i < nIntersects; i++)
         {
             LLPoint pt;
-            if(i == 0)
+            if (i == 0)
                 pt = intPtC1;
-            else if(i == 1)
+            else if (i == 1)
                 pt = intPtC2;
             else
                 break;
@@ -62,7 +62,7 @@ namespace GeoCalcs {
             double crsarray[2];
             errarray[1] = dErr;
             crsarray[1] = crs1x;
-            while(k <= 10 && !isnan(crs1x) && fabs(errarray[1]) > dTol)
+            while (k <= 10 && !isnan(crs1x) && fabs(errarray[1]) > dTol)
             {
                 pt = DestVincenty(center1, crs1x, radius1);
                 DistVincenty(center2, pt, result);
@@ -78,9 +78,9 @@ namespace GeoCalcs {
                 FindLinearRoot(crsarray, errarray, crs1x);
                 k++;
             }
-            if(i == 0)
+            if (i == 0)
                 intPtC1 = pt;
-            else if(i== 1)
+            else if (i == 1)
                 intPtC2 = pt;
             else
                 break;

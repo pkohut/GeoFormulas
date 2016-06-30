@@ -1,5 +1,5 @@
 /** \file TestLocusTanFixedRadiusArc.cpp
-*   \brief 
+*   \brief
 */
 
 /****************************************************************************/
@@ -33,14 +33,14 @@ using namespace boost;
 using namespace GeoCalcs;
 using namespace std;
 
-bool ParseLocusTanFixedRadiusArc3(string sLine3, string & sArcDirection, string & sArcCenterLat, string & sArcCenterLon,
-                                  string & sTanPt1Lat, string & sTanPt1Lon, string & sTanPt2Lat, string & sTanPt2Lon)
+bool ParseLocusTanFixedRadiusArc3(string sLine3, string &sArcDirection, string &sArcCenterLat, string &sArcCenterLon,
+                                  string &sTanPt1Lat, string &sTanPt1Lon, string &sTanPt2Lat, string &sTanPt2Lon)
 {
     bool bPassed = false;
     TrimWhitespace(sLine3);
     try
     {
-        regex_constants::syntax_option_type flags =  regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
 
         string sRxPat = "[,][A-z]+[,]";
         sRxPat += "([-+]?[1])[,]";
@@ -50,9 +50,9 @@ bool ParseLocusTanFixedRadiusArc3(string sLine3, string & sArcDirection, string 
 
 
         regex pat(sRxPat, flags);
-        int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, };
+        int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7,};
         sregex_token_iterator it(sLine3.begin(), sLine3.end(), pat, sub_matches);
-        if(it != sregex_token_iterator())
+        if (it != sregex_token_iterator())
         {
             sArcDirection = *it++;
             sArcCenterLat = *it++;
@@ -64,7 +64,7 @@ bool ParseLocusTanFixedRadiusArc3(string sLine3, string & sArcDirection, string 
             bPassed = true;
         }
     }
-    catch(regex_error & e)
+    catch (regex_error &e)
     {
         cout << "\n" << e.what();
         return false;
@@ -73,16 +73,17 @@ bool ParseLocusTanFixedRadiusArc3(string sLine3, string & sArcDirection, string 
 
 }
 
-bool ParseLocusTanFixedRadiusArc1(string sLine1, string & sTestId, string & sGeoStartLat, string & sGeoStartLon,
-                          string & sGeoEndLat, string & sGeoEndLon,
-                          string & sLocusStartLat, string & sLocusStartLon, string & sLocusEndLat, string & sLocusEndLon,
-                          string & sLocusStartDist, string & sLocusEndDist)
+bool ParseLocusTanFixedRadiusArc1(string sLine1, string &sTestId, string &sGeoStartLat, string &sGeoStartLon,
+                                  string &sGeoEndLat, string &sGeoEndLon,
+                                  string &sLocusStartLat, string &sLocusStartLon, string &sLocusEndLat,
+                                  string &sLocusEndLon,
+                                  string &sLocusStartDist, string &sLocusEndDist)
 {
     bool bPassed = false;
     TrimWhitespace(sLine1);
     try
     {
-        regex_constants::syntax_option_type flags =  regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
 
         string sRxPat = "([a-z]+|[A-Z]+\\d+)[,]";
         sRxPat += "[0-9A-z ]+[,]";
@@ -95,7 +96,7 @@ bool ParseLocusTanFixedRadiusArc1(string sLine1, string & sTestId, string & sGeo
         regex pat(sRxPat, flags);
         int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
         sregex_token_iterator it(sLine1.begin(), sLine1.end(), pat, sub_matches);
-        if(it != sregex_token_iterator())
+        if (it != sregex_token_iterator())
         {
             sTestId = *it++;
             sGeoStartLat = *it++;
@@ -111,7 +112,7 @@ bool ParseLocusTanFixedRadiusArc1(string sLine1, string & sTestId, string & sGeo
             bPassed = true;
         }
     }
-    catch(regex_error & e)
+    catch (regex_error &e)
     {
         cout << "\n" << e.what();
         return false;
@@ -119,17 +120,18 @@ bool ParseLocusTanFixedRadiusArc1(string sLine1, string & sTestId, string & sGeo
     return bPassed;
 }
 
-bool ParseLocusTanFixedRadiusArc2(string sLine2, string & sGeoStartLat, string & sGeoStartLon,
-                          string & sGeoEndLat, string & sGeoEndLon,
-                          string & sLocusStartLat, string & sLocusStartLon, string & sLocusEndLat, string & sLocusEndLon,
-                          string & sLocusStartDist, string & sLocusEndDist, string & sArcRadius)
+bool ParseLocusTanFixedRadiusArc2(string sLine2, string &sGeoStartLat, string &sGeoStartLon,
+                                  string &sGeoEndLat, string &sGeoEndLon,
+                                  string &sLocusStartLat, string &sLocusStartLon, string &sLocusEndLat,
+                                  string &sLocusEndLon,
+                                  string &sLocusStartDist, string &sLocusEndDist, string &sArcRadius)
 {
     bool bPassed = false;
     TrimWhitespace(sLine2);
 
     try
     {
-        regex_constants::syntax_option_type flags =  regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
 
         string sRxPat = "[,][0-9A-z ]+[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
@@ -139,9 +141,9 @@ bool ParseLocusTanFixedRadiusArc2(string sLine2, string & sGeoStartLat, string &
         sRxPat += "([-+]?[0-9]*[.]?[0-9]+)[,]([-+]?[0-9]*[.]?[0-9]+)[,]([-+]?[0-9]*[.]?[0-9]+)";
 
         regex pat(sRxPat, flags);
-        int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, };
+        int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,};
         sregex_token_iterator it(sLine2.begin(), sLine2.end(), pat, sub_matches);
-        if(it != sregex_token_iterator())
+        if (it != sregex_token_iterator())
         {
             sGeoStartLat = *it++;
             sGeoStartLon = *it++;
@@ -157,7 +159,7 @@ bool ParseLocusTanFixedRadiusArc2(string sLine2, string & sGeoStartLat, string &
             bPassed = true;
         }
     }
-    catch(regex_error & e)
+    catch (regex_error &e)
     {
         cout << "\n" << e.what();
         return false;
@@ -167,7 +169,7 @@ bool ParseLocusTanFixedRadiusArc2(string sLine2, string & sGeoStartLat, string &
 }
 
 bool ParseLocusTanFixedRadiusArc(string sLine1, string sLine2, string sLine3)
-{   
+{
     bool bPassed = true;
 
     string sLocus1GeoStartLat, sLocus1GeoStartLong, sLocus1GeoEndLat, sLocus1GeoEndLong;
@@ -183,15 +185,20 @@ bool ParseLocusTanFixedRadiusArc(string sLine1, string sLine2, string sLine3)
 
     string sTestId;
 
-    if(!ParseLocusTanFixedRadiusArc1(sLine1, sTestId, sLocus1GeoStartLat, sLocus1GeoStartLong, sLocus1GeoEndLat, sLocus1GeoEndLong,
-        sLocus1StartLat, sLocus1StartLong, sLocus1EndLat, sLocus1EndLong, sLocus1StartDist, sLocus1EndDist))
+    if (!ParseLocusTanFixedRadiusArc1(sLine1, sTestId, sLocus1GeoStartLat, sLocus1GeoStartLong, sLocus1GeoEndLat,
+                                      sLocus1GeoEndLong,
+                                      sLocus1StartLat, sLocus1StartLong, sLocus1EndLat, sLocus1EndLong,
+                                      sLocus1StartDist, sLocus1EndDist))
         return false;
 
-    if(!ParseLocusTanFixedRadiusArc2(sLine2, sLocus2GeoStartLat, sLocus2GeoStartLong, sLocus2GeoEndLat, sLocus2GeoEndLong,
-        sLocus2StartLat, sLocus2StartLong, sLocus2EndLat, sLocus2EndLong, sLocus2StartDist, sLocus2EndDist, sArcRadius))
+    if (!ParseLocusTanFixedRadiusArc2(sLine2, sLocus2GeoStartLat, sLocus2GeoStartLong, sLocus2GeoEndLat,
+                                      sLocus2GeoEndLong,
+                                      sLocus2StartLat, sLocus2StartLong, sLocus2EndLat, sLocus2EndLong,
+                                      sLocus2StartDist, sLocus2EndDist, sArcRadius))
         return false;
 
-    if(!ParseLocusTanFixedRadiusArc3(sLine3, sArcDirection, sArcCenterLat, sArcCenterLon, sTanPt1Lat, sTanPt1Lon, sTanPt2Lat, sTanPt2Lon))
+    if (!ParseLocusTanFixedRadiusArc3(sLine3, sArcDirection, sArcCenterLat, sArcCenterLon, sTanPt1Lat, sTanPt1Lon,
+                                      sTanPt2Lat, sTanPt2Lon))
         return false;
 
     Locus locus1, locus2;
@@ -214,12 +221,12 @@ bool ParseLocusTanFixedRadiusArc(string sLine1, string sLine2, string sLine3)
     LLPoint intersection1, intersection2;
     LLPoint arcCenter;
     int nVal = LocusTanFixedRadiusArc(locus1, locus2, arcRadius, arcDirection, arcCenter,
-        intersection1, intersection2, kTol, kEps);
+                                      intersection1, intersection2, kTol, kEps);
 
-    if(nVal == 0)
+    if (nVal == 0)
     {
-            cout << "\n" << sTestId << "failed: Expected solution, found none.";
-            bPassed = false;
+        cout << "\n" << sTestId << "failed: Expected solution, found none.";
+        bPassed = false;
 
     }
     else
@@ -229,29 +236,36 @@ bool ParseLocusTanFixedRadiusArc(string sLine1, string sLine2, string sLine3)
         string sPtIntLat = ConvertLatitudeDdToDms(Rad2Deg(intersection1.latitude));
         string sPtIntLon = ConvertLongitudeDdToDms(Rad2Deg(intersection1.longitude));
 
-        if(atoi(sArcDirection.c_str()) != arcDirection)
+        if (atoi(sArcDirection.c_str()) != arcDirection)
         {
-            cout << "\n" << sTestId << " failed: Expected Arc direction: " << sArcDirection << "  calced: " << arcDirection;
+            cout << "\n" << sTestId << " failed: Expected Arc direction: " << sArcDirection << "  calced: " <<
+            arcDirection;
             bPassed = false;
         }
 
-        if(sPtIntLat.compare(sTanPt1Lat) != 0)
+        if (sPtIntLat.compare(sTanPt1Lat) != 0)
         {
             double dLat = Deg2Rad(ParseLatitude(sTanPt1Lat));
-            if(IsApprox(dLat, intersection1.latitude, 1e-10))
-                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Tan Pt1 Latitude: " << sTanPt1Lat << " calced: " << sPtIntLat;
-            else {
-                cout << "\n" << sTestId << " failed: Expected Tan Pt1 latitude: " << sTanPt1Lat << "  calced: " << sPtIntLat;
+            if (IsApprox(dLat, intersection1.latitude, 1e-10))
+                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Tan Pt1 Latitude: " << sTanPt1Lat <<
+                " calced: " << sPtIntLat;
+            else
+            {
+                cout << "\n" << sTestId << " failed: Expected Tan Pt1 latitude: " << sTanPt1Lat << "  calced: " <<
+                sPtIntLat;
                 bPassed = false;
             }
         }
-        if(sPtIntLon.compare(sTanPt1Lon) != 0)
+        if (sPtIntLon.compare(sTanPt1Lon) != 0)
         {
             double dLon = Deg2Rad(ParseLongitude(sTanPt1Lon));
-            if(IsApprox(dLon, intersection1.longitude, 1e-10))
-                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Tan Pt1 Longitude: " << sTanPt1Lon << " calced: " << sPtIntLon;
-            else {
-                cout << "\n" << sTestId << " failed: Expected Tan Pt1 longitude: " << sTanPt1Lon << "  calced: " << sPtIntLon;
+            if (IsApprox(dLon, intersection1.longitude, 1e-10))
+                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Tan Pt1 Longitude: " << sTanPt1Lon <<
+                " calced: " << sPtIntLon;
+            else
+            {
+                cout << "\n" << sTestId << " failed: Expected Tan Pt1 longitude: " << sTanPt1Lon << "  calced: " <<
+                sPtIntLon;
                 bPassed = false;
             }
         }
@@ -259,33 +273,39 @@ bool ParseLocusTanFixedRadiusArc(string sLine1, string sLine2, string sLine3)
         sPtIntLat = ConvertLatitudeDdToDms(Rad2Deg(intersection2.latitude));
         sPtIntLon = ConvertLongitudeDdToDms(Rad2Deg(intersection2.longitude));
 
-        if(sPtIntLat.compare(sTanPt2Lat) != 0)
+        if (sPtIntLat.compare(sTanPt2Lat) != 0)
         {
             double dLat = Deg2Rad(ParseLatitude(sTanPt2Lat));
-            if(IsApprox(dLat, intersection2.latitude, 1e-10))
-                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Tan Pt2 Latitude: " << sTanPt2Lat << " calced: " << sPtIntLat;
-            else {
-                cout << "\n" << sTestId << " failed: Expected Tan Pt2 latitude: " << sTanPt2Lat << "  calced: " << sPtIntLat;
+            if (IsApprox(dLat, intersection2.latitude, 1e-10))
+                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Tan Pt2 Latitude: " << sTanPt2Lat <<
+                " calced: " << sPtIntLat;
+            else
+            {
+                cout << "\n" << sTestId << " failed: Expected Tan Pt2 latitude: " << sTanPt2Lat << "  calced: " <<
+                sPtIntLat;
                 bPassed = false;
             }
         }
-        if(sPtIntLon.compare(sTanPt2Lon) != 0)
+        if (sPtIntLon.compare(sTanPt2Lon) != 0)
         {
             double dLon = Deg2Rad(ParseLongitude(sTanPt2Lon));
-            if(IsApprox(dLon, intersection2.longitude, 1e-10))
-                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Tan Pt2 Longitude: " << sTanPt2Lon << " calced: " << sPtIntLon;
-            else {
-                cout << "\n" << sTestId << " failed: Expected Tan Pt2 longitude: " << sTanPt2Lon << "  calced: " << sPtIntLon;
+            if (IsApprox(dLon, intersection2.longitude, 1e-10))
+                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Tan Pt2 Longitude: " << sTanPt2Lon <<
+                " calced: " << sPtIntLon;
+            else
+            {
+                cout << "\n" << sTestId << " failed: Expected Tan Pt2 longitude: " << sTanPt2Lon << "  calced: " <<
+                sPtIntLon;
                 bPassed = false;
             }
         }
 
     }
-    return bPassed; 
+    return bPassed;
 }
 
 
-int TestLocusTanFixedRadiusArc(const string & sFilePath)
+int TestLocusTanFixedRadiusArc(const string &sFilePath)
 {
     ifstream infile;
     infile.exceptions(ifstream::eofbit | ifstream::failbit | ifstream::badbit);
@@ -297,10 +317,10 @@ int TestLocusTanFixedRadiusArc(const string & sFilePath)
         string sLine1, sLine2, sLine3;
         infile.open(sFilePath.c_str(), ifstream::in);
 
-        while(!infile.eof())
+        while (!infile.eof())
         {
-            getline(infile, sLine1);            
-            if(sLine1.at(0) == '#')
+            getline(infile, sLine1);
+            if (sLine1.at(0) == '#')
             {
                 nCommentCount++;
             }
@@ -308,8 +328,8 @@ int TestLocusTanFixedRadiusArc(const string & sFilePath)
             {
                 getline(infile, sLine2);
                 getline(infile, sLine3);
-                if(!ParseLocusTanFixedRadiusArc(sLine1, sLine2, sLine3))
-                    bPassed = false;                
+                if (!ParseLocusTanFixedRadiusArc(sLine1, sLine2, sLine3))
+                    bPassed = false;
                 nCount++;
             }
         }
@@ -317,7 +337,7 @@ int TestLocusTanFixedRadiusArc(const string & sFilePath)
         return bPassed;
     }
 
-    catch(ifstream::failure e)
+    catch (ifstream::failure e)
     {
         int nError = -99;
         // Per C++ standards for ifstream::failbit with global function getline
@@ -325,15 +345,15 @@ int TestLocusTanFixedRadiusArc(const string & sFilePath)
         // that some eofbit cases will also set failbit.
         // In this case the end of the file is read and causes both flags to be raised,
         // so this presumably means all the data has been read correctly.
-        if((infile.rdstate() & ifstream::failbit) && (infile.rdstate() & ifstream::eofbit) != 0)
+        if ((infile.rdstate() & ifstream::failbit) && (infile.rdstate() & ifstream::eofbit) != 0)
             nError = bPassed;
-        else if((infile.rdstate() & ifstream::failbit) != 0)
+        else if ((infile.rdstate() & ifstream::failbit) != 0)
             nError = -1;
-        else if((infile.rdstate() & ifstream::badbit) != 0)
+        else if ((infile.rdstate() & ifstream::badbit) != 0)
             nError = -2;
-        else if((infile.rdstate() & ifstream::eofbit) != 0)
+        else if ((infile.rdstate() & ifstream::eofbit) != 0)
             nError = -3;
-        if(infile.is_open())
+        if (infile.is_open())
             infile.close();
         return nError;
     }

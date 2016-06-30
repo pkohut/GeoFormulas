@@ -29,12 +29,12 @@ namespace GeoCalcs {
     /**
     *
     */
-    double DiscretizedArcLength(const LLPoint & center, double dRadius, double dStartCrs,
-        double dEndCrs, int nOrient, int nSegments, double dTol)
+    double DiscretizedArcLength(const LLPoint &center, double dRadius, double dStartCrs,
+                                double dEndCrs, int nOrient, int nSegments, double dTol)
     {
-        if(nSegments < 1)
+        if (nSegments < 1)
             nSegments = 1;
-        else if(nSegments > 128)
+        else if (nSegments > 128)
             nSegments = 128;
 
         double dAltitude = 0.0;
@@ -51,7 +51,7 @@ namespace GeoCalcs {
         // need to figure out how to make this flexable based on the value in dRadius
         // bigger radius need more segments than 16 and smaller segments need less.
         // For now 16 is enough to pass the 8260.54A test case.
-        while( k == 0 || ((dError > kTol) && (k <= 0)) )
+        while (k == 0 || ((dError > kTol) && (k <= 0)))
         {
             nCount++;
             double dTheta = dSubtAngle / nSegments;
@@ -59,7 +59,7 @@ namespace GeoCalcs {
             VMath::Vector3 v1 = ECEF(p1, dAltitude);
             dArcLength = 0.0;
 
-            for(int i = 0; i < nSegments; i++)
+            for (int i = 0; i < nSegments; i++)
             {
                 double theta = dStartCrs + i * dTheta;
                 p1 = DestVincenty(center, theta, dRadius);
@@ -78,7 +78,7 @@ namespace GeoCalcs {
 
                 double d = VMath::Vector3::Dot(vChord1, vChord2);
 
-                if(IsNearZero(x1, kTol) && IsNearZero(x2, kTol) && IsNearZero(d, kTol))
+                if (IsNearZero(x1, kTol) && IsNearZero(x2, kTol) && IsNearZero(d, kTol))
                 {
                     dArcLength = 0.0;
                     break;
@@ -88,7 +88,7 @@ namespace GeoCalcs {
                 double sigma = sqrt(1.0 - (xi * xi));
 
                 double _x1_x2Sq = x1 / x2 - xi;
-                double R = (x2 * sqrt( (_x1_x2Sq * _x1_x2Sq) + (sigma * sigma))) / (2.0 * sigma);
+                double R = (x2 * sqrt((_x1_x2Sq * _x1_x2Sq) + (sigma * sigma))) / (2.0 * sigma);
                 double A = 2 * (M_PI - acos(xi));
                 double L = R * A;
                 dArcLength += L;

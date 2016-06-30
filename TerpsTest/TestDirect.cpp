@@ -1,5 +1,5 @@
 /** \file TestDirect.cpp
-*   \brief 
+*   \brief
 */
 
 /****************************************************************************/
@@ -34,7 +34,7 @@ using namespace GeoCalcs;
 using namespace std;
 
 bool ParseTestDirectLine(string sString)
-{   
+{
     bool bPassed = true;
     TrimWhitespace(sString);
     string sTestId, sStartLat, sStartLong, sDist, sAzimuth;
@@ -42,7 +42,7 @@ bool ParseTestDirectLine(string sString)
 
     try
     {
-        regex_constants::syntax_option_type flags =  regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
 
         string sRxPat = "([a-z]+|[A-Z]+\\d+)[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
@@ -52,9 +52,9 @@ bool ParseTestDirectLine(string sString)
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])";
         regex pat(sRxPat, flags);
 
-        int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, };
+        int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7,};
         sregex_token_iterator it(sString.begin(), sString.end(), pat, sub_matches);
-        if(it != sregex_token_iterator())
+        if (it != sregex_token_iterator())
         {
             sTestId = *it++;
             sStartLat = *it++;
@@ -65,7 +65,7 @@ bool ParseTestDirectLine(string sString)
             sComputedDestLong = *it++;
         }
     }
-    catch(regex_error & e)
+    catch (regex_error &e)
     {
         cout << "\n" << e.what();
         return false;
@@ -73,29 +73,29 @@ bool ParseTestDirectLine(string sString)
 
 
     LLPoint ll = DestVincenty(LLPoint(Deg2Rad(ParseLatitude(sStartLat)), Deg2Rad(ParseLongitude(sStartLong))),
-                        Deg2Rad(atof(sAzimuth.c_str())), NmToMeters(atof(sDist.c_str())));
+                              Deg2Rad(atof(sAzimuth.c_str())), NmToMeters(atof(sDist.c_str())));
     ll.latitude = Rad2Deg(ll.latitude);
     ll.longitude = Rad2Deg(ll.longitude);
     string sDestLat = ConvertLatitudeDdToDms(ll.latitude); // + (ll.latitude < 0.0 ? + "S" : + "N");
     string sDestLong = ConvertLongitudeDdToDms(ll.longitude); // + (ll.longitude < 0.0 ? + "W" : + "E");
-//  double dComputedDestLat = ParseLatitude(sComputedDestLat);
-//  double dComputedDestLong = ParseLongitude(sComputedDestLong);
-    
-    if(sDestLat.compare(sComputedDestLat) != 0)
+    //  double dComputedDestLat = ParseLatitude(sComputedDestLat);
+    //  double dComputedDestLong = ParseLongitude(sComputedDestLong);
+
+    if (sDestLat.compare(sComputedDestLat) != 0)
     {
         cout << "\n" << sTestId << "failed: Expected latitude: " << sComputedDestLat << "  calced: " << sDestLat;
         bPassed = false;
     }
-    if(sDestLong.compare(sComputedDestLong) != 0)
+    if (sDestLong.compare(sComputedDestLong) != 0)
     {
         cout << "\n" << sTestId << "failed: Expected longitude: " << sComputedDestLong << "  calced: " << sDestLong;
         bPassed = false;
     }
-    return bPassed; 
+    return bPassed;
 }
 
 
-int TestDirect(const string & sFilePath)
+int TestDirect(const string &sFilePath)
 {
     ifstream infile;
     infile.exceptions(ifstream::eofbit | ifstream::failbit | ifstream::badbit);
@@ -107,16 +107,16 @@ int TestDirect(const string & sFilePath)
         string sLine;
         infile.open(sFilePath.c_str(), ifstream::in);
 
-        while(!infile.eof())
+        while (!infile.eof())
         {
-            getline(infile, sLine);         
-            if(sLine.at(0) == '#')
+            getline(infile, sLine);
+            if (sLine.at(0) == '#')
             {
                 nCommentCount++;
             }
             else
             {
-                if(!ParseTestDirectLine(sLine))
+                if (!ParseTestDirectLine(sLine))
                     bPassed = false;
                 nCount++;
             }
@@ -125,7 +125,7 @@ int TestDirect(const string & sFilePath)
         return bPassed;
     }
 
-    catch(ifstream::failure e)
+    catch (ifstream::failure e)
     {
         int nError = -99;
         // Per C++ standards for ifstream::failbit with global function getline
@@ -133,15 +133,15 @@ int TestDirect(const string & sFilePath)
         // that some eofbit cases will also set failbit.
         // In this case the end of the file is read and causes both flags to be raised,
         // so this presumably means all the data has been read correctly.
-        if((infile.rdstate() & ifstream::failbit) && (infile.rdstate() & ifstream::eofbit) != 0)
+        if ((infile.rdstate() & ifstream::failbit) && (infile.rdstate() & ifstream::eofbit) != 0)
             nError = bPassed;
-        else if((infile.rdstate() & ifstream::failbit) != 0)
+        else if ((infile.rdstate() & ifstream::failbit) != 0)
             nError = -1;
-        else if((infile.rdstate() & ifstream::badbit) != 0)
+        else if ((infile.rdstate() & ifstream::badbit) != 0)
             nError = -2;
-        else if((infile.rdstate() & ifstream::eofbit) != 0)
+        else if ((infile.rdstate() & ifstream::eofbit) != 0)
             nError = -3;
-        if(infile.is_open())
+        if (infile.is_open())
             infile.close();
         return nError;
     }

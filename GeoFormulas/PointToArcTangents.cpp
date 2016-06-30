@@ -29,8 +29,8 @@ namespace GeoCalcs {
     /**
     *
     */
-    int PointToArcTangents(const LLPoint & point, const LLPoint & center, double radius,
-        LLPoint & tanPt1, LLPoint & tanPt2, double dTol)
+    int PointToArcTangents(const LLPoint &point, const LLPoint &center, double radius,
+                           LLPoint &tanPt1, LLPoint &tanPt2, double dTol)
     {
         InverseResult result;
         DistVincenty(point, center, result);
@@ -38,13 +38,13 @@ namespace GeoCalcs {
         double crsFromCenter = result.reverseAzimuth;
         double distToCenter = result.distance;
 
-        if(fabs(distToCenter - radius) < dTol)
+        if (fabs(distToCenter - radius) < dTol)
         {
             tanPt1 = point;
             return 1;
         }
 
-        if(distToCenter < radius)
+        if (distToCenter < radius)
         {
             return 0;
         }
@@ -56,7 +56,7 @@ namespace GeoCalcs {
         int k = 0;
         int maxCount = 15;
         double dErr = 0.0;
-        while(k == 0 || (fabs(dErr) > dTol && k < maxCount))
+        while (k == 0 || (fabs(dErr) > dTol && k < maxCount))
         {
             tanPt1 = DestVincenty(center, crsFromCenter + c, radius);
             DistVincenty(tanPt1, center, result);
@@ -73,7 +73,7 @@ namespace GeoCalcs {
         k = 0;
         dErr = 0.0;
 
-        while(k == 0 || (fabs(dErr) > dTol && k < maxCount))
+        while (k == 0 || (fabs(dErr) > dTol && k < maxCount))
         {
             tanPt2 = DestVincenty(center, crsFromCenter - c, radius);
             DistVincenty(tanPt2, center, result);

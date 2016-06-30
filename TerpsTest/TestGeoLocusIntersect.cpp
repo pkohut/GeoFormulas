@@ -1,5 +1,5 @@
 /** \file TestGeoLocusIntersect.cpp
-*   \brief 
+*   \brief
 */
 
 /****************************************************************************/
@@ -33,28 +33,28 @@ using namespace boost;
 using namespace GeoCalcs;
 using namespace std;
 
-bool ParseGeoLocusIntersect3(string sLine3, string & sIntersectionLat, string & sIntersectionLon)
+bool ParseGeoLocusIntersect3(string sLine3, string &sIntersectionLat, string &sIntersectionLon)
 {
     bool bPassed = false;
     TrimWhitespace(sLine3);
     try
     {
-        regex_constants::syntax_option_type flags =  regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
 
         string sRxPat = "[,][A-z]+[,]";
         sRxPat += "([N/A]+|[0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([N/A]+|[0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
 
         regex pat(sRxPat, flags);
-        int const sub_matches[] = {1, 2, };
+        int const sub_matches[] = {1, 2,};
         sregex_token_iterator it(sLine3.begin(), sLine3.end(), pat, sub_matches);
-        if(it != sregex_token_iterator())
+        if (it != sregex_token_iterator())
         {
             sIntersectionLat = *it++;
             sIntersectionLon = *it++;
             bPassed = true;
         }
     }
-    catch(regex_error & e)
+    catch (regex_error &e)
     {
         cout << "\n" << e.what();
         return false;
@@ -63,10 +63,10 @@ bool ParseGeoLocusIntersect3(string sLine3, string & sIntersectionLat, string & 
 
 }
 
-bool ParseGeoLocusIntersect2(string sLine2, string & sGeoStartLat, string & sGeoStartLon,
-                             string & sGeoEndLat, string & sGeoEndLon,
-                             string & sLocusStartLat, string & sLocusStartLon, string & sLocusEndLat, string & sLocusEndLon,
-                             string & sLocusStartDist, string & sLocusEndDist)
+bool ParseGeoLocusIntersect2(string sLine2, string &sGeoStartLat, string &sGeoStartLon,
+                             string &sGeoEndLat, string &sGeoEndLon,
+                             string &sLocusStartLat, string &sLocusStartLon, string &sLocusEndLat, string &sLocusEndLon,
+                             string &sLocusStartDist, string &sLocusEndDist)
 {
     bool bPassed = false;
     TrimWhitespace(sLine2);
@@ -75,7 +75,7 @@ bool ParseGeoLocusIntersect2(string sLine2, string & sGeoStartLat, string & sGeo
     //string sLocusStartDist, sLocusEndDist, sTestPointLat, sTestPointLong;
     try
     {
-        regex_constants::syntax_option_type flags =  regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
 
         string sRxPat = "[,][A-z ]+[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
@@ -85,9 +85,9 @@ bool ParseGeoLocusIntersect2(string sLine2, string & sGeoStartLat, string & sGeo
         sRxPat += "([-+]?[0-9]*[.]?[0-9]+)[,]([-+]?[0-9]*[.]?[0-9]+)";
 
         regex pat(sRxPat, flags);
-        int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, };
+        int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10,};
         sregex_token_iterator it(sLine2.begin(), sLine2.end(), pat, sub_matches);
-        if(it != sregex_token_iterator())
+        if (it != sregex_token_iterator())
         {
             sGeoStartLat = *it++;
             sGeoStartLon = *it++;
@@ -102,7 +102,7 @@ bool ParseGeoLocusIntersect2(string sLine2, string & sGeoStartLat, string & sGeo
             bPassed = true;
         }
     }
-    catch(regex_error & e)
+    catch (regex_error &e)
     {
         cout << "\n" << e.what();
         return false;
@@ -111,22 +111,22 @@ bool ParseGeoLocusIntersect2(string sLine2, string & sGeoStartLat, string & sGeo
 }
 
 bool ParseGeoLocusIntersect(string sLine1, string sLine2, string sLine3)
-{   
+{
     bool bPassed = true;
     TrimWhitespace(sLine1);
     string sTestId, sGeodesicStartLat, sGeodesicStartLong, sGeodesicEndLat, sGeodesicEndLong;
     try
     {
-        regex_constants::syntax_option_type flags =  regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
 
         string sRxPat = "([a-z]+|[A-Z]+\\d+)[,]";
         sRxPat += "[A-z ]+[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
         regex pat(sRxPat, flags);
-        int const sub_matches[] = {1, 2, 3, 4, 5, };
+        int const sub_matches[] = {1, 2, 3, 4, 5,};
         sregex_token_iterator it(sLine1.begin(), sLine1.end(), pat, sub_matches);
-        if(it != sregex_token_iterator())
+        if (it != sregex_token_iterator())
         {
             sTestId = *it++;
             sGeodesicStartLat = *it++;
@@ -135,7 +135,7 @@ bool ParseGeoLocusIntersect(string sLine1, string sLine2, string sLine3)
             sGeodesicEndLong = *it++;
         }
     }
-    catch(regex_error & e)
+    catch (regex_error &e)
     {
         cout << "\n" << e.what();
         return false;
@@ -144,13 +144,16 @@ bool ParseGeoLocusIntersect(string sLine1, string sLine2, string sLine3)
     string sLocusStartLat, sLocusStartLong, sLocusEndLat, sLocusEndLong;
     string sLocusStartDist, sLocusEndDist, sIntersectionLat, sIntersectionLong;
 
-    if(!ParseGeoLocusIntersect2(sLine2, sLocusGeoStartLat, sLocusGeoStartLong, sLocusGeoEndLat, sLocusGeoEndLong,
-        sLocusStartLat, sLocusStartLong, sLocusEndLat, sLocusEndLong, sLocusStartDist, sLocusEndDist))
+    if (!ParseGeoLocusIntersect2(sLine2, sLocusGeoStartLat, sLocusGeoStartLong, sLocusGeoEndLat, sLocusGeoEndLong,
+                                 sLocusStartLat, sLocusStartLong, sLocusEndLat, sLocusEndLong, sLocusStartDist,
+                                 sLocusEndDist))
         bPassed = false;
-    else {
-        if(!ParseGeoLocusIntersect3(sLine3, sIntersectionLat, sIntersectionLong))
+    else
+    {
+        if (!ParseGeoLocusIntersect3(sLine3, sIntersectionLat, sIntersectionLong))
             bPassed = false;
-        else {
+        else
+        {
             Locus locus;
             locus.geoStart.Set(Deg2Rad(ParseLatitude(sLocusGeoStartLat)), Deg2Rad(ParseLongitude(sLocusGeoStartLong)));
             locus.geoEnd.Set(Deg2Rad(ParseLatitude(sLocusGeoEndLat)), Deg2Rad(ParseLongitude(sLocusGeoEndLong)));
@@ -161,16 +164,17 @@ bool ParseGeoLocusIntersect(string sLine1, string sLine2, string sLine3)
 
             LLPoint geoStart(Deg2Rad(ParseLatitude(sGeodesicStartLat)), Deg2Rad(ParseLongitude(sGeodesicStartLong)));
             LLPoint geoEnd(Deg2Rad(ParseLatitude(sGeodesicEndLat)), Deg2Rad(ParseLongitude(sGeodesicEndLong)));
-            
+
             LLPoint intersection;
             int nVal = GeoLocusIntersect(geoStart, geoEnd, locus, intersection, kTol, kEps);
-            if(nVal == 0)
+            if (nVal == 0)
             {
-                if(sIntersectionLat.compare("N/A") != 0)
+                if (sIntersectionLat.compare("N/A") != 0)
                 {
                     string sPtIntLat = ConvertLatitudeDdToDms(Rad2Deg(intersection.latitude));
                     string sPtIntLon = ConvertLongitudeDdToDms(Rad2Deg(intersection.longitude));
-                    cout << "\n" << sTestId << "failed: Expected no solution. Calced a solution of Latitude" << sPtIntLat << " and Longitude " << sPtIntLon;
+                    cout << "\n" << sTestId << "failed: Expected no solution. Calced a solution of Latitude" <<
+                    sPtIntLat << " and Longitude " << sPtIntLon;
                     bPassed = false;
                 }
             }
@@ -178,23 +182,29 @@ bool ParseGeoLocusIntersect(string sLine1, string sLine2, string sLine3)
             {
                 string sPtIntLat = ConvertLatitudeDdToDms(Rad2Deg(intersection.latitude));
                 string sPtIntLon = ConvertLongitudeDdToDms(Rad2Deg(intersection.longitude));
-                if(sPtIntLat.compare(sIntersectionLat) != 0)
+                if (sPtIntLat.compare(sIntersectionLat) != 0)
                 {
                     double dLat = Deg2Rad(ParseLatitude(sIntersectionLat));
-                    if(IsApprox(dLat, intersection.latitude, 1e-10))
-                        cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect Latitude: " << sIntersectionLat << " calced: " << sPtIntLat;
-                    else {
-                        cout << "\n" << sTestId << " failed: Expected Intersect latitude: " << sIntersectionLat << "  calced: " << sPtIntLat;
+                    if (IsApprox(dLat, intersection.latitude, 1e-10))
+                        cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect Latitude: " <<
+                        sIntersectionLat << " calced: " << sPtIntLat;
+                    else
+                    {
+                        cout << "\n" << sTestId << " failed: Expected Intersect latitude: " << sIntersectionLat <<
+                        "  calced: " << sPtIntLat;
                         bPassed = false;
                     }
                 }
-                if(sPtIntLon.compare(sIntersectionLong) != 0)
+                if (sPtIntLon.compare(sIntersectionLong) != 0)
                 {
                     double dLon = Deg2Rad(ParseLongitude(sIntersectionLong));
-                    if(IsApprox(dLon, intersection.longitude, 1e-10))
-                        cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect Longitude: " << sIntersectionLong << " calced: " << sPtIntLon;
-                    else {
-                        cout << "\n" << sTestId << " failed: Expected Intersect longitude: " << sIntersectionLong << "  calced: " << sPtIntLon;
+                    if (IsApprox(dLon, intersection.longitude, 1e-10))
+                        cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect Longitude: " <<
+                        sIntersectionLong << " calced: " << sPtIntLon;
+                    else
+                    {
+                        cout << "\n" << sTestId << " failed: Expected Intersect longitude: " << sIntersectionLong <<
+                        "  calced: " << sPtIntLon;
                         bPassed = false;
                     }
                 }
@@ -202,11 +212,11 @@ bool ParseGeoLocusIntersect(string sLine1, string sLine2, string sLine3)
             }
         }
     }
-    return bPassed; 
+    return bPassed;
 }
 
 
-int TestGeoLocusIntersect(const string & sFilePath)
+int TestGeoLocusIntersect(const string &sFilePath)
 {
     ifstream infile;
     infile.exceptions(ifstream::eofbit | ifstream::failbit | ifstream::badbit);
@@ -218,10 +228,10 @@ int TestGeoLocusIntersect(const string & sFilePath)
         string sLine1, sLine2, sLine3;
         infile.open(sFilePath.c_str(), ifstream::in);
 
-        while(!infile.eof())
+        while (!infile.eof())
         {
-            getline(infile, sLine1);            
-            if(sLine1.at(0) == '#')
+            getline(infile, sLine1);
+            if (sLine1.at(0) == '#')
             {
                 nCommentCount++;
             }
@@ -229,8 +239,8 @@ int TestGeoLocusIntersect(const string & sFilePath)
             {
                 getline(infile, sLine2);
                 getline(infile, sLine3);
-                if(!ParseGeoLocusIntersect(sLine1, sLine2, sLine3))
-                    bPassed = false;                
+                if (!ParseGeoLocusIntersect(sLine1, sLine2, sLine3))
+                    bPassed = false;
                 nCount++;
             }
         }
@@ -238,7 +248,7 @@ int TestGeoLocusIntersect(const string & sFilePath)
         return bPassed;
     }
 
-    catch(ifstream::failure e)
+    catch (ifstream::failure e)
     {
         int nError = -99;
         // Per C++ standards for ifstream::failbit with global function getline
@@ -246,15 +256,15 @@ int TestGeoLocusIntersect(const string & sFilePath)
         // that some eofbit cases will also set failbit.
         // In this case the end of the file is read and causes both flags to be raised,
         // so this presumably means all the data has been read correctly.
-        if((infile.rdstate() & ifstream::failbit) && (infile.rdstate() & ifstream::eofbit) != 0)
+        if ((infile.rdstate() & ifstream::failbit) && (infile.rdstate() & ifstream::eofbit) != 0)
             nError = bPassed;
-        else if((infile.rdstate() & ifstream::failbit) != 0)
+        else if ((infile.rdstate() & ifstream::failbit) != 0)
             nError = -1;
-        else if((infile.rdstate() & ifstream::badbit) != 0)
+        else if ((infile.rdstate() & ifstream::badbit) != 0)
             nError = -2;
-        else if((infile.rdstate() & ifstream::eofbit) != 0)
+        else if ((infile.rdstate() & ifstream::eofbit) != 0)
             nError = -3;
-        if(infile.is_open())
+        if (infile.is_open())
             infile.close();
         return nError;
     }

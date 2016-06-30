@@ -1,5 +1,5 @@
 /** \file TestLocusCrsAtPoint.cpp
-*   \brief 
+*   \brief
 */
 
 /****************************************************************************/
@@ -33,8 +33,8 @@ using namespace boost;
 using namespace GeoCalcs;
 using namespace std;
 
-bool ParseLocusCrsAtPointLine2(string sLine2, string & sGeoPtLat, string & sGeoPtLon,
-                               string & sLocusAzToTestPt, string & sTestPtAzToGeoPt)
+bool ParseLocusCrsAtPointLine2(string sLine2, string &sGeoPtLat, string &sGeoPtLon,
+                               string &sLocusAzToTestPt, string &sTestPtAzToGeoPt)
 {
     bool bPassed = true;
     TrimWhitespace(sLine2);
@@ -45,18 +45,19 @@ bool ParseLocusCrsAtPointLine2(string sLine2, string & sGeoPtLat, string & sGeoP
 
     try
     {
-        regex_constants::syntax_option_type flags =  regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
 
         string sRxPat = "[,][A-z]+[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
         sRxPat += "([-+]?[0-9]*[.]?[0-9]+)[,]([-+]?[0-9]*[.]?[0-9]+)";
 
         regex pat(sRxPat, flags);
-        int const sub_matches[] = {1, 2, 3, 4, };
+        int const sub_matches[] = {1, 2, 3, 4,};
         sregex_token_iterator it(sLine2.begin(), sLine2.end(), pat, sub_matches);
-        if(it == sregex_token_iterator())
+        if (it == sregex_token_iterator())
             bPassed = false;
-        else {
+        else
+        {
             sGeoPtLat = *it++;
             sGeoPtLon = *it++;
             sLocusAzToTestPt = *it++;
@@ -64,7 +65,7 @@ bool ParseLocusCrsAtPointLine2(string sLine2, string & sGeoPtLat, string & sGeoP
             bPassed = true;
         }
     }
-    catch(regex_error & e)
+    catch (regex_error &e)
     {
         cout << "\n" << e.what();
         return false;
@@ -73,7 +74,7 @@ bool ParseLocusCrsAtPointLine2(string sLine2, string & sGeoPtLat, string & sGeoP
 }
 
 bool ParseLocusCrsAtPoint(string sLine1, string sLine2)
-{   
+{
     bool bPassed = true;
     TrimWhitespace(sLine1);
     string sTestId, sGeodesicStartLat, sGeodesicStartLong, sGeodesicEndLat, sGeodesicEndLong;
@@ -81,7 +82,7 @@ bool ParseLocusCrsAtPoint(string sLine1, string sLine2)
     string sLocusStartDist, sLocusEndDist, sTestPointLat, sTestPointLong;
     try
     {
-        regex_constants::syntax_option_type flags =  regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
 
         string sRxPat = "([a-z]+|[A-Z]+\\d+)[,]";
         sRxPat += "[A-z]+[,]";
@@ -92,9 +93,9 @@ bool ParseLocusCrsAtPoint(string sLine1, string sLine2)
         sRxPat += "([-+]?[0-9]*[.]?[0-9]+)[,]([-+]?[0-9]*[.]?[0-9]+)[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])";
         regex pat(sRxPat, flags);
-        int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, };
+        int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,};
         sregex_token_iterator it(sLine1.begin(), sLine1.end(), pat, sub_matches);
-        if(it != sregex_token_iterator())
+        if (it != sregex_token_iterator())
         {
             sTestId = *it++;
             sGeodesicStartLat = *it++;
@@ -111,7 +112,7 @@ bool ParseLocusCrsAtPoint(string sLine1, string sLine2)
             sTestPointLong = *it++;
         }
     }
-    catch(regex_error & e)
+    catch (regex_error &e)
     {
         cout << "\n" << e.what();
         return false;
@@ -126,78 +127,92 @@ bool ParseLocusCrsAtPoint(string sLine1, string sLine2)
     locus.endDist = NmToMeters(atof(sLocusEndDist.c_str()));
 
     LLPoint testPt(Deg2Rad(ParseLatitude(sTestPointLat)), Deg2Rad(ParseLongitude(sTestPointLong)));
-    
-    LLPoint  geoPt;
+
+    LLPoint geoPt;
     double dPerpCrs;
     double dLocusCrs = LocusCrsAtPoint(locus, testPt, geoPt, dPerpCrs, 1e-3);
-    if(dLocusCrs < 0.0)
+    if (dLocusCrs < 0.0)
         bPassed = false;
     else
     {
         string soGeoPtLat, soGeoPtLon, soLocusAzToTestPt, soTestPtAzToGeoPt;
-        if(!ParseLocusCrsAtPointLine2(sLine2, soGeoPtLat, soGeoPtLon, soLocusAzToTestPt, soTestPtAzToGeoPt))
+        if (!ParseLocusCrsAtPointLine2(sLine2, soGeoPtLat, soGeoPtLon, soLocusAzToTestPt, soTestPtAzToGeoPt))
             bPassed = false;
-        else {
+        else
+        {
             string sGeoPtLat = ConvertLatitudeDdToDms(Rad2Deg(geoPt.latitude));
-            if(soGeoPtLat.compare(sGeoPtLat) != 0)
+            if (soGeoPtLat.compare(sGeoPtLat) != 0)
             {
                 double dLat = Deg2Rad(ParseLatitude(soGeoPtLat));
-                if(IsApprox(dLat, geoPt.latitude, 1e-10))
+                if (IsApprox(dLat, geoPt.latitude, 1e-10))
                 {
-                    cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Input Geodesic Point Latitude: " << soGeoPtLat << "  calced: " << sGeoPtLat;
-                } else {
-                    cout << "\n" << sTestId << " failed: Expected Computed Geodesic Point Latitude: " << soGeoPtLat << "  calced: " << sGeoPtLat;
+                    cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Input Geodesic Point Latitude: " <<
+                    soGeoPtLat << "  calced: " << sGeoPtLat;
+                }
+                else
+                {
+                    cout << "\n" << sTestId << " failed: Expected Computed Geodesic Point Latitude: " << soGeoPtLat <<
+                    "  calced: " << sGeoPtLat;
                     bPassed = false;
                 }
             }
 
             string sGeoPtLon = ConvertLongitudeDdToDms(Rad2Deg(geoPt.longitude));
-            if(soGeoPtLon.compare(sGeoPtLon) != 0)
+            if (soGeoPtLon.compare(sGeoPtLon) != 0)
             {
                 double dLon = Deg2Rad(ParseLongitude(soGeoPtLon));
-                if(IsApprox(dLon, geoPt.longitude, 1e-10))
+                if (IsApprox(dLon, geoPt.longitude, 1e-10))
                 {
-                    cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Input Geodesic Point Longitude: " << soGeoPtLon << "  calced: " << sGeoPtLon;
-                } else {
-                    cout << "\n" << sTestId << " failed: Expected Computed Geodesic Point Longitude: " << soGeoPtLon << "  calced: " << sGeoPtLon;
+                    cout << "\n" << sTestId <<
+                    " within rounding tolerance of 1e-10: Input Geodesic Point Longitude: " << soGeoPtLon <<
+                    "  calced: " << sGeoPtLon;
+                }
+                else
+                {
+                    cout << "\n" << sTestId << " failed: Expected Computed Geodesic Point Longitude: " << soGeoPtLon <<
+                    "  calced: " << sGeoPtLon;
                     bPassed = false;
                 }
             }
 
             char szBuffer[20];
             sprintf(szBuffer, "%07.5f", Rad2Deg(dPerpCrs));
-            if(soLocusAzToTestPt.compare(szBuffer) != 0)
+            if (soLocusAzToTestPt.compare(szBuffer) != 0)
             {
-                if(IsApprox(dPerpCrs, Deg2Rad(atof(soLocusAzToTestPt.c_str())), 1e-8))
+                if (IsApprox(dPerpCrs, Deg2Rad(atof(soLocusAzToTestPt.c_str())), 1e-8))
                 {
-                    cout << "\n" << sTestId << " within rounding tolerance of 1e-8: Input Locus Azimuth at TestPt: " << soLocusAzToTestPt << "  calced: " << szBuffer;
+                    cout << "\n" << sTestId << " within rounding tolerance of 1e-8: Input Locus Azimuth at TestPt: " <<
+                    soLocusAzToTestPt << "  calced: " << szBuffer;
                 }
                 else
                 {
-                    cout << "\n" << sTestId << " failed: Input Locus Azimuth at TestPt: " << soLocusAzToTestPt << "  calced: " << szBuffer;
+                    cout << "\n" << sTestId << " failed: Input Locus Azimuth at TestPt: " << soLocusAzToTestPt <<
+                    "  calced: " << szBuffer;
                     bPassed = false;
                 }
             }
 
             sprintf(szBuffer, "%07.5f", Rad2Deg(dLocusCrs));
-            if(soTestPtAzToGeoPt.compare(szBuffer) != 0)
+            if (soTestPtAzToGeoPt.compare(szBuffer) != 0)
             {
-                if(IsApprox(dLocusCrs, Deg2Rad(atof(soTestPtAzToGeoPt.c_str())), 1e-8))
+                if (IsApprox(dLocusCrs, Deg2Rad(atof(soTestPtAzToGeoPt.c_str())), 1e-8))
                 {
-                    cout << "\n" << sTestId << " within rounding tolerance of 1e-8: Input TestPt Azimuth to GeoPt: " << soTestPtAzToGeoPt << "  calced: " << szBuffer;
+                    cout << "\n" << sTestId << " within rounding tolerance of 1e-8: Input TestPt Azimuth to GeoPt: " <<
+                    soTestPtAzToGeoPt << "  calced: " << szBuffer;
                 }
                 else
                 {
-                    cout << "\n" << sTestId << " failed: Input TestPt Azimuth to GeoPt: " << soTestPtAzToGeoPt << "  calced: " << szBuffer;
+                    cout << "\n" << sTestId << " failed: Input TestPt Azimuth to GeoPt: " << soTestPtAzToGeoPt <<
+                    "  calced: " << szBuffer;
                     bPassed = false;
                 }
             }
         }
     }
 
-    
-    
-    
+
+
+
     //LLPoint  geoPt;
     //double dPerpCrs;
 
@@ -250,14 +265,14 @@ bool ParseLocusCrsAtPoint(string sLine1, string sLine2)
     //          cout << "\n" << sTestId << "failed: Expected Direct Computed Arc Length: " << sDirectComputedArcLength << "  calced: " << szBuffer;
     //          bPassed = false;
     //      }
-    //  }       
+    //  }
     //}
 
-    return bPassed; 
+    return bPassed;
 }
 
 
-int TestLocusCrsAtPoint(const string & sFilePath)
+int TestLocusCrsAtPoint(const string &sFilePath)
 {
     ifstream infile;
     infile.exceptions(ifstream::eofbit | ifstream::failbit | ifstream::badbit);
@@ -269,18 +284,18 @@ int TestLocusCrsAtPoint(const string & sFilePath)
         string sLine1, sLine2;
         infile.open(sFilePath.c_str(), ifstream::in);
 
-        while(!infile.eof())
+        while (!infile.eof())
         {
-            getline(infile, sLine1);            
-            if(sLine1.at(0) == '#')
+            getline(infile, sLine1);
+            if (sLine1.at(0) == '#')
             {
                 nCommentCount++;
             }
             else
             {
                 getline(infile, sLine2);
-                if(!ParseLocusCrsAtPoint(sLine1, sLine2))
-                    bPassed = false;                
+                if (!ParseLocusCrsAtPoint(sLine1, sLine2))
+                    bPassed = false;
                 nCount++;
             }
         }
@@ -288,7 +303,7 @@ int TestLocusCrsAtPoint(const string & sFilePath)
         return bPassed;
     }
 
-    catch(ifstream::failure e)
+    catch (ifstream::failure e)
     {
         int nError = -99;
         // Per C++ standards for ifstream::failbit with global function getline
@@ -296,15 +311,15 @@ int TestLocusCrsAtPoint(const string & sFilePath)
         // that some eofbit cases will also set failbit.
         // In this case the end of the file is read and causes both flags to be raised,
         // so this presumably means all the data has been read correctly.
-        if((infile.rdstate() & ifstream::failbit) && (infile.rdstate() & ifstream::eofbit) != 0)
+        if ((infile.rdstate() & ifstream::failbit) && (infile.rdstate() & ifstream::eofbit) != 0)
             nError = bPassed;
-        else if((infile.rdstate() & ifstream::failbit) != 0)
+        else if ((infile.rdstate() & ifstream::failbit) != 0)
             nError = -1;
-        else if((infile.rdstate() & ifstream::badbit) != 0)
+        else if ((infile.rdstate() & ifstream::badbit) != 0)
             nError = -2;
-        else if((infile.rdstate() & ifstream::eofbit) != 0)
+        else if ((infile.rdstate() & ifstream::eofbit) != 0)
             nError = -3;
-        if(infile.is_open())
+        if (infile.is_open())
             infile.close();
         return nError;
     }

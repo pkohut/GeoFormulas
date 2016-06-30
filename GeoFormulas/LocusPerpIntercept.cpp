@@ -29,16 +29,16 @@ namespace GeoCalcs {
     /**
     *
     */
-    int LocusPerpIntercept(const Locus & loc, const LLPoint & pt2, double & crsFromPt,
-        double & distFromPt, LLPoint & intPt, double dTol)
+    int LocusPerpIntercept(const Locus &loc, const LLPoint &pt2, double &crsFromPt,
+                           double &distFromPt, LLPoint &intPt, double dTol)
     {
         InverseResult result;
         DistVincenty(loc.geoStart, loc.geoEnd, result);
         double gcrs = result.azimuth;
         double gdist = result.distance;
 
-        if(fabs(loc.startDist - loc.endDist) < dTol)
-        {       
+        if (fabs(loc.startDist - loc.endDist) < dTol)
+        {
             LLPoint geoPt = PerpIntercept(loc.geoStart, gcrs, pt2, crsFromPt, distFromPt, dTol);
             intPt = PointOnLocusP(loc, geoPt, dTol, kEps);
             DistVincenty(pt2, intPt, result);
@@ -66,7 +66,7 @@ namespace GeoCalcs {
         int k = 0;
         int maxCount = 15;
         double newDist = 0.0;
-        while(k == 0 || (!isnan(newDist) && fabs(errarray[1]) > dTol && k < maxCount))
+        while (k == 0 || (!isnan(newDist) && fabs(errarray[1]) > dTol && k < maxCount))
         {
             geoPt = DestVincenty(loc.geoStart, gcrs, distarray[1]);
             locPt = PointOnLocusP(loc /*loc.geoStart*/, geoPt, dTol, kEps);
@@ -80,7 +80,7 @@ namespace GeoCalcs {
 
             double angle = fabs(SignAzimuthDifference(lcrs, crsToPt));
             errarray[1] = -distToPt * cos(angle);
-            if(fabs(errarray[1]) < dTol)
+            if (fabs(errarray[1]) < dTol)
             {
                 distFromPt = distToPt;
                 crsFromPt = result.reverseAzimuth;
@@ -88,7 +88,7 @@ namespace GeoCalcs {
                 break;
             }
 
-            if(k == 0)
+            if (k == 0)
                 newDist = distarray[1] + errarray[1] * cos(locAngle);
             else
                 FindLinearRoot(distarray, errarray, newDist);

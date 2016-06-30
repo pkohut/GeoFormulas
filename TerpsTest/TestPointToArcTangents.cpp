@@ -1,5 +1,5 @@
 /** \file TestPointToArcTangents.cpp
-*   \brief 
+*   \brief
 */
 
 /****************************************************************************/
@@ -41,7 +41,7 @@ bool ParseTestPointToArcTangents(string sString)
     string sTanPt1Lat, sTanPt1Lon, sTanPt2Lat, sTanPt2Lon;
     try
     {
-        regex_constants::syntax_option_type flags =  regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
 
         string sRxPat = "([a-z]+|[A-Z]+\\d+)[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
@@ -52,9 +52,9 @@ bool ParseTestPointToArcTangents(string sString)
 
         regex pat(sRxPat, flags);
 
-        int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10,  };
+        int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10,};
         sregex_token_iterator it(sString.begin(), sString.end(), pat, sub_matches);
-        if(it != sregex_token_iterator())
+        if (it != sregex_token_iterator())
         {
             sTestId = *it++;
             sPointLat = *it++;
@@ -69,7 +69,7 @@ bool ParseTestPointToArcTangents(string sString)
             bPassed = true;
         }
     }
-    catch(regex_error & e)
+    catch (regex_error &e)
     {
         cout << "\n" << e.what();
         return false;
@@ -77,12 +77,12 @@ bool ParseTestPointToArcTangents(string sString)
 
     LLPoint pt(Deg2Rad(ParseLatitude(sPointLat)), Deg2Rad(ParseLongitude(sPointLon)));
     LLPoint arc(Deg2Rad(ParseLatitude(sArcCenterLat)), Deg2Rad(ParseLongitude(sArcCenterLon)));
-    double radius = NmToMeters(atof(sArcRadius.c_str()));   
+    double radius = NmToMeters(atof(sArcRadius.c_str()));
 
     LLPoint tangentPt1;
     LLPoint tangentPt2;
 
-    if(sTanPt1Lat.compare("N/A") != 0)
+    if (sTanPt1Lat.compare("N/A") != 0)
     {
         tangentPt1.Set(Deg2Rad(ParseLatitude(sTanPt1Lat)), Deg2Rad(ParseLongitude(sTanPt1Lon)));
         tangentPt2.Set(Deg2Rad(ParseLatitude(sTanPt2Lat)), Deg2Rad(ParseLongitude(sTanPt2Lon)));
@@ -92,15 +92,17 @@ bool ParseTestPointToArcTangents(string sString)
 
     int nIndex = PointToArcTangents(pt, arc, radius, tanPt1, tanPt2, 1e-8);
 
-    if(nIndex == 0)
+    if (nIndex == 0)
     {
-        if(sTanPt1Lat.compare("N/A") != 0)
+        if (sTanPt1Lat.compare("N/A") != 0)
         {
             bPassed = false;
             cout << "\n" << sTestId << " Failed: Returned with no solution.";
         }
 
-    } else {
+    }
+    else
+    {
 
         string sTan1Lat = ConvertLatitudeDdToDms(Rad2Deg(tanPt1.latitude));
         string sTan1Lon = ConvertLongitudeDdToDms(Rad2Deg(tanPt1.longitude));
@@ -108,50 +110,66 @@ bool ParseTestPointToArcTangents(string sString)
         string sTan2Lon = ConvertLongitudeDdToDms(Rad2Deg(tanPt2.longitude));
 
         double dTol = 1e-10;
-        if(sTan1Lat.compare(sTanPt1Lat) != 0)
+        if (sTan1Lat.compare(sTanPt1Lat) != 0)
         {
             double dLat = Deg2Rad(ParseLatitude(sTanPt1Lat));
-            if(IsApprox(dLat, tanPt1.latitude, dTol))
+            if (IsApprox(dLat, tanPt1.latitude, dTol))
             {
-                cout << "\n" << sTestId << " within rounding tolerance of " << dTol << ": Input Tangent pt 1 latitude: " << sTanPt1Lat << "  calced: " << sTan1Lat;
-            } else {
-                cout << "\n" << sTestId << " failed: Expected Tangent pt 1 latitude: " << sTanPt1Lat << "  calced: " << sTan1Lat;
+                cout << "\n" << sTestId << " within rounding tolerance of " << dTol <<
+                ": Input Tangent pt 1 latitude: " << sTanPt1Lat << "  calced: " << sTan1Lat;
+            }
+            else
+            {
+                cout << "\n" << sTestId << " failed: Expected Tangent pt 1 latitude: " << sTanPt1Lat << "  calced: " <<
+                sTan1Lat;
                 bPassed = false;
             }
         }
 
-        if(sTan1Lon.compare(sTanPt1Lon) != 0)
+        if (sTan1Lon.compare(sTanPt1Lon) != 0)
         {
             double dLon = Deg2Rad(ParseLongitude(sTanPt1Lon));
-            if(IsApprox(dLon, tanPt1.longitude, dTol))
+            if (IsApprox(dLon, tanPt1.longitude, dTol))
             {
-                cout << "\n" << sTestId << " within rounding tolerance of " << dTol << ": Input Tangent pt 1 longitude: " << sTanPt1Lon << "  calced: " << sTan1Lon;
-            } else {
-                cout << "\n" << sTestId << " failed: Expected Tangent pt 1 longitude: " << sTanPt1Lon << "  calced: " << sTan1Lon;
+                cout << "\n" << sTestId << " within rounding tolerance of " << dTol <<
+                ": Input Tangent pt 1 longitude: " << sTanPt1Lon << "  calced: " << sTan1Lon;
+            }
+            else
+            {
+                cout << "\n" << sTestId << " failed: Expected Tangent pt 1 longitude: " << sTanPt1Lon << "  calced: " <<
+                sTan1Lon;
                 bPassed = false;
             }
         }
 
-        if(sTan2Lat.compare(sTanPt2Lat) != 0)
+        if (sTan2Lat.compare(sTanPt2Lat) != 0)
         {
             double dLat = Deg2Rad(ParseLatitude(sTanPt2Lat));
-            if(IsApprox(dLat, tanPt2.latitude, dTol))
+            if (IsApprox(dLat, tanPt2.latitude, dTol))
             {
-                cout << "\n" << sTestId << " within rounding tolerance of " << dTol << ": Input Tangent pt 2 latitude: " << sTanPt2Lat << "  calced: " << sTan2Lat;
-            } else {
-                cout << "\n" << sTestId << " failed: Expected Tangent pt 2 latitude: " << sTanPt2Lat << "  calced: " << sTan2Lat;
+                cout << "\n" << sTestId << " within rounding tolerance of " << dTol <<
+                ": Input Tangent pt 2 latitude: " << sTanPt2Lat << "  calced: " << sTan2Lat;
+            }
+            else
+            {
+                cout << "\n" << sTestId << " failed: Expected Tangent pt 2 latitude: " << sTanPt2Lat << "  calced: " <<
+                sTan2Lat;
                 bPassed = false;
             }
         }
 
-        if(sTan2Lon.compare(sTanPt2Lon) != 0)
+        if (sTan2Lon.compare(sTanPt2Lon) != 0)
         {
             double dLon = Deg2Rad(ParseLongitude(sTanPt2Lon));
-            if(IsApprox(dLon, tanPt2.longitude, dTol))
+            if (IsApprox(dLon, tanPt2.longitude, dTol))
             {
-                cout << "\n" << sTestId << " within rounding tolerance of " << dTol << ": Input Tangent pt 2 longitude: " << sTanPt2Lon << "  calced: " << sTan2Lon;
-            } else {
-                cout << "\n" << sTestId << " failed: Expected Tangent pt 2 longitude: " << sTanPt2Lon << "  calced: " << sTan2Lon;
+                cout << "\n" << sTestId << " within rounding tolerance of " << dTol <<
+                ": Input Tangent pt 2 longitude: " << sTanPt2Lon << "  calced: " << sTan2Lon;
+            }
+            else
+            {
+                cout << "\n" << sTestId << " failed: Expected Tangent pt 2 longitude: " << sTanPt2Lon << "  calced: " <<
+                sTan2Lon;
                 bPassed = false;
             }
         }
@@ -160,11 +178,10 @@ bool ParseTestPointToArcTangents(string sString)
     }
 
 
-
-    return bPassed; 
+    return bPassed;
 }
 
-int TestPointToArcTangents(const string & sFilePath)
+int TestPointToArcTangents(const string &sFilePath)
 {
     ifstream infile;
     infile.exceptions(ifstream::eofbit | ifstream::failbit | ifstream::badbit);
@@ -176,16 +193,16 @@ int TestPointToArcTangents(const string & sFilePath)
         string sLine;
         infile.open(sFilePath.c_str(), ifstream::in);
 
-        while(!infile.eof())
+        while (!infile.eof())
         {
-            getline(infile, sLine);         
-            if(sLine.at(0) == '#')
+            getline(infile, sLine);
+            if (sLine.at(0) == '#')
             {
                 nCommentCount++;
             }
             else
             {
-                if(!ParseTestPointToArcTangents(sLine))
+                if (!ParseTestPointToArcTangents(sLine))
                     bPassed = false;
                 nCount++;
             }
@@ -194,7 +211,7 @@ int TestPointToArcTangents(const string & sFilePath)
         return bPassed;
     }
 
-    catch(ifstream::failure e)
+    catch (ifstream::failure e)
     {
         int nError = -99;
         // Per C++ standards for ifstream::failbit with global function getline
@@ -202,15 +219,15 @@ int TestPointToArcTangents(const string & sFilePath)
         // that some eofbit cases will also set failbit.
         // In this case the end of the file is read and causes both flags to be raised,
         // so this presumably means all the data has been read correctly.
-        if((infile.rdstate() & ifstream::failbit) && (infile.rdstate() & ifstream::eofbit) != 0)
+        if ((infile.rdstate() & ifstream::failbit) && (infile.rdstate() & ifstream::eofbit) != 0)
             nError = bPassed;
-        else if((infile.rdstate() & ifstream::failbit) != 0)
+        else if ((infile.rdstate() & ifstream::failbit) != 0)
             nError = -1;
-        else if((infile.rdstate() & ifstream::badbit) != 0)
+        else if ((infile.rdstate() & ifstream::badbit) != 0)
             nError = -2;
-        else if((infile.rdstate() & ifstream::eofbit) != 0)
+        else if ((infile.rdstate() & ifstream::eofbit) != 0)
             nError = -3;
-        if(infile.is_open())
+        if (infile.is_open())
             infile.close();
         return nError;
     }

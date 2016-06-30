@@ -1,5 +1,5 @@
 /** \file TestLocusArcIntersect.cpp
-*   \brief 
+*   \brief
 */
 
 /****************************************************************************/
@@ -33,23 +33,23 @@ using namespace boost;
 using namespace GeoCalcs;
 using namespace std;
 
-bool ParseLocusArcIntersect3(string sLine3, string & sIntersection1Lat, string & sIntersection1Lon,
-                             string & sIntersection2Lat, string & sIntersection2Lon)
+bool ParseLocusArcIntersect3(string sLine3, string &sIntersection1Lat, string &sIntersection1Lon,
+                             string &sIntersection2Lat, string &sIntersection2Lon)
 {
     bool bPassed = false;
     TrimWhitespace(sLine3);
     try
     {
-        regex_constants::syntax_option_type flags =  regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
 
         string sRxPat = "[,][A-z]+[,]";
         sRxPat += "([N/A]+|[0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([N/A]+|[0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
         sRxPat += "([N/A]+|[0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([N/A]+|[0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
 
         regex pat(sRxPat, flags);
-        int const sub_matches[] = {1, 2, 3, 4, };
+        int const sub_matches[] = {1, 2, 3, 4,};
         sregex_token_iterator it(sLine3.begin(), sLine3.end(), pat, sub_matches);
-        if(it != sregex_token_iterator())
+        if (it != sregex_token_iterator())
         {
             sIntersection1Lat = *it++;
             sIntersection1Lon = *it++;
@@ -58,7 +58,7 @@ bool ParseLocusArcIntersect3(string sLine3, string & sIntersection1Lat, string &
             bPassed = true;
         }
     }
-    catch(regex_error & e)
+    catch (regex_error &e)
     {
         cout << "\n" << e.what();
         return false;
@@ -67,10 +67,10 @@ bool ParseLocusArcIntersect3(string sLine3, string & sIntersection1Lat, string &
 
 }
 
-bool ParseLocusArcIntersect1(string sLine1, string & sTestId, string & sGeoStartLat, string & sGeoStartLon,
-                             string & sGeoEndLat, string & sGeoEndLon,
-                             string & sLocusStartLat, string & sLocusStartLon, string & sLocusEndLat, string & sLocusEndLon,
-                             string & sLocusStartDist, string & sLocusEndDist)
+bool ParseLocusArcIntersect1(string sLine1, string &sTestId, string &sGeoStartLat, string &sGeoStartLon,
+                             string &sGeoEndLat, string &sGeoEndLon,
+                             string &sLocusStartLat, string &sLocusStartLon, string &sLocusEndLat, string &sLocusEndLon,
+                             string &sLocusStartDist, string &sLocusEndDist)
 {
     bool bPassed = false;
     TrimWhitespace(sLine1);
@@ -79,7 +79,7 @@ bool ParseLocusArcIntersect1(string sLine1, string & sTestId, string & sGeoStart
     //string sLocusStartDist, sLocusEndDist, sTestPointLat, sTestPointLong;
     try
     {
-        regex_constants::syntax_option_type flags =  regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
 
         string sRxPat = "([a-z]+|[A-Z]+\\d+)[,]";
         sRxPat += "[A-z ]+[,]";
@@ -92,7 +92,7 @@ bool ParseLocusArcIntersect1(string sLine1, string & sTestId, string & sGeoStart
         regex pat(sRxPat, flags);
         int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
         sregex_token_iterator it(sLine1.begin(), sLine1.end(), pat, sub_matches);
-        if(it != sregex_token_iterator())
+        if (it != sregex_token_iterator())
         {
             sTestId = *it++;
             sGeoStartLat = *it++;
@@ -108,7 +108,7 @@ bool ParseLocusArcIntersect1(string sLine1, string & sTestId, string & sGeoStart
             bPassed = true;
         }
     }
-    catch(regex_error & e)
+    catch (regex_error &e)
     {
         cout << "\n" << e.what();
         return false;
@@ -116,30 +116,30 @@ bool ParseLocusArcIntersect1(string sLine1, string & sTestId, string & sGeoStart
     return bPassed;
 }
 
-bool ParseLocusArcIntersect2(string sLine2, string & sArcCenterLat, string & sArcCenterLon, string & sArcRadius)
+bool ParseLocusArcIntersect2(string sLine2, string &sArcCenterLat, string &sArcCenterLon, string &sArcRadius)
 {
     bool bPassed = true;
     TrimWhitespace(sLine2);
 
     try
     {
-        regex_constants::syntax_option_type flags =  regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
 
         string sRxPat = "[,][A-z ]+[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
         sRxPat += "([-+]?[0-9]*[.]?[0-9]+).";
 
         regex pat(sRxPat, flags);
-        int const sub_matches[] = {1, 2, 3, };
+        int const sub_matches[] = {1, 2, 3,};
         sregex_token_iterator it(sLine2.begin(), sLine2.end(), pat, sub_matches);
-        if(it != sregex_token_iterator())
+        if (it != sregex_token_iterator())
         {
             sArcCenterLat = *it++;
             sArcCenterLon = *it++;
             sArcRadius = *it++;
         }
     }
-    catch(regex_error & e)
+    catch (regex_error &e)
     {
         cout << "\n" << e.what();
         return false;
@@ -149,7 +149,7 @@ bool ParseLocusArcIntersect2(string sLine2, string & sArcCenterLat, string & sAr
 }
 
 bool ParseLocusArcIntersect(string sLine1, string sLine2, string sLine3)
-{   
+{
     bool bPassed = true;
 
     string sLocusGeoStartLat, sLocusGeoStartLong, sLocusGeoEndLat, sLocusGeoEndLong;
@@ -159,14 +159,16 @@ bool ParseLocusArcIntersect(string sLine1, string sLine2, string sLine3)
     string sArcCenterLat, sArcCenterLon, sArcRadius;
     string sTestId;
 
-    if(!ParseLocusArcIntersect1(sLine1, sTestId, sLocusGeoStartLat, sLocusGeoStartLong, sLocusGeoEndLat, sLocusGeoEndLong,
-        sLocusStartLat, sLocusStartLong, sLocusEndLat, sLocusEndLong, sLocusStartDist, sLocusEndDist))
+    if (!ParseLocusArcIntersect1(sLine1, sTestId, sLocusGeoStartLat, sLocusGeoStartLong, sLocusGeoEndLat,
+                                 sLocusGeoEndLong,
+                                 sLocusStartLat, sLocusStartLong, sLocusEndLat, sLocusEndLong, sLocusStartDist,
+                                 sLocusEndDist))
         return false;
 
-    if(!ParseLocusArcIntersect2(sLine2, sArcCenterLat, sArcCenterLon, sArcRadius))
+    if (!ParseLocusArcIntersect2(sLine2, sArcCenterLat, sArcCenterLon, sArcRadius))
         return false;
 
-    if(!ParseLocusArcIntersect3(sLine3, sIntersection1Lat, sIntersection1Long, sIntersection2Lat, sIntersection2Long))
+    if (!ParseLocusArcIntersect3(sLine3, sIntersection1Lat, sIntersection1Long, sIntersection2Lat, sIntersection2Long))
         return false;
 
     Locus locus;
@@ -181,30 +183,30 @@ bool ParseLocusArcIntersect(string sLine1, string sLine2, string sLine3)
     double arcRadius = NmToMeters(atof(sArcRadius.c_str()));
 
     LLPoint intersection1, intersection2;
-    if(sTestId.compare("test61") == 0)
+    if (sTestId.compare("test61") == 0)
     {
         int x = 0;
         x++;
     }
     int nVal = LocusArcIntersect(locus, arcCenter, arcRadius, intersection1, intersection2, kTol, kEps);
-    if(nVal == 0)
+    if (nVal == 0)
     {
-        if(sIntersection1Lat.compare("N/A") != 0 || sIntersection2Lat.compare("N/A") != 0)
+        if (sIntersection1Lat.compare("N/A") != 0 || sIntersection2Lat.compare("N/A") != 0)
         {
-//          string sPtIntLat = ConvertLatitudeDdToDms(Rad2Deg(intersection1.latitude));
-//          string sPtIntLon = ConvertLongitudeDdToDms(Rad2Deg(intersection1.longitude));
+            //          string sPtIntLat = ConvertLatitudeDdToDms(Rad2Deg(intersection1.latitude));
+            //          string sPtIntLon = ConvertLongitudeDdToDms(Rad2Deg(intersection1.longitude));
             cout << "\n" << sTestId << "failed: Expected at least one solution, none found";
             bPassed = false;
         }
     }
-    else if(nVal == 1)
+    else if (nVal == 1)
     {
-        if(sIntersection1Lat.compare("N/A") == 0 && sIntersection2Lat.compare("N/A") == 0)
+        if (sIntersection1Lat.compare("N/A") == 0 && sIntersection2Lat.compare("N/A") == 0)
         {
             cout << "\n" << sTestId << "failed: Expected no solutions. Found only 1 solution";
             bPassed = false;
         }
-        else if(sIntersection1Lat.compare("N/A") != 0 && sIntersection2Lat.compare("N/A") != 0)
+        else if (sIntersection1Lat.compare("N/A") != 0 && sIntersection2Lat.compare("N/A") != 0)
         {
             cout << "\n" << sTestId << "failed: Expected 2 solutions. Found only 1 solution";
             bPassed = false;
@@ -213,23 +215,29 @@ bool ParseLocusArcIntersect(string sLine1, string sLine2, string sLine3)
         {
             string sPtIntLat = ConvertLatitudeDdToDms(Rad2Deg(intersection1.latitude));
             string sPtIntLon = ConvertLongitudeDdToDms(Rad2Deg(intersection1.longitude));
-            if(sPtIntLat.compare(sIntersection1Lat) != 0)
+            if (sPtIntLat.compare(sIntersection1Lat) != 0)
             {
                 double dLat = Deg2Rad(ParseLatitude(sIntersection1Lat));
-                if(IsApprox(dLat, intersection1.latitude, 1e-10))
-                    cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect 1 Latitude: " << sIntersection1Lat << " calced: " << sPtIntLat;
-                else {
-                    cout << "\n" << sTestId << " failed: Expected Intersect 1 latitude: " << sIntersection1Lat << "  calced: " << sPtIntLat;
+                if (IsApprox(dLat, intersection1.latitude, 1e-10))
+                    cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect 1 Latitude: " <<
+                    sIntersection1Lat << " calced: " << sPtIntLat;
+                else
+                {
+                    cout << "\n" << sTestId << " failed: Expected Intersect 1 latitude: " << sIntersection1Lat <<
+                    "  calced: " << sPtIntLat;
                     bPassed = false;
                 }
             }
-            if(sPtIntLon.compare(sIntersection1Long) != 0)
+            if (sPtIntLon.compare(sIntersection1Long) != 0)
             {
                 double dLon = Deg2Rad(ParseLongitude(sIntersection1Long));
-                if(IsApprox(dLon, intersection1.longitude, 1e-10))
-                    cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect 1 Longitude: " << sIntersection1Long << " calced: " << sPtIntLon;
-                else {
-                    cout << "\n" << sTestId << " failed: Expected Intersect 1 longitude: " << sIntersection1Long << "  calced: " << sPtIntLon;
+                if (IsApprox(dLon, intersection1.longitude, 1e-10))
+                    cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect 1 Longitude: " <<
+                    sIntersection1Long << " calced: " << sPtIntLon;
+                else
+                {
+                    cout << "\n" << sTestId << " failed: Expected Intersect 1 longitude: " << sIntersection1Long <<
+                    "  calced: " << sPtIntLon;
                     bPassed = false;
                 }
             }
@@ -239,57 +247,69 @@ bool ParseLocusArcIntersect(string sLine1, string sLine2, string sLine3)
     {
         string sPtIntLat = ConvertLatitudeDdToDms(Rad2Deg(intersection1.latitude));
         string sPtIntLon = ConvertLongitudeDdToDms(Rad2Deg(intersection1.longitude));
-        if(sPtIntLat.compare(sIntersection1Lat) != 0)
+        if (sPtIntLat.compare(sIntersection1Lat) != 0)
         {
             double dLat = Deg2Rad(ParseLatitude(sIntersection1Lat));
-            if(IsApprox(dLat, intersection1.latitude, 1e-10))
-                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect 1 Latitude: " << sIntersection1Lat << " calced: " << sPtIntLat;
-            else {
-                cout << "\n" << sTestId << " failed: Expected Intersect 1 latitude: " << sIntersection1Lat << "  calced: " << sPtIntLat;
+            if (IsApprox(dLat, intersection1.latitude, 1e-10))
+                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect 1 Latitude: " <<
+                sIntersection1Lat << " calced: " << sPtIntLat;
+            else
+            {
+                cout << "\n" << sTestId << " failed: Expected Intersect 1 latitude: " << sIntersection1Lat <<
+                "  calced: " << sPtIntLat;
                 bPassed = false;
             }
         }
-        if(sPtIntLon.compare(sIntersection1Long) != 0)
+        if (sPtIntLon.compare(sIntersection1Long) != 0)
         {
             double dLon = Deg2Rad(ParseLongitude(sIntersection1Long));
-            if(IsApprox(dLon, intersection1.longitude, 1e-10))
-                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect 1 Longitude: " << sIntersection1Long << " calced: " << sPtIntLon;
-            else {
-                cout << "\n" << sTestId << " failed: Expected Intersect 1 longitude: " << sIntersection1Long << "  calced: " << sPtIntLon;
+            if (IsApprox(dLon, intersection1.longitude, 1e-10))
+                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect 1 Longitude: " <<
+                sIntersection1Long << " calced: " << sPtIntLon;
+            else
+            {
+                cout << "\n" << sTestId << " failed: Expected Intersect 1 longitude: " << sIntersection1Long <<
+                "  calced: " << sPtIntLon;
                 bPassed = false;
             }
         }
 
         sPtIntLat = ConvertLatitudeDdToDms(Rad2Deg(intersection2.latitude));
         sPtIntLon = ConvertLongitudeDdToDms(Rad2Deg(intersection2.longitude));
-        if(sPtIntLat.compare(sIntersection2Lat) != 0)
+        if (sPtIntLat.compare(sIntersection2Lat) != 0)
         {
             double dLat = Deg2Rad(ParseLatitude(sIntersection2Lat));
-            if(IsApprox(dLat, intersection2.latitude, 1e-10))
-                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect 2 Latitude: " << sIntersection2Lat << " calced: " << sPtIntLat;
-            else {
-                cout << "\n" << sTestId << " failed: Expected Intersect 2 latitude: " << sIntersection2Lat << "  calced: " << sPtIntLat;
+            if (IsApprox(dLat, intersection2.latitude, 1e-10))
+                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect 2 Latitude: " <<
+                sIntersection2Lat << " calced: " << sPtIntLat;
+            else
+            {
+                cout << "\n" << sTestId << " failed: Expected Intersect 2 latitude: " << sIntersection2Lat <<
+                "  calced: " << sPtIntLat;
                 bPassed = false;
             }
         }
-        if(sPtIntLon.compare(sIntersection2Long) != 0)
+        if (sPtIntLon.compare(sIntersection2Long) != 0)
         {
             double dLon = Deg2Rad(ParseLongitude(sIntersection2Long));
-            if(IsApprox(dLon, intersection2.longitude, 1e-10))
-                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect 2 Longitude: " << sIntersection2Long << " calced: " << sPtIntLon;
-            else {
-                cout << "\n" << sTestId << " failed: Expected Intersect 2 longitude: " << sIntersection2Long << "  calced: " << sPtIntLon;
+            if (IsApprox(dLon, intersection2.longitude, 1e-10))
+                cout << "\n" << sTestId << " within rounding tolerance of 1e-10: Intersect 2 Longitude: " <<
+                sIntersection2Long << " calced: " << sPtIntLon;
+            else
+            {
+                cout << "\n" << sTestId << " failed: Expected Intersect 2 longitude: " << sIntersection2Long <<
+                "  calced: " << sPtIntLon;
                 bPassed = false;
             }
         }
 
 
     }
-    return bPassed; 
+    return bPassed;
 }
 
 
-int TestLocusArcIntersect(const string & sFilePath)
+int TestLocusArcIntersect(const string &sFilePath)
 {
     ifstream infile;
     infile.exceptions(ifstream::eofbit | ifstream::failbit | ifstream::badbit);
@@ -301,10 +321,10 @@ int TestLocusArcIntersect(const string & sFilePath)
         string sLine1, sLine2, sLine3;
         infile.open(sFilePath.c_str(), ifstream::in);
 
-        while(!infile.eof())
+        while (!infile.eof())
         {
-            getline(infile, sLine1);            
-            if(sLine1.at(0) == '#')
+            getline(infile, sLine1);
+            if (sLine1.at(0) == '#')
             {
                 nCommentCount++;
             }
@@ -312,8 +332,8 @@ int TestLocusArcIntersect(const string & sFilePath)
             {
                 getline(infile, sLine2);
                 getline(infile, sLine3);
-                if(!ParseLocusArcIntersect(sLine1, sLine2, sLine3))
-                    bPassed = false;                
+                if (!ParseLocusArcIntersect(sLine1, sLine2, sLine3))
+                    bPassed = false;
                 nCount++;
             }
         }
@@ -321,7 +341,7 @@ int TestLocusArcIntersect(const string & sFilePath)
         return bPassed;
     }
 
-    catch(ifstream::failure e)
+    catch (ifstream::failure e)
     {
         int nError = -99;
         // Per C++ standards for ifstream::failbit with global function getline
@@ -329,15 +349,15 @@ int TestLocusArcIntersect(const string & sFilePath)
         // that some eofbit cases will also set failbit.
         // In this case the end of the file is read and causes both flags to be raised,
         // so this presumably means all the data has been read correctly.
-        if((infile.rdstate() & ifstream::failbit) && (infile.rdstate() & ifstream::eofbit) != 0)
+        if ((infile.rdstate() & ifstream::failbit) && (infile.rdstate() & ifstream::eofbit) != 0)
             nError = bPassed;
-        else if((infile.rdstate() & ifstream::failbit) != 0)
+        else if ((infile.rdstate() & ifstream::failbit) != 0)
             nError = -1;
-        else if((infile.rdstate() & ifstream::badbit) != 0)
+        else if ((infile.rdstate() & ifstream::badbit) != 0)
             nError = -2;
-        else if((infile.rdstate() & ifstream::eofbit) != 0)
+        else if ((infile.rdstate() & ifstream::eofbit) != 0)
             nError = -3;
-        if(infile.is_open())
+        if (infile.is_open())
             infile.close();
         return nError;
     }

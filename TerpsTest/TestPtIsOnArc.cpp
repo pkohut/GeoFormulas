@@ -1,5 +1,5 @@
 /** \file TestPtIsOnArc.cpp
-*   \brief 
+*   \brief
 */
 
 /****************************************************************************/
@@ -41,7 +41,7 @@ bool ParseTestPtIsOnArc(string sString)
     string soTestPtLat, soTestPtLong, soResult;
     try
     {
-        regex_constants::syntax_option_type flags =  regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
 
         string sRxPat = "([a-z]+|[A-Z]+\\d+)[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
@@ -52,9 +52,9 @@ bool ParseTestPtIsOnArc(string sString)
 
         regex pat(sRxPat, flags);
 
-        int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, };
+        int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10,};
         sregex_token_iterator it(sString.begin(), sString.end(), pat, sub_matches);
-        if(it != sregex_token_iterator())
+        if (it != sregex_token_iterator())
         {
             soTestId = *it++;
             soArcCenterLat = *it++;
@@ -68,7 +68,7 @@ bool ParseTestPtIsOnArc(string sString)
             soResult = *it++;
         }
     }
-    catch(regex_error & e)
+    catch (regex_error &e)
     {
         cout << "\n" << e.what();
         return false;
@@ -77,22 +77,23 @@ bool ParseTestPtIsOnArc(string sString)
 
     int result;
     LLPoint llTestPt(Deg2Rad(ParseLatitude(soTestPtLat)), Deg2Rad(ParseLongitude(soTestPtLong)));
-    if(!PtIsOnArc(LLPoint(Deg2Rad(ParseLatitude(soArcCenterLat)), Deg2Rad(ParseLongitude(soArcCenterLong))),
-        NmToMeters(atof(soArcRadius.c_str())), Deg2Rad(atof(soArcStartAzimuth.c_str())), Deg2Rad(atof(soArcEndAzimuth.c_str())),
-        atoi(soArcDirection.c_str()), llTestPt, result))
+    if (!PtIsOnArc(LLPoint(Deg2Rad(ParseLatitude(soArcCenterLat)), Deg2Rad(ParseLongitude(soArcCenterLong))),
+                   NmToMeters(atof(soArcRadius.c_str())), Deg2Rad(atof(soArcStartAzimuth.c_str())),
+                   Deg2Rad(atof(soArcEndAzimuth.c_str())),
+                   atoi(soArcDirection.c_str()), llTestPt, result))
         bPassed = false;
     else
     {
-        if(result != atoi(soResult.c_str()))
+        if (result != atoi(soResult.c_str()))
         {
             cout << "\n" << soTestId << " failed: Input result: " << soResult << "  calced: " << result;
             bPassed = false;
         }
     }
-    return bPassed; 
+    return bPassed;
 }
 
-int TestPtIsOnArc(const string & sFilePath)
+int TestPtIsOnArc(const string &sFilePath)
 {
     ifstream infile;
     infile.exceptions(ifstream::eofbit | ifstream::failbit | ifstream::badbit);
@@ -104,16 +105,16 @@ int TestPtIsOnArc(const string & sFilePath)
         string sLine;
         infile.open(sFilePath.c_str(), ifstream::in);
 
-        while(!infile.eof())
+        while (!infile.eof())
         {
-            getline(infile, sLine);         
-            if(sLine.at(0) == '#')
+            getline(infile, sLine);
+            if (sLine.at(0) == '#')
             {
                 nCommentCount++;
             }
             else
             {
-                if(!ParseTestPtIsOnArc(sLine))
+                if (!ParseTestPtIsOnArc(sLine))
                     bPassed = false;
                 nCount++;
             }
@@ -122,7 +123,7 @@ int TestPtIsOnArc(const string & sFilePath)
         return bPassed;
     }
 
-    catch(ifstream::failure e)
+    catch (ifstream::failure e)
     {
         int nError = -99;
         // Per C++ standards for ifstream::failbit with global function getline
@@ -130,15 +131,15 @@ int TestPtIsOnArc(const string & sFilePath)
         // that some eofbit cases will also set failbit.
         // In this case the end of the file is read and causes both flags to be raised,
         // so this presumably means all the data has been read correctly.
-        if((infile.rdstate() & ifstream::failbit) && (infile.rdstate() & ifstream::eofbit) != 0)
+        if ((infile.rdstate() & ifstream::failbit) && (infile.rdstate() & ifstream::eofbit) != 0)
             nError = bPassed;
-        else if((infile.rdstate() & ifstream::failbit) != 0)
+        else if ((infile.rdstate() & ifstream::failbit) != 0)
             nError = -1;
-        else if((infile.rdstate() & ifstream::badbit) != 0)
+        else if ((infile.rdstate() & ifstream::badbit) != 0)
             nError = -2;
-        else if((infile.rdstate() & ifstream::eofbit) != 0)
+        else if ((infile.rdstate() & ifstream::eofbit) != 0)
             nError = -3;
-        if(infile.is_open())
+        if (infile.is_open())
             infile.close();
         return nError;
     }

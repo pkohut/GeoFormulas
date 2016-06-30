@@ -29,8 +29,8 @@ namespace GeoCalcs {
     /**
     *
     */
-    int GeoLocusIntersect(const LLPoint & gStart, const LLPoint & gEnd, const Locus & loc, LLPoint & intersect,
-        double dTol, double dEps)
+    int GeoLocusIntersect(const LLPoint &gStart, const LLPoint &gEnd, const Locus &loc, LLPoint &intersect,
+                          double dTol, double dEps)
     {
         LLPoint pt1;
         double gAz, crs31, dist13;
@@ -45,8 +45,8 @@ namespace GeoCalcs {
         locStAz = result.azimuth;
         double locLength = result.distance;
 
-        if(!CrsIntersect(loc.locusStart, locStAz, crs31, dist13, gStart, gAz, crs32, dist23, dTol, pt1))
-            return 0;   
+        if (!CrsIntersect(loc.locusStart, locStAz, crs31, dist13, gStart, gAz, crs32, dist23, dTol, pt1))
+            return 0;
 
         double distBase = dist23;
         double crsBase = crs32;
@@ -70,7 +70,7 @@ namespace GeoCalcs {
 
         int k = 0;
         int maxCount = 10;
-        while( !isnan(distBase) && fabs(errarray[1]) > dTol && k < maxCount )
+        while (!isnan(distBase) && fabs(errarray[1]) > dTol && k < maxCount)
         {
             pt1 = DestVincenty(gStart, fcrs, distBase);
             errarray[0] = errarray[1];
@@ -94,7 +94,7 @@ namespace GeoCalcs {
         // If 5e-3 is to tight a tolerance then try setting to 5e-2
         // For the 8260.54A Appendix test cases 1e-3 was to tight, 5e-3
         // works just fine.
-        if(!IsNearZero(locLength - (distLocStPt1 + distLocEndPt1), 5e-3))
+        if (!IsNearZero(locLength - (distLocStPt1 + distLocEndPt1), 5e-3))
             return 0;
         return 1;
     }

@@ -29,8 +29,8 @@ namespace GeoCalcs {
     /**
     *
     */
-    int LocusIntersect(const Locus & loc1, const Locus & loc2, LLPoint & intersect,
-        double dTol, double dEps)
+    int LocusIntersect(const Locus &loc1, const Locus &loc2, LLPoint &intersect,
+                       double dTol, double dEps)
     {
         InverseResult result;
         DistVincenty(loc1.locusStart, loc1.locusEnd, result);
@@ -40,7 +40,7 @@ namespace GeoCalcs {
         double crs2 = result.azimuth;
 
         LLPoint p1;
-        if(!CrsIntersect(loc1.locusStart, crs1, loc2.locusStart, crs2, dTol, p1))
+        if (!CrsIntersect(loc1.locusStart, crs1, loc2.locusStart, crs2, dTol, p1))
             return 0;
 
         DistVincenty(loc1.geoStart, loc1.geoEnd, result);
@@ -53,9 +53,9 @@ namespace GeoCalcs {
         LLPoint pint1 = PerpIntercept(loc1.geoStart, tcrs1, p1, dCrsFromPt, dDistFromP, dTol);
         PtIsOnGeodesicResult ptResult;
         bool bVal = PtIsOnGeodesic(loc1.geoStart, loc1.geoEnd, pint1, 0, ptResult);
-        if(!bVal)
+        if (!bVal)
             return 0;
-        if(!ptResult.result)
+        if (!ptResult.result)
             return 0;
 
         DistVincenty(loc1.geoStart, pint1, result);
@@ -70,9 +70,9 @@ namespace GeoCalcs {
         double errarray[2];
         distarray[0] = distarray[1] = errarray[0] = errarray[1] = 0.0;
 
-        while( (k == 0) || (!isnan(distbase) && k < maxCount && fabs(dErr) > dTol))
+        while ((k == 0) || (!isnan(distbase) && k < maxCount && fabs(dErr) > dTol))
         {
-            if(k > 0)
+            if (k > 0)
                 pint1 = DestVincenty(loc1.geoStart, tcrs1, distbase);
             ploc1 = PointOnLocusP(loc1, pint1, dTol, dEps);
             LLPoint pint2 = PerpIntercept(loc2.geoStart, tcrs2, ploc1, dCrsFromPt, dDistFromP, dTol);
@@ -85,12 +85,14 @@ namespace GeoCalcs {
             errarray[1] = dErr;
             distarray[0] = distarray[1];
             distarray[1] = distbase;
-            if(k == 0)
+            if (k == 0)
             {
                 pint1 = PerpIntercept(loc1.geoStart, tcrs1, ploc2, dCrsFromPt, dDistFromP, dTol);
                 DistVincenty(loc1.geoStart, pint1, result);
                 distbase = result.distance;
-            } else {
+            }
+            else
+            {
                 FindLinearRoot(distarray, errarray, distbase);
             }
             k++;
@@ -98,10 +100,10 @@ namespace GeoCalcs {
 
         LLPoint projPt;
         bVal = PtIsOnLocus(loc1, ploc1, projPt, 1e-6);
-        if(!bVal)
+        if (!bVal)
             return 0;
         bVal = PtIsOnLocus(loc2, ploc2, projPt, 1e-6);
-        if(!bVal)
+        if (!bVal)
             return 0;
         intersect = ploc1;
 

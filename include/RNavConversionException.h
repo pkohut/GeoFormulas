@@ -1,5 +1,5 @@
 /** \file RNavConversionException.h
-*   \brief 
+*   \brief
 */
 
 /****************************************************************************/
@@ -22,16 +22,21 @@
 /****************************************************************************/
 
 #pragma once
+
 #include <iostream>
 #include <exception>
 
-class CRNavConversionException : public std::exception
-{
+class CRNavConversionException : public std::exception {
 public:
-//  CRNavConversionException(void) {}
-    CRNavConversionException(std::string sEx) : m_sEx(sEx) {}
-    virtual ~CRNavConversionException(void) {}
+    //  CRNavConversionException(void) {}
+    CRNavConversionException(std::string sEx) : m_sEx(sEx)
+    { }
 
-    const char * what() const throw() { return m_sEx.c_str(); }
+    virtual ~CRNavConversionException(void)
+    { }
+
+    const char *what() const throw()
+    { return m_sEx.c_str(); }
+
     std::string m_sEx;
 };

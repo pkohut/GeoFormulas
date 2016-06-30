@@ -1,5 +1,5 @@
 /** \file VectorMath.h
-*   \brief 
+*   \brief
 */
 
 /****************************************************************************/
@@ -22,37 +22,40 @@
 /****************************************************************************/
 
 #pragma once
+
 #include <math.h>
 
 namespace VMath {
-    
+
     class GEOAPI Vector3
-    {
-    public:
-        Vector3()
-        {
-            x = y = z = 0.0;
-        }
-        Vector3(double _x, double _y, double _z)
-        {
-            x = _x; y = _y; z = _z;
-        }
+            {
+                    public:
+                    Vector3()
+                    {
+                        x = y = z = 0.0;
+                    }
+                    Vector3(double _x, double _y, double _z)
+                    {
+                        x = _x;
+                        y = _y;
+                        z = _z;
+                    }
 
-        friend Vector3 operator-(const Vector3 & v1, const Vector3 & v2)
-        {
-            return Vector3(v2.x - v1.x, v2.y - v1.y, v2.z - v1.z);
-        }
+                    friend Vector3 operator-(const Vector3 & v1, const Vector3 & v2)
+                    {
+                        return Vector3(v2.x - v1.x, v2.y - v1.y, v2.z - v1.z);
+                    }
 
-        static double Length(const Vector3 & v)
-        {
-            return sqrt(Dot(v, v));
-        }
+                    static double Length(const Vector3 & v)
+                    {
+                        return sqrt(Dot(v, v));
+                    }
 
-        static double Dot(const Vector3 & u, const Vector3 & v)
-        {
-            return (u.x * v.x) + (u.y * v.y) + (u.z * v.z);
-        }
+                    static double Dot(const Vector3 & u, const Vector3 & v)
+                    {
+                        return (u.x * v.x) + (u.y * v.y) + (u.z * v.z);
+                    }
 
-        double x, y, z;
-    };
+                    double x, y, z;
+            };
 }

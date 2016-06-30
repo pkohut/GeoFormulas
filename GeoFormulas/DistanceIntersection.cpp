@@ -29,18 +29,18 @@ namespace GeoCalcs {
     /**
     *
     */
-    int DistanceIntersection(const LLPoint & pt1, double dist13, const LLPoint & pt2, double dist23,
-        LLPoint & intPtC1, LLPoint & intPtC2, double dTol)
+    int DistanceIntersection(const LLPoint &pt1, double dist13, const LLPoint &pt2, double dist23,
+                             LLPoint &intPtC1, LLPoint &intPtC2, double dTol)
     {
         InverseResult result;
         DistVincenty(pt1, pt2, result);
         double dist12 = result.distance;
         double crs12 = result.azimuth;
 
-        if( (dist13 + dist23 - dist12 + dTol < 0) ||
+        if ((dist13 + dist23 - dist12 + dTol < 0) ||
             fabs(dist13 - dist23) > dist12)
             return 0;
-        if(fabs(dist13 + dist23 - dist12) <= dTol)
+        if (fabs(dist13 + dist23 - dist12) <= dTol)
         {
             intPtC1 = DestVincenty(pt1, crs12, dist13);
             return 1;
@@ -56,7 +56,7 @@ namespace GeoCalcs {
         double sinB_R = sin(b / kSphereRadius);
         double sinC_R = sin(c / kSphereRadius);
 
-        double A = acos( (cosA_R - cosB_R * cosC_R) / (sinB_R * sinC_R) );
+        double A = acos((cosA_R - cosB_R * cosC_R) / (sinB_R * sinC_R));
 
         intPtC1 = DestVincenty(pt1, crs12 - A, dist13);
         intPtC2 = DestVincenty(pt1, crs12 + A, dist13);

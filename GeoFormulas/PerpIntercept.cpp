@@ -29,8 +29,8 @@ namespace GeoCalcs {
     /**
     *
     */
-    LLPoint PerpIntercept(const LLPoint & llPt1, double dCrs13, const LLPoint & llPt2,
-        double & dCrsFromPt, double & dDistFromPt, double dTol)
+    LLPoint PerpIntercept(const LLPoint &llPt1, double dCrs13, const LLPoint &llPt2,
+                          double &dCrsFromPt, double &dDistFromPt, double dTol)
     {
         InverseResult result;
         LLPoint pt1 = llPt1;
@@ -43,7 +43,7 @@ namespace GeoCalcs {
 
         double dAngle = fabs(SignAzimuthDifference(crs13, crs12));
 
-        if(dist12 <= dTol)
+        if (dist12 <= dTol)
         {
             // pt1, pt2 and projected pt3 are all the same;
             dCrsFromPt = dDistFromPt = 0.0;
@@ -52,7 +52,7 @@ namespace GeoCalcs {
         double dA = dist12 / kSphereRadius;
         double dist13 = kSphereRadius * atan(tan(dA) * fabs(cos(dAngle)));
 
-        if(dAngle > M_PI_2)
+        if (dAngle > M_PI_2)
         {
             LLPoint newPoint;
             newPoint = DestVincenty(pt1, crs13 + M_PI, dist13 + NmToMeters(150.0));
@@ -62,7 +62,7 @@ namespace GeoCalcs {
             crs13 = result.azimuth;
             pt1 = newPoint;
         }
-        else if(fabs(dist13) < NmToMeters(150.0))
+        else if (fabs(dist13) < NmToMeters(150.0))
         {
             LLPoint newPoint;
             newPoint = DestVincenty(pt1, crs13 + M_PI, NmToMeters(150.0));
@@ -87,7 +87,7 @@ namespace GeoCalcs {
         double distarray[2];
         errarray[0] = dAngle - M_PI;
         distarray[0] = dist13;
-        distarray[1] = fabs(distarray[0]+errarray[0] * dist23);
+        distarray[1] = fabs(distarray[0] + errarray[0] * dist23);
 
 
         pt3 = DestVincenty(pt1, crs13, distarray[1]);
@@ -102,11 +102,11 @@ namespace GeoCalcs {
         int k = 0;
         double dError = 0;
 
-        while(k == 0 || ((dError > dTol) && (k < 15)))
+        while (k == 0 || ((dError > dTol) && (k < 15)))
         {
             double oldDist13 = dist13;
             FindLinearRoot(distarray, errarray, dist13);
-            if(isnan(dist13))
+            if (isnan(dist13))
                 dist13 = oldDist13;
             pt3 = DestVincenty(pt1, crs13, dist13);
 

@@ -30,17 +30,25 @@ namespace GeoCalcs {
     /**
     *
     */
-    void FindLinearRoot( double *x, double *errArray, double & root )
-    {       
-        if(x[0] == x[1]) {
+    void FindLinearRoot(double *x, double *errArray, double &root)
+    {
+        if (x[0] == x[1])
+        {
             root = std::numeric_limits<double>::signaling_NaN();
-        } else if(errArray[0] == errArray[1]) {
-            if(IsNearZero(errArray[0] - errArray[1], 1e-15)) {
+        }
+        else if (errArray[0] == errArray[1])
+        {
+            if (IsNearZero(errArray[0] - errArray[1], 1e-15))
+            {
                 root = x[0];
-            } else {            
+            }
+            else
+            {
                 root = numeric_limits<double>::signaling_NaN();
             }
-        } else {
+        }
+        else
+        {
             root = -errArray[0] * (x[1] - x[0]) / (errArray[1] - errArray[0]) + x[0];
         }
     }
