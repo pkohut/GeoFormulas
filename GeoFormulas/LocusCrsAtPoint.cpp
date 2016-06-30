@@ -1,9 +1,9 @@
-/**	\file LocusCrsAtPoint.cpp
-*	\brief 
+/** \file LocusCrsAtPoint.cpp
+*   \brief 
 */
 
 /****************************************************************************/
-/*	LocusCrsAtPoint.cpp													*/
+/*  LocusCrsAtPoint.cpp                                                 */
 /****************************************************************************/
 /*                                                                          */
 /*  Copyright 2008 - 2010 Paul Kohut                                        */
@@ -26,38 +26,38 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	double LocusCrsAtPoint(const Locus & locus, const LLPoint & testPt, LLPoint & geoPt, double & dPerpCrs, const double dTol)
-	{
-		if(!PtIsOnLocus(locus, testPt, geoPt, dTol))
-			return -1.0;
+    /**
+    *
+    */
+    double LocusCrsAtPoint(const Locus & locus, const LLPoint & testPt, LLPoint & geoPt, double & dPerpCrs, const double dTol)
+    {
+        if(!PtIsOnLocus(locus, testPt, geoPt, dTol))
+            return -1.0;
 
-		double dLocusCrs = 0.0;
-		double dPerpDist;
+        double dLocusCrs = 0.0;
+        double dPerpDist;
 
-		InverseResult result;
-		DistVincenty(testPt, geoPt, result);
-		dPerpCrs = result.azimuth;
-		dPerpDist = result.distance;
+        InverseResult result;
+        DistVincenty(testPt, geoPt, result);
+        dPerpCrs = result.azimuth;
+        dPerpDist = result.distance;
 
-		DistVincenty(locus.geoStart, locus.geoEnd, result);
-		double dGeoLen = result.distance;
+        DistVincenty(locus.geoStart, locus.geoEnd, result);
+        double dGeoLen = result.distance;
 
-		double dDistToLocus = DistToLocusP(locus, geoPt, dTol, kEps);
-		double dSlope = atan((locus.endDist - locus.startDist) / dGeoLen);
+        double dDistToLocus = DistToLocusP(locus, geoPt, dTol, kEps);
+        double dSlope = atan((locus.endDist - locus.startDist) / dGeoLen);
 
-		dPerpCrs = dPerpCrs + dSlope;
+        dPerpCrs = dPerpCrs + dSlope;
 
-		if(dDistToLocus < 0)
-			dLocusCrs = dPerpCrs - M_PI_2;
-		else
-			dLocusCrs = dPerpCrs + M_PI_2;
+        if(dDistToLocus < 0)
+            dLocusCrs = dPerpCrs - M_PI_2;
+        else
+            dLocusCrs = dPerpCrs + M_PI_2;
 
-		if(dLocusCrs > M_2PI)
-			dLocusCrs = dLocusCrs - M_2PI;
+        if(dLocusCrs > M_2PI)
+            dLocusCrs = dLocusCrs - M_2PI;
 
-		return dLocusCrs;
-	}
+        return dLocusCrs;
+    }
 }

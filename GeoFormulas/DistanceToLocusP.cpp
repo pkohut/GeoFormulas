@@ -1,9 +1,9 @@
-/**	\file DistanceToLocusP.cpp
-*	\brief 
+/** \file DistanceToLocusP.cpp
+*   \brief 
 */
 
 /****************************************************************************/
-/*	DistanceToLocusP.cpp													*/
+/*  DistanceToLocusP.cpp                                                    */
 /****************************************************************************/
 /*                                                                          */
 /*  Copyright 2008 - 2010 Paul Kohut                                        */
@@ -27,13 +27,13 @@
 using namespace std;
 
 namespace GeoCalcs {
-	double DistToLocusP(const Locus & loc, const LLPoint & geoPt, double dTtol, double eps)
-	{
-		InverseResult result;
+    double DistToLocusP(const Locus & loc, const LLPoint & geoPt, double dTtol, double eps)
+    {
+        InverseResult result;
 
-		if(!DistVincenty(loc.geoStart, geoPt, result))
-			return numeric_limits<double>::signaling_NaN();
+        if(!DistVincenty(loc.geoStart, geoPt, result))
+            return numeric_limits<double>::signaling_NaN();
 
-		return DistToLocusD(loc, result.distance, eps);
-	}
+        return DistToLocusD(loc, result.distance, eps);
+    }
 }

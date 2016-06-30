@@ -1,9 +1,9 @@
-/**	\file DistToLocusD.cpp
-*	\brief 
+/** \file DistToLocusD.cpp
+*   \brief 
 */
 
 /****************************************************************************/
-/*	DistToLocusD.cpp													*/
+/*  DistToLocusD.cpp                                                    */
 /****************************************************************************/
 /*                                                                          */
 /*  Copyright 2008 - 2010 Paul Kohut                                        */
@@ -27,21 +27,21 @@
 using namespace std;
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	double DistToLocusD(const Locus & loc, double dDistance, double dEps)
-	{
-		InverseResult result;
-		double distToLoc = 0.0;
+    /**
+    *
+    */
+    double DistToLocusD(const Locus & loc, double dDistance, double dEps)
+    {
+        InverseResult result;
+        double distToLoc = 0.0;
 
-		if(!DistVincenty(loc.geoStart, loc.geoEnd, result))
-			distToLoc = numeric_limits<double>::signaling_NaN();
-		double geoLen = result.distance;
-		if(geoLen > 0.0)
-		{
-			distToLoc = loc.startDist + (dDistance / geoLen) * (loc.endDist - loc.startDist);
-		}
-		return distToLoc;
-	}
+        if(!DistVincenty(loc.geoStart, loc.geoEnd, result))
+            distToLoc = numeric_limits<double>::signaling_NaN();
+        double geoLen = result.distance;
+        if(geoLen > 0.0)
+        {
+            distToLoc = loc.startDist + (dDistance / geoLen) * (loc.endDist - loc.startDist);
+        }
+        return distToLoc;
+    }
 }

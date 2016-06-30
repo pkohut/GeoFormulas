@@ -1,9 +1,9 @@
-/**	\file PtIsOnArc.cpp
-*	\brief 
+/** \file PtIsOnArc.cpp
+*   \brief 
 */
 
 /****************************************************************************/
-/*	PtIsOnArc.cpp													*/
+/*  PtIsOnArc.cpp                                                   */
 /****************************************************************************/
 /*                                                                          */
 /*  Copyright 2008 - 2010 Paul Kohut                                        */
@@ -26,42 +26,42 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	bool PtIsOnArc( const LLPoint & llArcCenter, double dArcRadius,
-		double dArcStartAzimuth, double dArcEndAzimuth, int nArcDirection,
-		const LLPoint & llTestPt, int & bOnArc )
+    /**
+    *
+    */
+    bool PtIsOnArc( const LLPoint & llArcCenter, double dArcRadius,
+        double dArcStartAzimuth, double dArcEndAzimuth, int nArcDirection,
+        const LLPoint & llTestPt, int & bOnArc )
 
-	{
-		InverseResult invResult;
-		if(!DistVincenty(llArcCenter, llTestPt, invResult))
-			return false;
-		double dDist = invResult.distance;
-		double dCrs = invResult.azimuth;
+    {
+        InverseResult invResult;
+        if(!DistVincenty(llArcCenter, llTestPt, invResult))
+            return false;
+        double dDist = invResult.distance;
+        double dCrs = invResult.azimuth;
 
-		bOnArc = false;
+        bOnArc = false;
 
-		if(fabs(dDist - dArcRadius) > 0.5e-3) //Tol())
-			bOnArc = false;
-		else {
-			double dArcExtent = GetArcExtent(dArcStartAzimuth, dArcEndAzimuth, nArcDirection, kTol);
+        if(fabs(dDist - dArcRadius) > 0.5e-3) //Tol())
+            bOnArc = false;
+        else {
+            double dArcExtent = GetArcExtent(dArcStartAzimuth, dArcEndAzimuth, nArcDirection, kTol);
 
-			if(dArcExtent == M_2PI)
-				bOnArc = true;
-			else
-			{
-				double dSubExtent = GetArcExtent(dArcStartAzimuth, dCrs, nArcDirection, kTol);
+            if(dArcExtent == M_2PI)
+                bOnArc = true;
+            else
+            {
+                double dSubExtent = GetArcExtent(dArcStartAzimuth, dCrs, nArcDirection, kTol);
 
-				if(nArcDirection > 0) {
-					if(dSubExtent <= dArcExtent)
-						bOnArc = true;
-				} else {
-					if(dSubExtent >= dArcExtent)
-						bOnArc = true;
-				}
-			}		
-		}
-		return true;
-	}
+                if(nArcDirection > 0) {
+                    if(dSubExtent <= dArcExtent)
+                        bOnArc = true;
+                } else {
+                    if(dSubExtent >= dArcExtent)
+                        bOnArc = true;
+                }
+            }       
+        }
+        return true;
+    }
 }

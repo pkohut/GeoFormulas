@@ -1,9 +1,9 @@
-/**	\file SignAzimuthDifference.cpp
-*	\brief 
+/** \file SignAzimuthDifference.cpp
+*   \brief 
 */
 
 /****************************************************************************/
-/*	SignAzimuthDifference.cpp													*/
+/*  SignAzimuthDifference.cpp                                                   */
 /****************************************************************************/
 /*                                                                          */
 /*  Copyright 2008 - 2010 Paul Kohut                                        */
@@ -26,11 +26,11 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	double SignAzimuthDifference(double az1, double az2)
-	{
-		return Mod(az1 - az2 + M_PI, M_2PI) - M_PI;
-	}
+    /**
+    *
+    */
+    double SignAzimuthDifference(double az1, double az2)
+    {
+        return Mod(az1 - az2 + M_PI, M_2PI) - M_PI;
+    }
 }

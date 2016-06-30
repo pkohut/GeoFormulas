@@ -1,9 +1,9 @@
-/**	\file GeometricMeanMeridional.cpp
-*	\brief 
+/** \file GeometricMeanMeridional.cpp
+*   \brief 
 */
 
 /****************************************************************************/
-/*	GeometricMeanMeridional.cpp													*/
+/*  GeometricMeanMeridional.cpp                                                 */
 /****************************************************************************/
 /*                                                                          */
 /*  Copyright 2008 - 2010 Paul Kohut                                        */
@@ -26,11 +26,11 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	double GeometricMeanMeridional( double dAngle )
-	{
-		return kSemiMajorAxis * (1.0 - keSq) / pow(1 - keSq * (sin(dAngle) * sin(dAngle)), 1.5);
-	}
+    /**
+    *
+    */
+    double GeometricMeanMeridional( double dAngle )
+    {
+        return kSemiMajorAxis * (1.0 - keSq) / pow(1 - keSq * (sin(dAngle) * sin(dAngle)), 1.5);
+    }
 }

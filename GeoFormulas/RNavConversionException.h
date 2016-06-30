@@ -1,9 +1,9 @@
-/**	\file RNavConversionException.h
-*	\brief 
+/** \file RNavConversionException.h
+*   \brief 
 */
 
 /****************************************************************************/
-/*	RNavConversionException.h												*/
+/*  RNavConversionException.h                                               */
 /****************************************************************************/
 /*                                                                          */
 /*  Copyright 2008 - 2010 Paul Kohut                                        */
@@ -28,10 +28,10 @@
 class CRNavConversionException : public std::exception
 {
 public:
-//	CRNavConversionException(void) {}
-	CRNavConversionException(std::string sEx) : m_sEx(sEx) {}
-	virtual ~CRNavConversionException(void) {}
+//  CRNavConversionException(void) {}
+    CRNavConversionException(std::string sEx) : m_sEx(sEx) {}
+    virtual ~CRNavConversionException(void) {}
 
-	const char * what() const throw() { return m_sEx.c_str(); }
-	std::string m_sEx;
+    const char * what() const throw() { return m_sEx.c_str(); }
+    std::string m_sEx;
 };

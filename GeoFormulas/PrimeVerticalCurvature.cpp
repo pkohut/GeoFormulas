@@ -1,9 +1,9 @@
-/**	\file PrimeVerticalCurvature.cpp
-*	\brief 
+/** \file PrimeVerticalCurvature.cpp
+*   \brief 
 */
 
 /****************************************************************************/
-/*	PrimeVerticalCurvature.cpp													*/
+/*  PrimeVerticalCurvature.cpp                                                  */
 /****************************************************************************/
 /*                                                                          */
 /*  Copyright 2008 - 2010 Paul Kohut                                        */
@@ -26,11 +26,11 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	double PrimeVerticalCurvature( double dAngle )
-	{
-		return kSemiMajorAxis / sqrt(1.0 - keSq * (sin(dAngle) * sin(dAngle)));
-	}
+    /**
+    *
+    */
+    double PrimeVerticalCurvature( double dAngle )
+    {
+        return kSemiMajorAxis / sqrt(1.0 - keSq * (sin(dAngle) * sin(dAngle)));
+    }
 }

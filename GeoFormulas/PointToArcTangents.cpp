@@ -1,9 +1,9 @@
-/**	\file PointToArcTangents.cpp
-*	\brief 
+/** \file PointToArcTangents.cpp
+*   \brief 
 */
 
 /****************************************************************************/
-/*	PointToArcTangents.cpp													*/
+/*  PointToArcTangents.cpp                                                  */
 /****************************************************************************/
 /*                                                                          */
 /*  Copyright 2008 - 2010 Paul Kohut                                        */
@@ -26,68 +26,68 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	int PointToArcTangents(const LLPoint & point, const LLPoint & center, double radius,
-		LLPoint & tanPt1, LLPoint & tanPt2, double dTol)
-	{
-		InverseResult result;
-		DistVincenty(point, center, result);
-		//        double crsToCenter = result.azimuth;
-		double crsFromCenter = result.reverseAzimuth;
-		double distToCenter = result.distance;
+    /**
+    *
+    */
+    int PointToArcTangents(const LLPoint & point, const LLPoint & center, double radius,
+        LLPoint & tanPt1, LLPoint & tanPt2, double dTol)
+    {
+        InverseResult result;
+        DistVincenty(point, center, result);
+        //        double crsToCenter = result.azimuth;
+        double crsFromCenter = result.reverseAzimuth;
+        double distToCenter = result.distance;
 
-		if(fabs(distToCenter - radius) < dTol)
-		{
-			tanPt1 = point;
-			return 1;
-		}
+        if(fabs(distToCenter - radius) < dTol)
+        {
+            tanPt1 = point;
+            return 1;
+        }
 
-		if(distToCenter < radius)
-		{
-			return 0;
-		}
+        if(distToCenter < radius)
+        {
+            return 0;
+        }
 
-		double a = distToCenter / kSphereRadius;
-		double b = radius / kSphereRadius;
-		double c = acos(tan(b) / tan(a));
-		//        double orgC = c;
-		int k = 0;
-		int maxCount = 15;
-		double dErr = 0.0;
-		while(k == 0 || (fabs(dErr) > dTol && k < maxCount))
-		{
-			tanPt1 = DestVincenty(center, crsFromCenter + c, radius);
-			DistVincenty(tanPt1, center, result);
-			double radCrs = result.azimuth;
+        double a = distToCenter / kSphereRadius;
+        double b = radius / kSphereRadius;
+        double c = acos(tan(b) / tan(a));
+        //        double orgC = c;
+        int k = 0;
+        int maxCount = 15;
+        double dErr = 0.0;
+        while(k == 0 || (fabs(dErr) > dTol && k < maxCount))
+        {
+            tanPt1 = DestVincenty(center, crsFromCenter + c, radius);
+            DistVincenty(tanPt1, center, result);
+            double radCrs = result.azimuth;
 
-			DistVincenty(tanPt1, point, result);
-			double tanCrs = result.azimuth;
-			double diff = SignAzimuthDifference(radCrs, tanCrs);
-			dErr = fabs(diff) - M_PI_2;
-			c = c + dErr;
-			k++;
-		}
+            DistVincenty(tanPt1, point, result);
+            double tanCrs = result.azimuth;
+            double diff = SignAzimuthDifference(radCrs, tanCrs);
+            dErr = fabs(diff) - M_PI_2;
+            c = c + dErr;
+            k++;
+        }
 
-		k = 0;
-		dErr = 0.0;
+        k = 0;
+        dErr = 0.0;
 
-		while(k == 0 || (fabs(dErr) > dTol && k < maxCount))
-		{
-			tanPt2 = DestVincenty(center, crsFromCenter - c, radius);
-			DistVincenty(tanPt2, center, result);
-			double radCrs = result.azimuth;
+        while(k == 0 || (fabs(dErr) > dTol && k < maxCount))
+        {
+            tanPt2 = DestVincenty(center, crsFromCenter - c, radius);
+            DistVincenty(tanPt2, center, result);
+            double radCrs = result.azimuth;
 
-			DistVincenty(tanPt2, point, result);
-			double tanCrs = result.azimuth;
-			double diff = SignAzimuthDifference(radCrs, tanCrs);
-			dErr = fabs(diff) - M_PI_2;
-			c = c + dErr;
-			k++;
-		}
+            DistVincenty(tanPt2, point, result);
+            double tanCrs = result.azimuth;
+            double diff = SignAzimuthDifference(radCrs, tanCrs);
+            dErr = fabs(diff) - M_PI_2;
+            c = c + dErr;
+            k++;
+        }
 
 
-		return 1;
-	}
+        return 1;
+    }
 }

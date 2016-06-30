@@ -1,9 +1,9 @@
-/**	\file Mod.cpp
-*	\brief 
+/** \file Mod.cpp
+*   \brief 
 */
 
 /****************************************************************************/
-/*	Mod.cpp													*/
+/*  Mod.cpp                                                 */
 /****************************************************************************/
 /*                                                                          */
 /*  Copyright 2008 - 2010 Paul Kohut                                        */
@@ -26,14 +26,14 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	double Mod(double a, double b)
-	{
-		double mod = a - b * int(a / b);
-		if(mod < 0)
-			mod = mod + b;
-		return mod;
-	}
+    /**
+    *
+    */
+    double Mod(double a, double b)
+    {
+        double mod = a - b * int(a / b);
+        if(mod < 0)
+            mod = mod + b;
+        return mod;
+    }
 }

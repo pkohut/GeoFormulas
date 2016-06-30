@@ -1,9 +1,9 @@
-/**	\file ECEF.cpp
-*	\brief 
+/** \file ECEF.cpp
+*   \brief 
 */
 
 /****************************************************************************/
-/*	ECEF.cpp													*/
+/*  ECEF.cpp                                                    */
 /****************************************************************************/
 /*                                                                          */
 /*  Copyright 2008 - 2010 Paul Kohut                                        */
@@ -26,18 +26,18 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	VMath::Vector3 ECEF( const LLPoint & llPt, double dAltitude )
-	{
-		VMath::Vector3 pt;
-		double dPrimeVerticalCurvature = PrimeVerticalCurvature(llPt.latitude);
-		double dCosLat = cos(llPt.latitude);
+    /**
+    *
+    */
+    VMath::Vector3 ECEF( const LLPoint & llPt, double dAltitude )
+    {
+        VMath::Vector3 pt;
+        double dPrimeVerticalCurvature = PrimeVerticalCurvature(llPt.latitude);
+        double dCosLat = cos(llPt.latitude);
 
-		pt.x = (dPrimeVerticalCurvature + dAltitude) * dCosLat * cos(llPt.longitude);
-		pt.y = (dPrimeVerticalCurvature + dAltitude) * dCosLat * sin(llPt.longitude);
-		pt.z = ((1.0 - keSq) * dPrimeVerticalCurvature + dAltitude) * sin(llPt.latitude);
-		return pt;
-	}
+        pt.x = (dPrimeVerticalCurvature + dAltitude) * dCosLat * cos(llPt.longitude);
+        pt.y = (dPrimeVerticalCurvature + dAltitude) * dCosLat * sin(llPt.longitude);
+        pt.z = ((1.0 - keSq) * dPrimeVerticalCurvature + dAltitude) * sin(llPt.latitude);
+        return pt;
+    }
 }
