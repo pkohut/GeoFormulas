@@ -47,14 +47,16 @@ namespace GeoCalcs {
             else if (i == 1)
                 pt = intPtC2;
             else
+                // only calculate the first 2 intersections
                 break;
 
-            int k = 0;
             InverseResult result;
             DistVincenty(center2, pt, result);
+
             double crs2x = result.azimuth;
             pt = DestVincenty(center2, crs2x, radius2);
             DistVincenty(center1, pt, result);
+
             double dist1x = result.distance;
             double crs1x = result.azimuth;
             double dErr = radius1 - dist1x;
@@ -62,6 +64,8 @@ namespace GeoCalcs {
             double crsarray[2];
             errarray[1] = dErr;
             crsarray[1] = crs1x;
+
+            int k = 0;
             while (k <= 10 && !isnan(crs1x) && fabs(errarray[1]) > dTol)
             {
                 pt = DestVincenty(center1, crs1x, radius1);
@@ -78,14 +82,12 @@ namespace GeoCalcs {
                 FindLinearRoot(crsarray, errarray, crs1x);
                 k++;
             }
+
             if (i == 0)
                 intPtC1 = pt;
-            else if (i == 1)
-                intPtC2 = pt;
             else
-                break;
+                intPtC2 = pt;
         }
-
         return nIntersects;
     }
 }
