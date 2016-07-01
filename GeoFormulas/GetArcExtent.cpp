@@ -31,24 +31,19 @@ namespace GeoCalcs {
     */
     double GetArcExtent(double dStartCrs, double dEndCrs, const int nOrientation, double dTol)
     {
-        double dstartCrs = dStartCrs;
-        double dendCrs = dEndCrs;
-        if (fabs(dstartCrs - dendCrs) < dTol)
+        if (fabs(dStartCrs - dEndCrs) < dTol)
             return M_2PI;
+
         if (nOrientation < 0)
         {
-            double dTemp = dstartCrs;
-            dstartCrs = dendCrs;
-            dendCrs = dTemp;
+            std::swap(dStartCrs, dEndCrs);
         }
-        double dAngle;
-        if (dstartCrs > dendCrs)
-            dAngle = dstartCrs - dendCrs;
-        else
-            dAngle = M_2PI + dstartCrs - dendCrs;
+
+        double dAngle = dStartCrs > dEndCrs ? dStartCrs - dEndCrs : M_2PI + dStartCrs - dEndCrs;
+
         if (nOrientation < 0)
             dAngle = -dAngle;
-        return dAngle;
 
+        return dAngle;
     }
 }
