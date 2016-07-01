@@ -38,52 +38,49 @@ namespace GeoCalcs {
         double crs12 = result.azimuth;
 
         DistVincenty(loc1.geoStart, loc1.geoEnd, result);
-        double gcrs1 = result.azimuth;
+        double geoCrs1 = result.azimuth;
         double geoLen1 = result.distance;
 
         DistVincenty(loc2.locusEnd, loc2.locusStart, result);
         double crs32 = result.azimuth + M_PI;
 
-        int nVal = TangentFixedRadiusArc(loc1.locusStart, crs12, loc2.locusEnd, crs32, radius, dir, center,
-                                         intersection1, intersection2, dTol);
-        if (nVal == 0)
+        if (TangentFixedRadiusArc(loc1.locusStart, crs12, loc2.locusEnd, crs32,
+                                  radius, dir, center, intersection1, intersection2, dTol) == 0)
             return 0;
 
         DistVincenty(center, intersection1, result);
         double rcrs1 = result.azimuth;
+
         DistVincenty(center, intersection2, result);
         double rcrs2 = result.azimuth;
 
-        double angle = fabs(SignAzimuthDifference(rcrs1, rcrs2));
-
-        double vertexAngle = 2 * acos(sin(angle / 2.0) * cos(radius / kSphereRadius));
-
-        double locAngle = atan((loc1.endDist - loc1.startDist) / geoLen1);
-
         double dCrsFromPt, dDistFromPt;
-        LLPoint geoPt1 = PerpIntercept(loc1.geoStart, gcrs1, intersection1, dCrsFromPt, dDistFromPt, dTol);
+        LLPoint geoPt1 = PerpIntercept(loc1.geoStart, geoCrs1, intersection1, dCrsFromPt, dDistFromPt, dTol);
 
         DistVincenty(loc1.geoStart, geoPt1, result);
         double distbase = result.distance;
 
+        double angle = fabs(SignAzimuthDifference(rcrs1, rcrs2));
+        double vertexAngle = 2 * acos(sin(angle / 2.0) * cos(radius / kSphereRadius));
+        double locAngle = atan((loc1.endDist - loc1.startDist) / geoLen1);
+
+        double distarray[2], errarray[2];
+        distarray[0] = distarray[1] = errarray[0] = errarray[1] = 0.0;
+
         int k = 0;
         int maxCount = 15;
         double dErr = 0.0;
-        double distarray[2];
-        double errarray[2];
-        distarray[0] = distarray[1] = errarray[0] = errarray[1] = 0.0;
+
         while (k == 0 || (!isnan(distbase) && k < maxCount && fabs(dErr) > dTol))
         {
             if (k > 0)
             {
-                geoPt1 = DestVincenty(loc1.geoStart, gcrs1, distbase);
+                geoPt1 = DestVincenty(loc1.geoStart, geoCrs1, distbase);
             }
+
             intersection1 = PointOnLocusP(loc1, geoPt1, dTol, dEps);
             LLPoint geoPt;
-            double dPerpCrs;
-            double lcrs1 = LocusCrsAtPoint(loc1, intersection1, geoPt, dPerpCrs, 1e-8); //dTol);
-            lcrs1 = lcrs1 - dir * M_PI_2;
-
+            double lcrs1 = LocusCrsAtPoint(loc1, intersection1, geoPt, 1e-8) - dir * M_PI_2;
             center = DestVincenty(intersection1, lcrs1, radius);
 
             if (!LocusPerpIntercept(loc2, center, dCrsFromPt, dDistFromPt, intersection2, dTol))
@@ -92,9 +89,7 @@ namespace GeoCalcs {
             }
 
             DistVincenty(center, intersection2, result);
-            double r2 = result.distance;
-
-            dErr = r2 - radius;
+            dErr = result.distance - radius;
             distarray[0] = distarray[1];
             distarray[1] = distbase;
             errarray[0] = errarray[1];
