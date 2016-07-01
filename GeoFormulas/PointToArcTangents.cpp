@@ -34,59 +34,51 @@ namespace GeoCalcs {
     {
         InverseResult result;
         DistVincenty(point, center, result);
-        //        double crsToCenter = result.azimuth;
-        double crsFromCenter = result.reverseAzimuth;
-        double distToCenter = result.distance;
+        const double crsFromCenter = result.reverseAzimuth;
 
-        if (fabs(distToCenter - radius) < dTol)
+        if (fabs(result.distance - radius) < dTol)
         {
             tanPt1 = point;
             return 1;
         }
 
-        if (distToCenter < radius)
+        if (result.distance < radius)
         {
             return 0;
         }
 
-        double a = distToCenter / kSphereRadius;
-        double b = radius / kSphereRadius;
+        const double a = result.distance / kSphereRadius;
+        const double b = radius / kSphereRadius;
         double c = acos(tan(b) / tan(a));
-        //        double orgC = c;
+
         int k = 0;
-        int maxCount = 15;
+        const int maxCount = 15;
         double dErr = 0.0;
         while (k == 0 || (fabs(dErr) > dTol && k < maxCount))
         {
             tanPt1 = DestVincenty(center, crsFromCenter + c, radius);
             DistVincenty(tanPt1, center, result);
-            double radCrs = result.azimuth;
+            const double radCrs = result.azimuth;
 
             DistVincenty(tanPt1, point, result);
-            double tanCrs = result.azimuth;
-            double diff = SignAzimuthDifference(radCrs, tanCrs);
-            dErr = fabs(diff) - M_PI_2;
+            dErr = fabs(SignAzimuthDifference(radCrs, result.azimuth)) - M_PI_2;
             c = c + dErr;
             k++;
         }
 
         k = 0;
         dErr = 0.0;
-
         while (k == 0 || (fabs(dErr) > dTol && k < maxCount))
         {
             tanPt2 = DestVincenty(center, crsFromCenter - c, radius);
             DistVincenty(tanPt2, center, result);
-            double radCrs = result.azimuth;
+            const double radCrs = result.azimuth;
 
             DistVincenty(tanPt2, point, result);
-            double tanCrs = result.azimuth;
-            double diff = SignAzimuthDifference(radCrs, tanCrs);
-            dErr = fabs(diff) - M_PI_2;
+            dErr = fabs(SignAzimuthDifference(radCrs, result.azimuth)) - M_PI_2;
             c = c + dErr;
             k++;
         }
-
 
         return 1;
     }
