@@ -47,13 +47,10 @@ namespace GeoCalcs {
             return 0;
         }
 
-        const double a = result.distance / kSphereRadius;
-        const double b = radius / kSphereRadius;
-        double c = acos(tan(b) / tan(a));
-
-        int k = 0;
+        double c = acos(tan(radius / kSphereRadius) / tan(result.distance / kSphereRadius));
         const int maxCount = 15;
         double dErr = 0.0;
+        int k = 0;
         while (k == 0 || (fabs(dErr) > dTol && k < maxCount))
         {
             tanPt1 = DestVincenty(center, crsFromCenter + c, radius);

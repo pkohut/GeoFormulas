@@ -35,14 +35,12 @@ namespace GeoCalcs {
     {
         InverseResult result;
         DistVincenty(lineStart, center, result);
-        const double distStartToCenter = result.distance;
-        const double crsStartToCenter = result.azimuth;
-        const double angle1 = SignAzimuthDifference(crs, crsStartToCenter);
+        const double signAngle1 = SignAzimuthDifference(crs, result.azimuth) >= 0.0 ? 1.0 : -1.0;
 
-        if (fabs(distStartToCenter * (crsStartToCenter - crs)) < dTol)
+        if (fabs(result.distance * (result.azimuth - crs)) < dTol)
         {
-            tanPts[0] = DestVincenty(lineStart, crs, distStartToCenter - radius);
-            tanPts[1] = DestVincenty(lineStart, crs, distStartToCenter + radius);
+            tanPts[0] = DestVincenty(lineStart, crs, result.distance - radius);
+            tanPts[1] = DestVincenty(lineStart, crs, result.distance + radius);
             linePts[0] = tanPts[0];
             linePts[1] = tanPts[1];
             return;
@@ -52,22 +50,19 @@ namespace GeoCalcs {
         LLPoint perpPt = PerpIntercept(lineStart, crs, center, dCrsFromPt, dDistFromPt, dTol);
 
         DistVincenty(perpPt, lineStart, result);
-        double crs21 = result.azimuth;
+        const double crs21 = result.azimuth;
 
-        double signAngle1 = angle1 >= 0.0 ? 1.0 : -1.0;
         double delta = radius;
-        int k = 0;
-        int maxCount = 15;
+        const int maxCount = 15;
         double dErr = 0.0;
+        int k = 0;
         while (k == 0 || (fabs(dErr) > dTol && k < maxCount))
         {
             linePts[0] = DestVincenty(perpPt, crs21 + M_PI, delta);
             DistVincenty(linePts[0], perpPt, result);
-            double strCrs = result.azimuth;
 
-            double perpCrs = strCrs - signAngle1 * M_PI_2;
-            tanPts[0] = PerpIntercept(linePts[0], perpCrs, center, dCrsFromPt, dDistFromPt, dTol);
-
+            tanPts[0] = PerpIntercept(linePts[0], result.azimuth - signAngle1 * M_PI_2,
+                                      center, dCrsFromPt, dDistFromPt, dTol);
             dErr = dDistFromPt - radius;
             delta = delta - dErr;
             k++;
@@ -79,11 +74,9 @@ namespace GeoCalcs {
         {
             linePts[1] = DestVincenty(perpPt, crs21, delta);
             DistVincenty(linePts[1], perpPt, result);
-            double strCrs = result.azimuth;
 
-            double perpCrs = strCrs - signAngle1 * M_PI_2;
-            tanPts[1] = PerpIntercept(linePts[1], perpCrs, center, dCrsFromPt, dDistFromPt, dTol);
-
+            tanPts[1] = PerpIntercept(linePts[1], result.azimuth - signAngle1 * M_PI_2,
+                                      center, dCrsFromPt, dDistFromPt, dTol);
             dErr = dDistFromPt - radius;
             delta = delta - dErr;
             k++;

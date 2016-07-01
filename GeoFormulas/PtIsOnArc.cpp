@@ -41,13 +41,13 @@ namespace GeoCalcs {
 
         if (fabs(invResult.distance - dArcRadius) <= 0.5e-3)
         {
-            double dSubtendedAng1 = GetArcExtent(dArcStartAzimuth, dArcEndAzimuth, nArcDirection, kTol);
+            const double dSubtendedAng1 = GetArcExtent(dArcStartAzimuth, dArcEndAzimuth, nArcDirection, kTol);
 
             if (dSubtendedAng1 == M_2PI)
                 bOnArc = true;
             else
             {
-                double dSubtendedAng2 = GetArcExtent(dArcStartAzimuth, invResult.azimuth,
+                const double dSubtendedAng2 = GetArcExtent(dArcStartAzimuth, invResult.azimuth,
                                                      nArcDirection, kTol);
 
                 if (nArcDirection > 0)

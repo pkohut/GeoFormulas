@@ -48,25 +48,25 @@ namespace GeoCalcs {
         int k = 0;
         while (k == 0 || ((dError > kTol) && (k <= 0)))
         {
-            double dTheta = dSubtendedAngle / nSegments;
+            const double dTheta = dSubtendedAngle / nSegments;
             const double dAltitude = 0.0;
             dArcLength = 0.0;
 
             for (int i = 0; i < nSegments; i++)
             {
-                double theta = dStartCrs + i * dTheta;
-                LLPoint p1 = DestVincenty(center, theta, dRadius);
-                LLPoint p2 = DestVincenty(center, theta + 0.5 * dTheta, dRadius);
-                LLPoint p3 = DestVincenty(center, theta + dTheta, dRadius);
+                const double theta = dStartCrs + i * dTheta;
+                const LLPoint p1 = DestVincenty(center, theta, dRadius);
+                const LLPoint p2 = DestVincenty(center, theta + 0.5 * dTheta, dRadius);
+                const LLPoint p3 = DestVincenty(center, theta + dTheta, dRadius);
 
-                VMath::Vector3 v1 = ECEF(p1, dAltitude);
-                VMath::Vector3 v2 = ECEF(p2, dAltitude);
-                VMath::Vector3 v3 = ECEF(p3, dAltitude);
-                VMath::Vector3 vChord1 = v2 - v1;
-                VMath::Vector3 vChord2 = v2 - v3;
-                double x1 = VMath::Vector3::Length(vChord1); //v2 - v1);
-                double x2 = VMath::Vector3::Length(vChord2); //v2 - v3);
-                double d = VMath::Vector3::Dot(vChord1, vChord2);
+                const VMath::Vector3 v1 = ECEF(p1, dAltitude);
+                const VMath::Vector3 v2 = ECEF(p2, dAltitude);
+                const VMath::Vector3 v3 = ECEF(p3, dAltitude);
+                const VMath::Vector3 vChord1 = v2 - v1;
+                const VMath::Vector3 vChord2 = v2 - v3;
+                const double x1 = VMath::Vector3::Length(vChord1); //v2 - v1);
+                const double x2 = VMath::Vector3::Length(vChord2); //v2 - v3);
+                const double d = VMath::Vector3::Dot(vChord1, vChord2);
 
                 if (IsNearZero(x1, kTol) && IsNearZero(x2, kTol) && IsNearZero(d, kTol))
                 {
@@ -74,15 +74,15 @@ namespace GeoCalcs {
                     break;
                 }
 
-                double xi = d / (x1 * x2);
-                double _x1_x2Sq = x1 / x2 - xi;
-                double sigma = sqrt(1.0 - (xi * xi));
-                double R = (x2 * sqrt((_x1_x2Sq * _x1_x2Sq) + (sigma * sigma))) / (2.0 * sigma);
-                double A = 2 * (M_PI - acos(xi));
-                double L = R * A;
+                const double xi = d / (x1 * x2);
+                const double _x1_x2Sq = x1 / x2 - xi;
+                const double sigma = sqrt(1.0 - (xi * xi));
+                const double R = (x2 * sqrt((_x1_x2Sq * _x1_x2Sq) + (sigma * sigma))) / (2.0 * sigma);
+                const double A = 2 * (M_PI - acos(xi));
+                const double L = R * A;
                 dArcLength += L;
             }
-            nSegments = 2 * nSegments;
+            nSegments *= 2;
             dError = fabs(dArcLength - dOldArcLength);
             dOldArcLength = dArcLength;
             k++;

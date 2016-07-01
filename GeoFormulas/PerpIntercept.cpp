@@ -44,9 +44,9 @@ namespace GeoCalcs {
             return pt1;
         }
 
-        double dA = result.distance / kSphereRadius;
-        double dAngle = fabs(SignAzimuthDifference(dCrs13, result.azimuth));
-        double dist13 = kSphereRadius * atan(tan(dA) * fabs(cos(dAngle)));
+
+        const double dAngle = fabs(SignAzimuthDifference(dCrs13, result.azimuth));
+        double dist13 = kSphereRadius * atan(tan(result.distance / kSphereRadius) * fabs(cos(dAngle)));
 
         if (dAngle > M_PI_2)
         {
@@ -81,7 +81,6 @@ namespace GeoCalcs {
         errarray[0] = fabs(SignAzimuthDifference(crs31, crs32)) - M_PI;
         distarray[0] = dist13;
         distarray[1] = fabs(distarray[0] + errarray[0] * dist23);
-
 
         pt3 = DestVincenty(pt1, dCrs13, distarray[1]);
         DistVincenty(pt3, pt1, result);

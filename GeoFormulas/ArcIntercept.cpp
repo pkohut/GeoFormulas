@@ -59,10 +59,9 @@ namespace GeoCalcs {
 
             double dist1x = result.distance;
             double crs1x = result.azimuth;
-            double dErr = radius1 - dist1x;
             double errarray[2];
             double crsarray[2];
-            errarray[1] = dErr;
+            errarray[1] = radius1 - dist1x;
             crsarray[1] = crs1x;
 
             int k = 0;

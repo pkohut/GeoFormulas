@@ -34,47 +34,46 @@ namespace GeoCalcs {
     {
         InverseResult result;
         DistVincenty(loc1.locusStart, loc1.locusEnd, result);
-        double crs1 = result.azimuth;
+        const double crs1 = result.azimuth;
 
         DistVincenty(loc2.locusStart, loc2.locusEnd, result);
-        double crs2 = result.azimuth;
+        const double crs2 = result.azimuth;
 
         LLPoint p1;
         if (!CrsIntersect(loc1.locusStart, crs1, loc2.locusStart, crs2, dTol, p1))
             return 0;
 
         DistVincenty(loc1.geoStart, loc1.geoEnd, result);
-        double tcrs1 = result.azimuth;
+        const double tcrs1 = result.azimuth;
 
         DistVincenty(loc2.geoStart, loc2.geoEnd, result);
-        double tcrs2 = result.azimuth;
+        const double tcrs2 = result.azimuth;
 
         double dCrsFromPt, dDistFromP;
         LLPoint pint1 = PerpIntercept(loc1.geoStart, tcrs1, p1, dCrsFromPt, dDistFromP, dTol);
 
         PtIsOnGeodesicResult ptResult;
-        if (!PtIsOnGeodesic(loc1.geoStart, loc1.geoEnd, pint1, 0, ptResult) ||
-            !ptResult.result)
+        if (!PtIsOnGeodesic(loc1.geoStart, loc1.geoEnd, pint1, 0, ptResult)
+            || !ptResult.result)
             return 0;
 
         DistVincenty(loc1.geoStart, pint1, result);
         double distbase = result.distance;
 
-
-        LLPoint ploc1;
-        LLPoint ploc2;
+        LLPoint ploc1, ploc2;
         double distarray[2], errarray[2];
         distarray[0] = distarray[1] = errarray[0] = errarray[1] = 0.0;
 
-        int k = 0;
-        int maxCount = 15;
+
+        const int maxCount = 15;
         double dErr = 0.0;
+        int k = 0;
         while ((k == 0) || (!isnan(distbase) && k < maxCount && fabs(dErr) > dTol))
         {
             if (k > 0)
                 pint1 = DestVincenty(loc1.geoStart, tcrs1, distbase);
             ploc1 = PointOnLocusP(loc1, pint1, dTol, dEps);
-            LLPoint pint2 = PerpIntercept(loc2.geoStart, tcrs2, ploc1, dCrsFromPt, dDistFromP, dTol);
+            const LLPoint pint2 = PerpIntercept(loc2.geoStart, tcrs2, ploc1, dCrsFromPt, dDistFromP, dTol);
 
             ploc2 = PointOnLocusP(loc2, pint2, dTol, dEps);
             DistVincenty(ploc1, ploc2, result);

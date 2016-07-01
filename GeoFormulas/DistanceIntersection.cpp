@@ -34,8 +34,8 @@ namespace GeoCalcs {
     {
         InverseResult result;
         DistVincenty(pt1, pt2, result);
-        double dist12 = result.distance;
-        double crs12 = result.azimuth;
+        const double dist12 = result.distance;
+        const double crs12 = result.azimuth;
 
         if ((dist13 + dist23 - dist12 + dTol < 0) ||
             fabs(dist13 - dist23) > dist12)
@@ -46,19 +46,16 @@ namespace GeoCalcs {
             return 1;
         }
 
-        double a = dist23;
-        double b = dist13;
-        double c = dist12;
-
-        double cosA_R = cos(a / kSphereRadius);
-        double cosB_R = cos(b / kSphereRadius);
-        double cosC_R = cos(c / kSphereRadius);
-        double sinB_R = sin(b / kSphereRadius);
-        double sinC_R = sin(c / kSphereRadius);
-        double A = acos((cosA_R - cosB_R * cosC_R) / (sinB_R * sinC_R));
+        const double cosA_R = cos(dist23 / kSphereRadius);
+        const double cosB_R = cos(dist13 / kSphereRadius);
+        const double cosC_R = cos(dist12 / kSphereRadius);
+        const double sinB_R = sin(dist13 / kSphereRadius);
+        const double sinC_R = sin(dist12 / kSphereRadius);
+        const double A = acos((cosA_R - cosB_R * cosC_R) / (sinB_R * sinC_R));
 
         intPtC1 = DestVincenty(pt1, crs12 - A, dist13);
         intPtC2 = DestVincenty(pt1, crs12 + A, dist13);
+
         return 2;
     }
 }

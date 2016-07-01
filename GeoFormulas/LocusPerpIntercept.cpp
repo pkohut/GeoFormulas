@@ -39,7 +39,7 @@ namespace GeoCalcs {
 
         if (fabs(loc.startDist - loc.endDist) < dTol)
         {
-            LLPoint geoPt = PerpIntercept(loc.geoStart, gcrs, pt2, crsFromPt, distFromPt, dTol);
+            const LLPoint geoPt = PerpIntercept(loc.geoStart, gcrs, pt2, crsFromPt, distFromPt, dTol);
             intPt = PointOnLocusP(loc, geoPt, dTol, kEps);
             DistVincenty(pt2, intPt, result);
             distFromPt = result.distance;
@@ -48,11 +48,9 @@ namespace GeoCalcs {
         }
 
         DistVincenty(loc.locusStart, loc.locusEnd, result);
-        double lcrs = result.azimuth;
-
-        LLPoint locPt = PerpIntercept(loc.locusStart, lcrs, pt2, crsFromPt, distFromPt, dTol);
+        LLPoint locPt = PerpIntercept(loc.locusStart, result.azimuth, pt2, crsFromPt, distFromPt, dTol);
         LLPoint geoPt = PerpIntercept(loc.geoStart, gcrs, locPt, crsFromPt, distFromPt, dTol);
-        double locAngle = atan((loc.startDist - loc.endDist) / gdist);
+        const double locAngle = atan((loc.startDist - loc.endDist) / gdist);
 
         double distarray[2], errarray[2];
         distarray[0] = distarray[1] = errarray[0] = errarray[1] = 0.0;
@@ -60,18 +58,18 @@ namespace GeoCalcs {
         DistVincenty(loc.geoStart, geoPt, result);
         distarray[1] = result.distance;
 
-        int k = 0;
-        int maxCount = 15;
+        const int maxCount = 15;
         double newDist = 0.0;
+        int k = 0;
         while (k == 0 || (!isnan(newDist) && fabs(errarray[1]) > dTol && k < maxCount))
         {
             geoPt = DestVincenty(loc.geoStart, gcrs, distarray[1]);
             locPt = PointOnLocusP(loc /*loc.geoStart*/, geoPt, dTol, kEps);
-            lcrs = LocusCrsAtPoint(loc, locPt, geoPt, 1e-8);
 
             DistVincenty(locPt, pt2, result);
+            errarray[1] = -result.distance * cos(fabs(
+                    SignAzimuthDifference(LocusCrsAtPoint(loc, locPt, geoPt, 1e-8), result.azimuth)));
 
-            errarray[1] = -result.distance * cos(fabs(SignAzimuthDifference(lcrs, result.azimuth)));
             if (fabs(errarray[1]) < dTol)
             {
                 distFromPt = result.distance;

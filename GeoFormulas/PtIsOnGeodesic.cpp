@@ -42,7 +42,7 @@ namespace GeoCalcs {
         if (!DistVincenty(pt1, pt3, invResult))
             return false;
 
-        double dist13 = invResult.distance;
+        const double dist13 = invResult.distance;
 
         if (!DistVincenty(pt1, pt2, invResult))
             return false;

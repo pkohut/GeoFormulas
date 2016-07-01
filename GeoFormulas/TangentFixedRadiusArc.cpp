@@ -52,12 +52,12 @@ namespace GeoCalcs {
 
         dir = vertexAngle > 0.0 ? -1 : 1;
 
-        const double A = vertexAngle / 2.0;
-        if (radius > fabs(kSphereRadius * A))
+        if (radius > fabs(kSphereRadius * vertexAngle / 2.0))
             return 0;
 
+        double distToStart = dist12 - fabs(kSphereRadius *
+                                           asin(tan(radius / kSphereRadius) / tan(vertexAngle / 2.0)));
         LLPoint startPt, endPt;
-        double distToStart = dist12 - fabs(kSphereRadius * asin(tan(radius / kSphereRadius) / tan(A)));
         int k = 0;
         double dErr = 0.0;
         while (k == 0 || (fabs(dErr) > dTol && k <= 10))

@@ -34,20 +34,20 @@ namespace GeoCalcs {
     {
         InverseResult result;
         DistVincenty(gStart, gEnd, result);
-        double gAz = result.azimuth;
+        const double gAz = result.azimuth;
 
         DistVincenty(loc.locusStart, loc.locusEnd, result);
+        const double locStAz = result.azimuth;
+        const double locLength = result.distance;
 
         double crs31, crs32, dist13, dist23;
-        double locStAz = result.azimuth;
-        double locLength = result.distance;
         LLPoint pt1;
         if (!CrsIntersect(loc.locusStart, locStAz, crs31, dist13, gStart, gAz, crs32, dist23, dTol, pt1))
             return 0;
 
         DistVincenty(loc.geoStart, loc.geoEnd, result);
 
-        double tcrs = result.azimuth;
+        const double tcrs = result.azimuth;
         double crsFromPt, distFromPt;
         LLPoint ptInt = PerpIntercept(loc.geoStart, tcrs, pt1, crsFromPt, distFromPt, dTol);
 
@@ -79,7 +79,7 @@ namespace GeoCalcs {
         intersect = pt1;
 
         DistVincenty(intersect, loc.locusStart, result);
-        double distLocStPt1 = result.distance;
+        const double distLocStPt1 = result.distance;
         DistVincenty(intersect, loc.locusEnd, result);
 
         // found intersect point must be on or between locus

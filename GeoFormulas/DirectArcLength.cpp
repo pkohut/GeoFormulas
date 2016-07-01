@@ -29,12 +29,11 @@ namespace GeoCalcs {
     /**
     *
     */
-    double DirectArcLength(const LLPoint &center, double dRadius,
-                           double dStartCrs, double dEndCrs,
+    double DirectArcLength(const LLPoint &center, double dRadius, double dStartCrs, double dEndCrs,
                            int nOrient, double dTol)
     {
-        double dSubtendedAngle = GetArcExtent(dStartCrs, dEndCrs, nOrient, dTol);
-        double R = sqrt(GeometricMeanMeridional(center.latitude) * PrimeVerticalCurvature(center.latitude));
+        const double dSubtendedAngle = GetArcExtent(dStartCrs, dEndCrs, nOrient, dTol);
+        const double R = sqrt(GeometricMeanMeridional(center.latitude) * PrimeVerticalCurvature(center.latitude));
         return fabs(dSubtendedAngle * R * sin(dRadius / R));
     }
 }

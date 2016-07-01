@@ -34,10 +34,8 @@ namespace GeoCalcs {
         double dPrimeVerticalCurvature = PrimeVerticalCurvature(llPt.latitude);
         double dCosLat = cos(llPt.latitude);
 
-        VMath::Vector3 pt;
-        pt.x = (dPrimeVerticalCurvature + dAltitude) * dCosLat * cos(llPt.longitude);
-        pt.y = (dPrimeVerticalCurvature + dAltitude) * dCosLat * sin(llPt.longitude);
-        pt.z = ((1.0 - keSq) * dPrimeVerticalCurvature + dAltitude) * sin(llPt.latitude);
-        return pt;
+        return VMath::Vector3((dPrimeVerticalCurvature + dAltitude) * dCosLat * cos(llPt.longitude),
+                              (dPrimeVerticalCurvature + dAltitude) * dCosLat * sin(llPt.longitude),
+                              ((1.0 - keSq) * dPrimeVerticalCurvature + dAltitude) * sin(llPt.latitude));
     }
 }

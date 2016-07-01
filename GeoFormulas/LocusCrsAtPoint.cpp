@@ -49,15 +49,9 @@ namespace GeoCalcs {
         DistVincenty(locus.geoStart, locus.geoEnd, result);
         dPerpCrs += atan((locus.endDist - locus.startDist) / result.distance);
 
-        double dLocusCrs = 0.0;
-        if (DistToLocusP(locus, geoPt, dTol, kEps) < 0)
-            dLocusCrs = dPerpCrs - M_PI_2;
-        else
-            dLocusCrs = dPerpCrs + M_PI_2;
+        const double dLocusCrs = DistToLocusP(locus, geoPt, dTol, kEps) < 0 ?
+                                 dPerpCrs - M_PI_2 : dPerpCrs + M_PI_2;
 
-        if (dLocusCrs > M_2PI)
-            dLocusCrs = dLocusCrs - M_2PI;
-
-        return dLocusCrs;
+        return dLocusCrs > M_2PI ? dLocusCrs - M_2PI : dLocusCrs;
     }
 }
