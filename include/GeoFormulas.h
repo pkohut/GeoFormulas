@@ -232,7 +232,7 @@ namespace GeoCalcs {
      *     otherwise, v
      */
     template<class T>
-    const T& clamp(const T& v, const T& lo, const T& hi)
+    const T &clamp(const T &v, const T &lo, const T &hi)
     {
         return std::max(lo, std::min(v, hi));
     }
@@ -292,7 +292,11 @@ namespace GeoCalcs {
     LLPoint PointOnLocusP(const Locus &loc, const LLPoint &geoPt, double dTol, double eps);
 
     GEOAPI
+    bool PtIsOnLocus(const Locus &loc, const LLPoint &testPt, double dTol);
+
+    GEOAPI
     bool PtIsOnLocus(const Locus &loc, const LLPoint &testPt, LLPoint &projPt, double dTol);
+
 
     GEOAPI
     LLPoint PerpIntercept(const LLPoint &llPt1, double dCrs13, const LLPoint &llPt2,

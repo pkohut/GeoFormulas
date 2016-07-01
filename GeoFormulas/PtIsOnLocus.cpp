@@ -29,6 +29,13 @@ namespace GeoCalcs {
     /**
     *
     */
+
+    bool PtIsOnLocus(const Locus &loc, const LLPoint &testPt, double dTol)
+    {
+        LLPoint projPt;
+        return PtIsOnLocus(loc, testPt, projPt, dTol);
+    }
+
     bool PtIsOnLocus(const Locus &loc, const LLPoint &testPt, LLPoint &projPt, double dTol)
     {
         InverseResult result;
