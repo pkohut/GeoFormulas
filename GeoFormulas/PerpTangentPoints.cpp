@@ -35,11 +35,9 @@ namespace GeoCalcs {
     {
         InverseResult result;
         DistVincenty(lineStart, center, result);
-        double distStartToCenter = result.distance;
-        double crsStartToCenter = result.azimuth;
-        //        double crsCenterToStart = result.reverseAzimuth;
-
-        double angle1 = SignAzimuthDifference(crs, crsStartToCenter);
+        const double distStartToCenter = result.distance;
+        const double crsStartToCenter = result.azimuth;
+        const double angle1 = SignAzimuthDifference(crs, crsStartToCenter);
 
         if (fabs(distStartToCenter * (crsStartToCenter - crs)) < dTol)
         {
@@ -54,30 +52,23 @@ namespace GeoCalcs {
         LLPoint perpPt = PerpIntercept(lineStart, crs, center, dCrsFromPt, dDistFromPt, dTol);
 
         DistVincenty(perpPt, lineStart, result);
-        //        double dist12 = result.distance;
         double crs21 = result.azimuth;
 
+        double signAngle1 = angle1 >= 0.0 ? 1.0 : -1.0;
         double delta = radius;
-
         int k = 0;
         int maxCount = 15;
         double dErr = 0.0;
-        double signAngle1 = angle1 >= 0.0 ? 1.0 : -1.0;
-
         while (k == 0 || (fabs(dErr) > dTol && k < maxCount))
         {
             linePts[0] = DestVincenty(perpPt, crs21 + M_PI, delta);
             DistVincenty(linePts[0], perpPt, result);
             double strCrs = result.azimuth;
 
-
             double perpCrs = strCrs - signAngle1 * M_PI_2;
-
             tanPts[0] = PerpIntercept(linePts[0], perpCrs, center, dCrsFromPt, dDistFromPt, dTol);
-            double radDist = dDistFromPt;
 
-            dErr = radDist - radius;
-
+            dErr = dDistFromPt - radius;
             delta = delta - dErr;
             k++;
         }
@@ -90,18 +81,13 @@ namespace GeoCalcs {
             DistVincenty(linePts[1], perpPt, result);
             double strCrs = result.azimuth;
 
-
             double perpCrs = strCrs - signAngle1 * M_PI_2;
-
             tanPts[1] = PerpIntercept(linePts[1], perpCrs, center, dCrsFromPt, dDistFromPt, dTol);
-            double radDist = dDistFromPt;
 
-            dErr = radDist - radius;
-
+            dErr = dDistFromPt - radius;
             delta = delta - dErr;
             k++;
         }
-
 
         return;
     }
