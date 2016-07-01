@@ -41,28 +41,23 @@ namespace GeoCalcs {
         InverseResult invResult;
         if (!DistVincenty(pt1, pt3, invResult))
             return false;
+
         double dist13 = invResult.distance;
-        //        double crs13 = invResult.azimuth;
 
         if (!DistVincenty(pt1, pt2, invResult))
             return false;
 
-        double dist12 = invResult.distance;
-        double crs12 = invResult.azimuth;
+        const double dist12 = invResult.distance;
+        const double crs12 = invResult.azimuth;
 
         LLPoint testPt2 = DestVincenty(pt1, crs12, dist13);
 
         if (!DistVincenty(pt3, testPt2, invResult))
             return false;
 
-        double distError = invResult.distance;
-
-        if (distError <= kTolPtIsOnGeodesic)
+        if (invResult.distance <= kTolPtIsOnGeodesic)
         {
-            if (lengthCode > 0 || dist13 - dist12 <= kTolPtIsOnGeodesic)
-                result.result = true;
-            else
-                result.result = false;
+            result.result = lengthCode > 0 || dist13 - dist12 <= kTolPtIsOnGeodesic;
         }
         else if (lengthCode == 2)
         {
@@ -70,11 +65,8 @@ namespace GeoCalcs {
 
             if (!DistVincenty(pt3, testPt2, invResult))
                 return false;
-            distError = invResult.distance;
-            if (distError <= kTolPtIsOnGeodesic)
-                result.result = true;
-            else
-                result.result = false;
+
+            result.result = invResult.distance <= kTolPtIsOnGeodesic;
         }
         else
         {
