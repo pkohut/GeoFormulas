@@ -34,65 +34,51 @@ namespace GeoCalcs {
                               LLPoint &centerPt, LLPoint &tanPt1, LLPoint &tanPt2, double dTol)
     {
         LLPoint pt2;
-        bool bVal = CrsIntersect(pt1, crs12, pt3, crs3 + M_PI, dTol, pt2);
-
-        if (bVal == false)
+        if (!CrsIntersect(pt1, crs12, pt3, crs3 + M_PI, dTol, pt2))
             return 0;
 
         InverseResult result;
         DistVincenty(pt1, pt2, result);
-        double dist12 = result.distance;
+        const double dist12 = result.distance;
 
         DistVincenty(pt2, pt1, result);
-        double crs21 = result.azimuth;
+        const double crs21 = result.azimuth;
 
         DistVincenty(pt2, pt3, result);
-        double crs23 = result.azimuth;
-
-        double vertexAngle = SignAzimuthDifference(crs21, crs23);
+        const double vertexAngle = SignAzimuthDifference(crs21, result.azimuth);
 
         if (fabs(sin(vertexAngle)) < dTol)
             return 0;
 
-        if (vertexAngle > 0.0)
-            dir = -1;
-        else
-            dir = 1;
+        dir = vertexAngle > 0.0 ? -1 : 1;
 
-        double A = vertexAngle / 2.0;
+        const double A = vertexAngle / 2.0;
         if (radius > fabs(kSphereRadius * A))
             return 0;
 
-        double DTA = fabs(kSphereRadius * asin(tan(radius / kSphereRadius) / tan(A)));
-        double distToStart = dist12 - DTA;
+        LLPoint startPt, endPt;
+        double distToStart = dist12 - fabs(kSphereRadius * asin(tan(radius / kSphereRadius) / tan(A)));
         int k = 0;
         double dErr = 0.0;
-        LLPoint startPt, endPt;
         while (k == 0 || (fabs(dErr) > dTol && k <= 10))
         {
             distToStart = distToStart - dErr / fabs(sin(vertexAngle));
             startPt = DestVincenty(pt1, crs12, distToStart);
             DistVincenty(startPt, pt2, result);
-            double perpCrs = result.azimuth;
-            if (dir < 0)
-                perpCrs = perpCrs + M_PI_2;
-            else
-                perpCrs = perpCrs - M_PI_2;
-            centerPt = DestVincenty(startPt, perpCrs, radius);
+            result.azimuth += dir < 0 ? M_PI_2 : -M_PI_2;
+            centerPt = DestVincenty(startPt, result.azimuth, radius);
+
             double dCrsFromPt, dDistFromPt;
             endPt = PerpIntercept(pt3, crs3 + M_PI, centerPt, dCrsFromPt, dDistFromPt, dTol);
             DistVincenty(centerPt, endPt, result);
-            double perpDist = result.distance;
-            dErr = radius - perpDist;
+            dErr = radius - result.distance;
             k++;
         }
         tanPt1 = startPt;
         tanPt2 = endPt;
 
         DistVincenty(pt2, tanPt2, result);
-        if (fabs(SignAzimuthDifference(result.azimuth, crs3)) > M_PI_2)
-            return 0;
 
-        return 1;
+        return fabs(SignAzimuthDifference(result.azimuth, crs3)) <= M_PI_2;
     }
 }
