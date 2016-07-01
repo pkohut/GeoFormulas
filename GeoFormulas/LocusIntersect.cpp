@@ -51,25 +51,24 @@ namespace GeoCalcs {
 
         double dCrsFromPt, dDistFromP;
         LLPoint pint1 = PerpIntercept(loc1.geoStart, tcrs1, p1, dCrsFromPt, dDistFromP, dTol);
+
         PtIsOnGeodesicResult ptResult;
-        bool bVal = PtIsOnGeodesic(loc1.geoStart, loc1.geoEnd, pint1, 0, ptResult);
-        if (!bVal)
-            return 0;
-        if (!ptResult.result)
+        if (!PtIsOnGeodesic(loc1.geoStart, loc1.geoEnd, pint1, 0, ptResult) ||
+            !ptResult.result)
             return 0;
 
         DistVincenty(loc1.geoStart, pint1, result);
         double distbase = result.distance;
 
+
+        LLPoint ploc1;
+        LLPoint ploc2;
+        double distarray[2], errarray[2];
+        distarray[0] = distarray[1] = errarray[0] = errarray[1] = 0.0;
+
         int k = 0;
         int maxCount = 15;
         double dErr = 0.0;
-        LLPoint ploc1;
-        LLPoint ploc2;
-        double distarray[2];
-        double errarray[2];
-        distarray[0] = distarray[1] = errarray[0] = errarray[1] = 0.0;
-
         while ((k == 0) || (!isnan(distbase) && k < maxCount && fabs(dErr) > dTol))
         {
             if (k > 0)
@@ -98,16 +97,10 @@ namespace GeoCalcs {
             k++;
         }
 
-        LLPoint projPt;
-        bVal = PtIsOnLocus(loc1, ploc1, projPt, 1e-6);
-        if (!bVal)
+        if (!PtIsOnLocus(loc1, ploc1, 1e-6) || !PtIsOnLocus(loc2, ploc2, 1e-6))
             return 0;
-        bVal = PtIsOnLocus(loc2, ploc2, projPt, 1e-6);
-        if (!bVal)
-            return 0;
+
         intersect = ploc1;
-
-
         return 1;
     }
 }
