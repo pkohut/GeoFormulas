@@ -37,43 +37,39 @@ namespace GeoCalcs {
         LLPoint pt2 = llPt2;
         DistVincenty(pt1, pt2, result);
 
-        double dist12 = result.distance;
-        double crs12 = result.azimuth;
-        double crs13 = dCrs13;
-
-        double dAngle = fabs(SignAzimuthDifference(crs13, crs12));
-
-        if (dist12 <= dTol)
+        if (result.distance <= dTol)
         {
             // pt1, pt2 and projected pt3 are all the same;
             dCrsFromPt = dDistFromPt = 0.0;
             return pt1;
         }
-        double dA = dist12 / kSphereRadius;
+
+        double dA = result.distance / kSphereRadius;
+        double dAngle = fabs(SignAzimuthDifference(dCrs13, result.azimuth));
         double dist13 = kSphereRadius * atan(tan(dA) * fabs(cos(dAngle)));
 
         if (dAngle > M_PI_2)
         {
             LLPoint newPoint;
-            newPoint = DestVincenty(pt1, crs13 + M_PI, dist13 + NmToMeters(150.0));
+            newPoint = DestVincenty(pt1, dCrs13 + M_PI, dist13 + NmToMeters(150.0));
             dist13 = NmToMeters(150.0);
-            DistVincenty(newPoint, pt1, result);
 
-            crs13 = result.azimuth;
+            DistVincenty(newPoint, pt1, result);
+            dCrs13 = result.azimuth;
             pt1 = newPoint;
         }
         else if (fabs(dist13) < NmToMeters(150.0))
         {
             LLPoint newPoint;
-            newPoint = DestVincenty(pt1, crs13 + M_PI, NmToMeters(150.0));
-            dist13 = dist13 + NmToMeters(150.0);
-            DistVincenty(newPoint, pt1, result);
+            newPoint = DestVincenty(pt1, dCrs13 + M_PI, NmToMeters(150.0));
+            dist13 += NmToMeters(150.0);
 
-            crs13 = result.azimuth;
+            DistVincenty(newPoint, pt1, result);
+            dCrs13 = result.azimuth;
             pt1 = newPoint;
         }
 
-        LLPoint pt3 = DestVincenty(pt1, crs13, dist13);
+        LLPoint pt3 = DestVincenty(pt1, dCrs13, dist13);
         DistVincenty(pt3, pt1, result);
         double crs31 = result.azimuth;
 
@@ -81,16 +77,13 @@ namespace GeoCalcs {
         double crs32 = result.azimuth;
         double dist23 = result.distance;
 
-        dAngle = fabs(SignAzimuthDifference(crs31, crs32));
-
-        double errarray[2];
-        double distarray[2];
-        errarray[0] = dAngle - M_PI;
+        double errarray[2], distarray[2];
+        errarray[0] = fabs(SignAzimuthDifference(crs31, crs32)) - M_PI;
         distarray[0] = dist13;
         distarray[1] = fabs(distarray[0] + errarray[0] * dist23);
 
 
-        pt3 = DestVincenty(pt1, crs13, distarray[1]);
+        pt3 = DestVincenty(pt1, dCrs13, distarray[1]);
         DistVincenty(pt3, pt1, result);
         crs31 = result.azimuth;
 
@@ -100,16 +93,15 @@ namespace GeoCalcs {
         errarray[1] = fabs(SignAzimuthDifference(crs31, crs32)) - M_PI_2;
 
         int k = 0;
-        double dError = 0;
-
+        double dError = 0.0;
         while (k == 0 || ((dError > dTol) && (k < 15)))
         {
             double oldDist13 = dist13;
             FindLinearRoot(distarray, errarray, dist13);
             if (isnan(dist13))
                 dist13 = oldDist13;
-            pt3 = DestVincenty(pt1, crs13, dist13);
 
+            pt3 = DestVincenty(pt1, dCrs13, dist13);
             DistVincenty(pt3, pt1, result);
             crs31 = result.azimuth;
 
