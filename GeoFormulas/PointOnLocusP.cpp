@@ -32,16 +32,18 @@ namespace GeoCalcs {
     LLPoint PointOnLocusP(const Locus &loc, const LLPoint &geoPt, double tol, double eps)
     {
         double distp = DistToLocusP(loc, geoPt, tol, eps);
+
         if (distp == 0)
             return geoPt;
+
         InverseResult result;
         DistVincenty(geoPt, loc.geoStart, result);
-        double fcrs = result.azimuth;
-        double tempcrs;
+
         if (distp > 0.0)
-            tempcrs = fcrs - (M_PI / 2);
+            result.azimuth -= (M_PI / 2);
         else
-            tempcrs = fcrs + (M_PI / 2);
-        return DestVincenty(geoPt, tempcrs, fabs(distp));
+            result.azimuth += (M_PI / 2);
+
+        return DestVincenty(geoPt, result.azimuth, fabs(distp));
     }
 }
