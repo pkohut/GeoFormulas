@@ -36,31 +36,28 @@ namespace GeoCalcs {
         InverseResult invResult;
         if (!DistVincenty(llArcCenter, llTestPt, invResult))
             return false;
-        double dDist = invResult.distance;
-        double dCrs = invResult.azimuth;
 
         bOnArc = false;
 
-        if (fabs(dDist - dArcRadius) > 0.5e-3) //Tol())
-            bOnArc = false;
-        else
+        if (fabs(invResult.distance - dArcRadius) <= 0.5e-3)
         {
-            double dArcExtent = GetArcExtent(dArcStartAzimuth, dArcEndAzimuth, nArcDirection, kTol);
+            double dSubtendedAng1 = GetArcExtent(dArcStartAzimuth, dArcEndAzimuth, nArcDirection, kTol);
 
-            if (dArcExtent == M_2PI)
+            if (dSubtendedAng1 == M_2PI)
                 bOnArc = true;
             else
             {
-                double dSubExtent = GetArcExtent(dArcStartAzimuth, dCrs, nArcDirection, kTol);
+                double dSubtendedAng2 = GetArcExtent(dArcStartAzimuth, invResult.azimuth,
+                                                     nArcDirection, kTol);
 
                 if (nArcDirection > 0)
                 {
-                    if (dSubExtent <= dArcExtent)
+                    if (dSubtendedAng2 <= dSubtendedAng1)
                         bOnArc = true;
                 }
                 else
                 {
-                    if (dSubExtent >= dArcExtent)
+                    if (dSubtendedAng2 >= dSubtendedAng1)
                         bOnArc = true;
                 }
             }
