@@ -51,13 +51,10 @@ namespace GeoCalcs {
         double lcrs = result.azimuth;
 
         LLPoint locPt = PerpIntercept(loc.locusStart, lcrs, pt2, crsFromPt, distFromPt, dTol);
-
+        LLPoint geoPt = PerpIntercept(loc.geoStart, gcrs, locPt, crsFromPt, distFromPt, dTol);
         double locAngle = atan((loc.startDist - loc.endDist) / gdist);
 
-        LLPoint geoPt = PerpIntercept(loc.geoStart, gcrs, locPt, crsFromPt, distFromPt, dTol);
-
-        double distarray[2];
-        double errarray[2];
+        double distarray[2], errarray[2];
         distarray[0] = distarray[1] = errarray[0] = errarray[1] = 0.0;
 
         DistVincenty(loc.geoStart, geoPt, result);
@@ -70,19 +67,14 @@ namespace GeoCalcs {
         {
             geoPt = DestVincenty(loc.geoStart, gcrs, distarray[1]);
             locPt = PointOnLocusP(loc /*loc.geoStart*/, geoPt, dTol, kEps);
+            lcrs = LocusCrsAtPoint(loc, locPt, geoPt, 1e-8);
 
-            double dPerpCrs;
-            lcrs = LocusCrsAtPoint(loc, locPt, geoPt, dPerpCrs, 1e-8);
             DistVincenty(locPt, pt2, result);
 
-            double crsToPt = result.azimuth;
-            double distToPt = result.distance;
-
-            double angle = fabs(SignAzimuthDifference(lcrs, crsToPt));
-            errarray[1] = -distToPt * cos(angle);
+            errarray[1] = -result.distance * cos(fabs(SignAzimuthDifference(lcrs, result.azimuth)));
             if (fabs(errarray[1]) < dTol)
             {
-                distFromPt = distToPt;
+                distFromPt = result.distance;
                 crsFromPt = result.reverseAzimuth;
                 intPt = locPt;
                 break;

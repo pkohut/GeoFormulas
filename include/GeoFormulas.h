@@ -306,6 +306,9 @@ namespace GeoCalcs {
     double SignAzimuthDifference(double az1, double az2);
 
     GEOAPI
+    double LocusCrsAtPoint(const Locus &locus, const LLPoint &testPt, LLPoint &geoPt, const double dTol);
+
+    GEOAPI
     double LocusCrsAtPoint(const Locus &locus, const LLPoint &testPt, LLPoint &geoPt, double &dPerpCrs,
                            const double dTol);
 

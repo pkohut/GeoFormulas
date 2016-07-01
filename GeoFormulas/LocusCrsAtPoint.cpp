@@ -29,6 +29,13 @@ namespace GeoCalcs {
     /**
     *
     */
+
+    double LocusCrsAtPoint(const Locus &locus, const LLPoint &testPt, LLPoint &geoPt, const double dTol)
+    {
+        double dPerpCrs;
+        return LocusCrsAtPoint(locus, testPt, geoPt, dPerpCrs, dTol);
+    }
+
     double LocusCrsAtPoint(const Locus &locus, const LLPoint &testPt, LLPoint &geoPt,
                            double &dPerpCrs, const double dTol)
     {
