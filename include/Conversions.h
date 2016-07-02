@@ -23,11 +23,14 @@
 
 #pragma once
 
-#define _USE_MATH_DEFINES 1
-
 #include <algorithm>
 #include <cmath>
 #include <limits>
+
+#if defined(WIN32)
+  #define _USE_MATH_DEFINES 1
+  //#include <math.h>
+#endif
 
 #include "Geolib.h"
 #include "RNavConversionException.h"
