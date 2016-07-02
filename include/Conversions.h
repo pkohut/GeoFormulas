@@ -25,7 +25,7 @@
 
 #define _USE_MATH_DEFINES 1
 
-#include <cmath>
+#include <algorithm>
 #include <limits>
 
 #include "Geolib.h"
@@ -36,7 +36,7 @@ GEOAPI
 inline bool IsApprox(double a, double b,
                      const double precision = 1e-11)
 {
-    return (fabs(a - b) <= precision * std::fmin<const double>(fabs(a), fabs(b)));
+    return (fabs(a - b) <= precision * std::min(fabs(a), fabs(b)));
 }
 
 GEOAPI
