@@ -1,0 +1,8 @@
+#ifndef GEO_FORMULAS_CONFIGURE_H
+#define GEO_FORMULAS_CONFIGURE_H
+
+#define geo_formulas_VERSION_MAJOR @geo_formulas_VERSION_MAJOR}@
+#define geo_formulas_VERSION_MINOR @geo_formulas_VERSION_MINOR}@
+#define geo_formulas_VERSION_PATCH @geo_formulas_VERSION_PATCH}@
+
+#endif /* GEO_FORMULAS_CONFIGURE_H */
