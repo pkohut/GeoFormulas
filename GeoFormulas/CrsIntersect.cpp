@@ -122,6 +122,7 @@ namespace GeoCalcs {
         {
             std::swap(pt1, pt2);
             std::swap(az13, az23);
+            dist13 = dist23;
             bSwapped = true;
         }
 
@@ -168,6 +169,7 @@ namespace GeoCalcs {
         {
             std::swap(pt1, pt2);
             std::swap(az13, az23);
+            dist13 = dist23;
         }
         DistVincenty(llIntersect, pt1, result);
         az31 = result.azimuth;
