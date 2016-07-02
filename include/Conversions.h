@@ -26,6 +26,7 @@
 #define _USE_MATH_DEFINES 1
 
 #include <algorithm>
+#include <cmath>
 #include <limits>
 
 #include "Geolib.h"
