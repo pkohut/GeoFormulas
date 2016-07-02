@@ -1,12 +1,12 @@
-/**	\file GeoLocusIntersect.cpp
-*	\brief 
+/** \file GeoLocusIntersect.cpp
+*   \brief
 */
 
 /****************************************************************************/
-/*	GeoLocusIntersect.cpp													*/
+/*  GeoLocusIntersect.cpp                                                   */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -26,76 +26,68 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	int GeoLocusIntersect(const LLPoint & gStart, const LLPoint & gEnd, const Locus & loc, LLPoint & intersect,
-		double dTol, double dEps)
-	{
-		LLPoint pt1;
-		double gAz, crs31, dist13;
-		double locStAz, crs32, dist23;
-		InverseResult result;
+    /**
+    *
+    */
+    int GeoLocusIntersect(const LLPoint &gStart, const LLPoint &gEnd, const Locus &loc, LLPoint &intersect,
+                          double dTol, double dEps)
+    {
+        InverseResult result;
+        DistVincenty(gStart, gEnd, result);
+        const double gAz = result.azimuth;
 
-		DistVincenty(gStart, gEnd, result);
-		gAz = result.azimuth;
-		double fcrs = gAz;
+        DistVincenty(loc.locusStart, loc.locusEnd, result);
+        const double locStAz = result.azimuth;
+        const double locLength = result.distance;
 
-		DistVincenty(loc.locusStart, loc.locusEnd, result);
-		locStAz = result.azimuth;
-		double locLength = result.distance;
+        double crs31, crs32, dist13, dist23;
+        LLPoint pt1;
+        if (!CrsIntersect(loc.locusStart, locStAz, crs31, dist13, gStart, gAz, crs32, dist23, dTol, pt1))
+            return 0;
 
-		if(!CrsIntersect(loc.locusStart, locStAz, crs31, dist13, gStart, gAz, crs32, dist23, dTol, pt1))
-			return 0;	
+        DistVincenty(loc.geoStart, loc.geoEnd, result);
 
-		double distBase = dist23;
-		double crsBase = crs32;
+        const double tcrs = result.azimuth;
+        double crsFromPt, distFromPt;
+        LLPoint ptInt = PerpIntercept(loc.geoStart, tcrs, pt1, crsFromPt, distFromPt, dTol);
 
-		DistVincenty(loc.geoStart, loc.geoEnd, result);
-		double tcrs = result.azimuth;
+        double distLoc = DistToLocusP(loc, ptInt, dTol, dEps);
 
-		double crsFromPt, distFromPt;
-		LLPoint ptInt = PerpIntercept(loc.geoStart, tcrs, pt1, crsFromPt, distFromPt, dTol);
+        double distarray[2];
+        double errarray[2];
+        errarray[1] = distFromPt - fabs(distLoc);
+        distarray[1] = dist23;
 
-		double distLoc = DistToLocusP(loc, ptInt, dTol, dEps);
+        double distBase = dist23 - errarray[1] / cos(fabs(SignAzimuthDifference(crsFromPt, crs32)));
 
-		double distarray[2];
-		double errarray[2];
+        int k = 0;
+        const int maxCount = 10;
+        while (!isnan(distBase) && fabs(errarray[1]) > dTol && k < maxCount)
+        {
+            pt1 = DestVincenty(gStart, gAz, distBase);
+            errarray[0] = errarray[1];
+            distarray[0] = distarray[1];
+            distarray[1] = distBase;
 
-		errarray[1] = distFromPt - fabs(distLoc);
-		distarray[1] = distBase;
+            ptInt = PerpIntercept(loc.geoStart, tcrs, pt1, crsFromPt, distFromPt, dTol);
+            distLoc = DistToLocusP(loc, ptInt, dTol, dEps);
+            errarray[1] = distFromPt - fabs(distLoc);
 
-		double tetha = fabs(SignAzimuthDifference(crsFromPt, crsBase));
-		distBase = distBase - errarray[1] / cos(tetha);
+            FindLinearRoot(distarray, errarray, distBase);
+            k++;
+        }
+        intersect = pt1;
 
-		int k = 0;
-		int maxCount = 10;
-		while( !_isnan(distBase) && fabs(errarray[1]) > dTol && k < maxCount )
-		{
-			pt1 = DestVincenty(gStart, fcrs, distBase);
-			errarray[0] = errarray[1];
-			distarray[0] = distarray[1];
-			distarray[1] = distBase;
+        DistVincenty(intersect, loc.locusStart, result);
+        const double distLocStPt1 = result.distance;
+        DistVincenty(intersect, loc.locusEnd, result);
 
-			ptInt = PerpIntercept(loc.geoStart, tcrs, pt1, crsFromPt, distFromPt, dTol);
-			distLoc = DistToLocusP(loc, ptInt, dTol, dEps);
-			errarray[1] = distFromPt - fabs(distLoc);
-
-			FindLinearRoot(distarray, errarray, distBase);
-			k++;
-		}
-		intersect = pt1;
-
-		DistVincenty(pt1, loc.locusStart, result);
-		double distLocStPt1 = result.distance;
-		DistVincenty(pt1, loc.locusEnd, result);
-		double distLocEndPt1 = result.distance;
-		// found intersect point must be on or between locus
-		// If 5e-3 is to tight a tolerance then try setting to 5e-2
-		// For the 8260.54A Appendix test cases 1e-3 was to tight, 5e-3
-		// works just fine.
-		if(!IsNearZero(locLength - (distLocStPt1 + distLocEndPt1), 5e-3))
-			return 0;
-		return 1;
-	}
+        // found intersect point must be on or between locus
+        // If 5e-3 is to tight a tolerance then try setting to 5e-2
+        // For the 8260.54A Appendix test cases 1e-3 was to tight, 5e-3
+        // works just fine.
+        if (!IsNearZero(locLength - (distLocStPt1 + result.distance), 5e-3))
+            return 0;
+        return 1;
+    }
 }

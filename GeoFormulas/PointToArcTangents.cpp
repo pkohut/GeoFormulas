@@ -1,12 +1,12 @@
-/**	\file PointToArcTangents.cpp
-*	\brief 
+/** \file PointToArcTangents.cpp
+*   \brief
 */
 
 /****************************************************************************/
-/*	PointToArcTangents.cpp													*/
+/*  PointToArcTangents.cpp                                                  */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -26,68 +26,57 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	int PointToArcTangents(const LLPoint & point, const LLPoint & center, double radius,
-		LLPoint & tanPt1, LLPoint & tanPt2, double dTol)
-	{
-		InverseResult result;
-		DistVincenty(point, center, result);
-		//        double crsToCenter = result.azimuth;
-		double crsFromCenter = result.reverseAzimuth;
-		double distToCenter = result.distance;
+    /**
+    *
+    */
+    int PointToArcTangents(const LLPoint &point, const LLPoint &center, double radius,
+                           LLPoint &tanPt1, LLPoint &tanPt2, double dTol)
+    {
+        InverseResult result;
+        DistVincenty(point, center, result);
+        const double crsFromCenter = result.reverseAzimuth;
 
-		if(fabs(distToCenter - radius) < dTol)
-		{
-			tanPt1 = point;
-			return 1;
-		}
+        if (fabs(result.distance - radius) < dTol)
+        {
+            tanPt1 = point;
+            return 1;
+        }
 
-		if(distToCenter < radius)
-		{
-			return 0;
-		}
+        if (result.distance < radius)
+        {
+            return 0;
+        }
 
-		double a = distToCenter / kSphereRadius;
-		double b = radius / kSphereRadius;
-		double c = acos(tan(b) / tan(a));
-		//        double orgC = c;
-		int k = 0;
-		int maxCount = 15;
-		double dErr = 0.0;
-		while(k == 0 || (fabs(dErr) > dTol && k < maxCount))
-		{
-			tanPt1 = DestVincenty(center, crsFromCenter + c, radius);
-			DistVincenty(tanPt1, center, result);
-			double radCrs = result.azimuth;
+        double c = acos(tan(radius / kSphereRadius) / tan(result.distance / kSphereRadius));
+        const int maxCount = 15;
+        double dErr = 0.0;
+        int k = 0;
+        while (k == 0 || (fabs(dErr) > dTol && k < maxCount))
+        {
+            tanPt1 = DestVincenty(center, crsFromCenter + c, radius);
+            DistVincenty(tanPt1, center, result);
+            const double radCrs = result.azimuth;
 
-			DistVincenty(tanPt1, point, result);
-			double tanCrs = result.azimuth;
-			double diff = SignAzimuthDifference(radCrs, tanCrs);
-			dErr = fabs(diff) - M_PI_2;
-			c = c + dErr;
-			k++;
-		}
+            DistVincenty(tanPt1, point, result);
+            dErr = fabs(SignAzimuthDifference(radCrs, result.azimuth)) - M_PI_2;
+            c = c + dErr;
+            k++;
+        }
 
-		k = 0;
-		dErr = 0.0;
+        k = 0;
+        dErr = 0.0;
+        while (k == 0 || (fabs(dErr) > dTol && k < maxCount))
+        {
+            tanPt2 = DestVincenty(center, crsFromCenter - c, radius);
+            DistVincenty(tanPt2, center, result);
+            const double radCrs = result.azimuth;
 
-		while(k == 0 || (fabs(dErr) > dTol && k < maxCount))
-		{
-			tanPt2 = DestVincenty(center, crsFromCenter - c, radius);
-			DistVincenty(tanPt2, center, result);
-			double radCrs = result.azimuth;
+            DistVincenty(tanPt2, point, result);
+            dErr = fabs(SignAzimuthDifference(radCrs, result.azimuth)) - M_PI_2;
+            c = c + dErr;
+            k++;
+        }
 
-			DistVincenty(tanPt2, point, result);
-			double tanCrs = result.azimuth;
-			double diff = SignAzimuthDifference(radCrs, tanCrs);
-			dErr = fabs(diff) - M_PI_2;
-			c = c + dErr;
-			k++;
-		}
-
-
-		return 1;
-	}
+        return 1;
+    }
 }

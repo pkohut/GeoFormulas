@@ -1,12 +1,12 @@
-/**	\file FindLinearRoot.cpp
-*	\brief 
+/** \file FindLinearRoot.cpp
+*   \brief
 */
 
 /****************************************************************************/
-/*	FindLinearRoot.cpp													*/
+/*  FindLinearRoot.cpp                                                      */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -27,22 +27,30 @@
 using namespace std;
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	void FindLinearRoot( double *x, double *errArray, double & root )
-	{		
-		if(x[0] == x[1]) {
-			root = std::numeric_limits<double>::signaling_NaN();
-		} else if(errArray[0] == errArray[1]) {
-			if(IsNearZero(errArray[0] - errArray[1], 1e-15)) {
-				root = x[0];
-			} else {			
-				root = numeric_limits<double>::signaling_NaN();
-			}
-		} else {
-			root = -errArray[0] * (x[1] - x[0]) / (errArray[1] - errArray[0]) + x[0];
-		}
-	}
+    /**
+    *
+    */
+    void FindLinearRoot(double *x, double *errArray, double &root)
+    {
+        if (x[0] == x[1])
+        {
+            root = std::numeric_limits<double>::signaling_NaN();
+        }
+        else if (errArray[0] == errArray[1])
+        {
+            if (IsNearZero(errArray[0] - errArray[1], 1e-15))
+            {
+                root = x[0];
+            }
+            else
+            {
+                root = numeric_limits<double>::signaling_NaN();
+            }
+        }
+        else
+        {
+            root = -errArray[0] * (x[1] - x[0]) / (errArray[1] - errArray[0]) + x[0];
+        }
+    }
 
 }

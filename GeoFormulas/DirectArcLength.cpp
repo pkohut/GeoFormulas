@@ -1,12 +1,12 @@
-/**	\file DirectArcLength.cpp
-*	\brief 
+/** \file DirectArcLength.cpp
+*   \brief
 */
 
 /****************************************************************************/
-/*	DirectArcLength.cpp													*/
+/*  DirectArcLength.cpp                                                     */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -26,14 +26,14 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	double DirectArcLength(const LLPoint & center, double dRadius, double dStartCrs,
-		double dEndCrs, int nOrient, double dTol)
-	{
-		double dSubtAngle = GetArcExtent(dStartCrs, dEndCrs, nOrient, dTol);
-		double R = sqrt(GeometricMeanMeridional(center.latitude) * PrimeVerticalCurvature(center.latitude));
-		return fabs(dSubtAngle * R * sin(dRadius / R));
-	}
+    /**
+    *
+    */
+    double DirectArcLength(const LLPoint &center, double dRadius, double dStartCrs, double dEndCrs,
+                           int nOrient, double dTol)
+    {
+        const double dSubtendedAngle = GetArcExtent(dStartCrs, dEndCrs, nOrient, dTol);
+        const double R = sqrt(GeometricMeanMeridional(center.latitude) * PrimeVerticalCurvature(center.latitude));
+        return fabs(dSubtendedAngle * R * sin(dRadius / R));
+    }
 }

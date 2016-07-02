@@ -1,12 +1,12 @@
-/**	\file GeometricMeanMeridional.cpp
-*	\brief 
+/** \file GeometricMeanMeridional.cpp
+*   \brief
 */
 
 /****************************************************************************/
-/*	GeometricMeanMeridional.cpp													*/
+/*  GeometricMeanMeridional.cpp                                             */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -26,11 +26,11 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	double GeometricMeanMeridional( double dAngle )
-	{
-		return kSemiMajorAxis * (1.0 - keSq) / pow(1 - keSq * (sin(dAngle) * sin(dAngle)), 1.5);
-	}
+    /**
+    *
+    */
+    double GeometricMeanMeridional(double dAngle)
+    {
+        return kSemiMajorAxis * (1.0 - keSq) / pow(1 - keSq * (sin(dAngle) * sin(dAngle)), 1.5);
+    }
 }

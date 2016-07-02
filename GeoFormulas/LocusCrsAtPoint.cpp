@@ -1,12 +1,12 @@
-/**	\file LocusCrsAtPoint.cpp
-*	\brief 
+/** \file LocusCrsAtPoint.cpp
+*   \brief
 */
 
 /****************************************************************************/
-/*	LocusCrsAtPoint.cpp													*/
+/*  LocusCrsAtPoint.cpp                                                     */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -26,38 +26,32 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	double LocusCrsAtPoint(const Locus & locus, const LLPoint & testPt, LLPoint & geoPt, double & dPerpCrs, const double dTol)
-	{
-		if(!PtIsOnLocus(locus, testPt, geoPt, dTol))
-			return -1.0;
+    /**
+    *
+    */
 
-		double dLocusCrs = 0.0;
-		double dPerpDist;
+    double LocusCrsAtPoint(const Locus &locus, const LLPoint &testPt, LLPoint &geoPt, const double dTol)
+    {
+        double dPerpCrs;
+        return LocusCrsAtPoint(locus, testPt, geoPt, dPerpCrs, dTol);
+    }
 
-		InverseResult result;
-		DistVincenty(testPt, geoPt, result);
-		dPerpCrs = result.azimuth;
-		dPerpDist = result.distance;
+    double LocusCrsAtPoint(const Locus &locus, const LLPoint &testPt, LLPoint &geoPt,
+                           double &dPerpCrs, const double dTol)
+    {
+        if (!PtIsOnLocus(locus, testPt, geoPt, dTol))
+            return -1.0;
 
-		DistVincenty(locus.geoStart, locus.geoEnd, result);
-		double dGeoLen = result.distance;
+        InverseResult result;
+        DistVincenty(testPt, geoPt, result);
+        dPerpCrs = result.azimuth;
 
-		double dDistToLocus = DistToLocusP(locus, geoPt, dTol, kEps);
-		double dSlope = atan((locus.endDist - locus.startDist) / dGeoLen);
+        DistVincenty(locus.geoStart, locus.geoEnd, result);
+        dPerpCrs += atan((locus.endDist - locus.startDist) / result.distance);
 
-		dPerpCrs = dPerpCrs + dSlope;
+        const double dLocusCrs = DistToLocusP(locus, geoPt, dTol, kEps) < 0 ?
+                                 dPerpCrs - M_PI_2 : dPerpCrs + M_PI_2;
 
-		if(dDistToLocus < 0)
-			dLocusCrs = dPerpCrs - M_PI_2;
-		else
-			dLocusCrs = dPerpCrs + M_PI_2;
-
-		if(dLocusCrs > M_2PI)
-			dLocusCrs = dLocusCrs - M_2PI;
-
-		return dLocusCrs;
-	}
+        return dLocusCrs > M_2PI ? dLocusCrs - M_2PI : dLocusCrs;
+    }
 }

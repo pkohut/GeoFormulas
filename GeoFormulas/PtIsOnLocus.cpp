@@ -1,12 +1,12 @@
-/**	\file PtIsOnLocus.cpp
-*	\brief 
+/** \file PtIsOnLocus.cpp
+*   \brief
 */
 
 /****************************************************************************/
-/*	PtIsOnLocus.cpp													*/
+/*  PtIsOnLocus.cpp                                                         */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -26,31 +26,32 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	bool PtIsOnLocus(const Locus & loc, const LLPoint & testPt, LLPoint & projPt, double dTol)
-	{
-		InverseResult result;
-		if(!DistVincenty(loc.geoStart, loc.geoEnd, result))
-			return false;
-		double fcrs = result.azimuth;
+    /**
+    *
+    */
 
-		double dCrsFromPt, dDistFromPt;
+    bool PtIsOnLocus(const Locus &loc, const LLPoint &testPt, double dTol)
+    {
+        LLPoint projPt;
+        return PtIsOnLocus(loc, testPt, projPt, dTol);
+    }
 
-		projPt = PerpIntercept(loc.geoStart, fcrs, testPt, dCrsFromPt, dDistFromPt, dTol);
+    bool PtIsOnLocus(const Locus &loc, const LLPoint &testPt, LLPoint &projPt, double dTol)
+    {
+        InverseResult result;
+        if (!DistVincenty(loc.geoStart, loc.geoEnd, result))
+            return false;
 
-		PTISONGEODESIC_RESULT ptResult;
-		if(!PtIsOnGeodesic(loc.geoStart, loc.geoEnd, projPt, 0, ptResult))
-			return false;
-		if(!ptResult.result)
-			return false;
-		LLPoint compPt = PointOnLocusP(loc, projPt, dTol, kEps);
+        double dCrsFromPt, dDistFromPt;
+        projPt = PerpIntercept(loc.geoStart, result.azimuth, testPt, dCrsFromPt, dDistFromPt, dTol);
 
-		// step 5 (page A2-28) says to use projPt, but that is in error
-		DistVincenty(testPt, compPt, result);
-		if(result.distance < dTol)
-			return true;
-		return false;
-	}
+        PTISONGEODESIC_RESULT ptResult;
+        if (!PtIsOnGeodesic(loc.geoStart, loc.geoEnd, projPt, 0, ptResult) || !ptResult.result)
+            return false;
+
+        // step 5 (page A2-28) says to use projPt, but that is in error
+        DistVincenty(testPt, PointOnLocusP(loc, projPt, dTol, kEps), result);
+
+        return result.distance < dTol;
+    }
 }
