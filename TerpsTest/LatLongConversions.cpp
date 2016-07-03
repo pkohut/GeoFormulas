@@ -39,7 +39,7 @@ double ParseLatitude(string szDeg)
 {
     regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
     TrimWhitespace(szDeg);
-    string sPattern = "[+-]|[sn]";
+    string sPattern = "[+-]+|[sn]+";
     smatch what;
     regex pat(sPattern, flags);
     if (!regex_search(szDeg, what, pat))
@@ -154,7 +154,7 @@ double ParseLongitude(string szDeg)
 {
     regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
     TrimWhitespace(szDeg);
-    string sPattern = "[+-]|[ew]";
+    string sPattern = "[+-]+|[ew]+";
     smatch what;
     regex pat(sPattern, flags);
     if (!regex_search(szDeg, what, pat))
