@@ -35,7 +35,5 @@ include_directories("${PROJECT_BINARY_DIR}")
 add_executable(terps_tests ${TERPS_TESTS_SRCS})
 include_directories("${PROJECT_INCLUDE_DIR}")
 
-find_package(Boost REQUIRED COMPONENTS regex)
-include_directories(${Boost_INCLUDE_DIRS})
-target_link_libraries(terps_tests ${Boost_REGEX_LIBRARY} geo_formulas)
+target_link_libraries(terps_tests geo_formulas)
 
