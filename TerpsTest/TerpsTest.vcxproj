@@ -88,7 +88,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\boost_1_61_0\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_ROOT)\;$(SolutionDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -98,7 +98,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\boost_1_61_0\lib32-msvc-14.0\;..\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(BOOST_ROOT)\lib32-msvc-14.0\;..\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -190,6 +190,12 @@
     <ClCompile Include="TestTangentFixedRadiusArc.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\Conversions.h" />
+    <ClInclude Include="..\include\GeoFormulas.h" />
+    <ClInclude Include="..\include\Geolib.h" />
+    <ClInclude Include="..\include\geo_formulas_configure.h" />
+    <ClInclude Include="..\include\RNavConversionException.h" />
+    <ClInclude Include="..\include\VectorMath.h" />
     <ClInclude Include="LatLongConversions.h" />
   </ItemGroup>
   <ItemGroup>
