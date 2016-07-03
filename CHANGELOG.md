@@ -1,6 +1,25 @@
 ## Change log for GeoFormulas
 
 ==========================
+###0.2.1
+####Date: (2016-07-03)
+
+Features:
+  - Remove C++ Boost dependency.
+    - Limit GCC version to 4.9 and Clang version to 3.3, where C++11 Regex
+      is supported.
+    - Use std::bitset
+    - Switch to regex_constants::EMAScript
+    - Add support for versioning
+    - CMake generator for Visual Studio works.
+    - Example of creating VS2015 project with CMake:</br>
+        ``cmake -G "Visual Studio 14 2015" ..\GeoFormulas``
+    - Add changelog
+
+Bug Fixes:
+  - Fix regex pattern []. with [.]
+  - Windows CMake and VS project tweaks
+
 
 ###0.2.0
 ####Date: (2016-07-01)

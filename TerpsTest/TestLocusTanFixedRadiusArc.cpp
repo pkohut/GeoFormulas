@@ -27,9 +27,9 @@
 #include "LatLongConversions.h"
 #include "Conversions.h"
 #include "GeoFormulas.h"
-#include <boost/regex.hpp>
+#include <regex>
 
-using namespace boost;
+
 using namespace GeoCalcs;
 using namespace std;
 
@@ -40,7 +40,7 @@ bool ParseLocusTanFixedRadiusArc3(string sLine3, string &sArcDirection, string &
     TrimWhitespace(sLine3);
     try
     {
-        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
 
         string sRxPat = "[,][A-z]+[,]";
         sRxPat += "([-+]?[1])[,]";
@@ -83,7 +83,7 @@ bool ParseLocusTanFixedRadiusArc1(string sLine1, string &sTestId, string &sGeoSt
     TrimWhitespace(sLine1);
     try
     {
-        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
 
         string sRxPat = "([a-z]+|[A-Z]+\\d+)[,]";
         sRxPat += "[0-9A-z ]+[,]";
@@ -131,7 +131,7 @@ bool ParseLocusTanFixedRadiusArc2(string sLine2, string &sGeoStartLat, string &s
 
     try
     {
-        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
 
         string sRxPat = "[,][0-9A-z ]+[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";

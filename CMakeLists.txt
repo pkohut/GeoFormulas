@@ -1,5 +1,16 @@
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 2.8)
 project(geo_formulas_ng)
+
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
+        # gcc < 4.9 does not provide working std::regex
+        message(FATAL_ERROR "GCC version must be at least 4.9")
+    endif()
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "CLANG")
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.3)
+        message(FATAL_ERROR "Clang version must be at least 3.3")
+    endif()
+endif()
 
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++11")
 
