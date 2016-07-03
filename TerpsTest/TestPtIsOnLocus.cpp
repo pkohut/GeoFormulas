@@ -27,9 +27,9 @@
 #include "LatLongConversions.h"
 #include "Conversions.h"
 #include "GeoFormulas.h"
-#include <boost/regex.hpp>
+#include <regex>
 
-using namespace boost;
+
 using namespace GeoCalcs;
 using namespace std;
 
@@ -41,14 +41,14 @@ bool ParseTestPtIsOnLocus(string sString)
     string soLocEndLat, soLocEndLong, soLocStartDist, soLocEndDist, soTestPtLat, soTestPtLong, soResult;
     try
     {
-        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
 
         string sRxPat = "([a-z]+|[A-Z]+\\d+)[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
-        sRxPat += "([-+]?[0-9]*[].?[0-9]+)[,]([-+]?[0-9]*[.]?[0-9]+)[,]";
+        sRxPat += "([-+]?[0-9]*[.]?[0-9]+)[,]([-+]?[0-9]*[.]?[0-9]+)[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
         sRxPat += "([0-1])";
         regex pat(sRxPat, flags);

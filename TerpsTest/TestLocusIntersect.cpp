@@ -27,9 +27,9 @@
 #include "LatLongConversions.h"
 #include "Conversions.h"
 #include "GeoFormulas.h"
-#include <boost/regex.hpp>
+#include <regex>
 
-using namespace boost;
+
 using namespace GeoCalcs;
 using namespace std;
 
@@ -39,7 +39,7 @@ bool ParseLocusIntersect3(string sLine3, string &sIntersection1Lat, string &sInt
     TrimWhitespace(sLine3);
     try
     {
-        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
 
         string sRxPat = "[,][A-z]+[,]";
         sRxPat += "([N/A]+|[0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([N/A]+|[0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
@@ -73,7 +73,7 @@ bool ParseLocusIntersect1(string sLine1, string &sTestId, string &sGeoStartLat, 
     TrimWhitespace(sLine1);
     try
     {
-        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
 
         string sRxPat = "([a-z]+|[A-Z]+\\d+)[,]";
         sRxPat += "[0-9A-z ]+[,]";
@@ -120,7 +120,7 @@ bool ParseLocusIntersect2(string sLine2, string &sGeoStartLat, string &sGeoStart
 
     try
     {
-        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
 
         string sRxPat = "[,][0-9A-z ]+[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";

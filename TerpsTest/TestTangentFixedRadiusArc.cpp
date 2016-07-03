@@ -27,9 +27,9 @@
 #include "LatLongConversions.h"
 #include "Conversions.h"
 #include "GeoFormulas.h"
-#include <boost/regex.hpp>
+#include <regex>
 
-using namespace boost;
+
 using namespace GeoCalcs;
 using namespace std;
 
@@ -42,7 +42,7 @@ bool ParseTestTangentFixedRadiusArc(string sString)
     string soTangentPt1Lat, soTangentPt1Lon, soTangentPt2Lat, soTangentPt2Lon;
     try
     {
-        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
+        regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
 
         string sRxPat = "([a-z]+|[A-Z]+\\d+)[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";

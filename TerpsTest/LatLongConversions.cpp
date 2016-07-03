@@ -22,11 +22,11 @@
 /****************************************************************************/
 
 //#include "stdafx.h"
-#include <boost/regex.hpp>
+#include <regex>
 #include "LatLongConversions.h"
 #include "Conversions.h"
 
-using namespace boost;
+
 using namespace std;
 
 void TrimWhitespace(string &szString)
@@ -37,7 +37,7 @@ void TrimWhitespace(string &szString)
 
 double ParseLatitude(string szDeg)
 {
-    regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
+    regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
     TrimWhitespace(szDeg);
     string sPattern = "[+-]|[sn]";
     smatch what;
@@ -74,7 +74,7 @@ double ParseLatitude(string szDeg)
 
 double ParseLatitudeBegin(string &sString)
 {
-    regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
+    regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
     string sPattern = "[:. ]";
 
     regex pat(sPattern, flags);
@@ -136,7 +136,7 @@ double ParseLatitudeBegin(string &sString)
     //  if(dDeg > 90.0 || dMin > 59.0 || dSec > 59.0)
     //      throw(CRNavConversionException("Degrees > 90 or Minutes > 59 or Seconds > 59"));
 
-    ssec += "." + *it++;
+    ssec += "." + string(*it++);
     dSec = atof(ssec.c_str());
 
     double dVal;
@@ -152,7 +152,7 @@ double ParseLatitudeBegin(string &sString)
 
 double ParseLongitude(string szDeg)
 {
-    regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
+    regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
     TrimWhitespace(szDeg);
     string sPattern = "[+-]|[ew]";
     smatch what;
@@ -189,7 +189,7 @@ double ParseLongitude(string szDeg)
 
 double ParseLongitudeBegin(string &sString)
 {
-    regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::perl;
+    regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
     string sPattern = "[:. ]";
 
     regex pat(sPattern, flags);
@@ -251,7 +251,7 @@ double ParseLongitudeBegin(string &sString)
     //  if(dDeg > 180.0 || dMin > 59.0 || dSec > 59.0)
     //      throw(CRNavConversionException("Degrees > 180 or Minutes > 59 or Seconds > 59"));
 
-    ssec += "." + *it++;
+    ssec += "." + string(*it++);
     dSec = atof(ssec.c_str());
 
     double dVal;
