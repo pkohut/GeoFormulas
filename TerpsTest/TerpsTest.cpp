@@ -26,6 +26,7 @@
 #include <assert.h>
 #include "LatLongConversions.h"
 #include "Conversions.h"
+#include "geo_formulas_configure.h"
 #include "GeoFormulas.h"
 #include <boost/typeof/std/bitset.hpp>
 

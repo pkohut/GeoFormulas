@@ -46,4 +46,4 @@ include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_INCLUDE_DIR}")
 
 
-add_library(${PROJECT_NAME} SHARED ${GEO_FORMULAS_SRCS})
+add_library(${PROJECT_NAME} ${GEO_FORMULAS_SRCS})
