@@ -31,14 +31,14 @@
 
 using namespace std;
 
-double ParseLatLongBegin(bool bIsLatitude, string & sString)
+double ParseLatLongBegin(bool bIsLatitude, string &sString)
 {
     regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
     smatch matchResults;
 
     string rxLatLong = "([NS])";
     int nAngle = 180;
-    if(!bIsLatitude)
+    if (!bIsLatitude)
     {
         rxLatLong = "([EW])";
         nAngle = 360;
@@ -87,12 +87,12 @@ double ParseLatLongBegin(bool bIsLatitude, string & sString)
     // Make sure we convert 'S' and 'W' and '-' to '-'
     // Don't need to do this if 'N' or 'E' or '+'
     int dInverse = 1;
-    if(bIsLatitude)
+    if (bIsLatitude)
     {
         if ((*it).str() == "S" || (*it).str() == "s" || (*it).str() == "-")
             dInverse = -1;
     }
-    else if((*it).str() == "W" || (*it).str() == "w" || (*it).str() == "-")
+    else if ((*it).str() == "W" || (*it).str() == "w" || (*it).str() == "-")
     {
         dInverse = -1;
     }
@@ -105,7 +105,7 @@ double ParseLatLongBegin(bool bIsLatitude, string & sString)
     dSec += atof((string(".") + string(*it++)).c_str());
 
     double dVal = ConvertDmsToDd(dDeg, dMin, dSec);
-    if (dVal > double(nAngle) || dVal < (double)-nAngle)
+    if (dVal > double(nAngle) || dVal < (double) -nAngle)
     {
         if (bIsLatitude)
             throw (CRNavConversionException("Latitude > 90.0 or < -90.0"));
@@ -213,9 +213,9 @@ string ConvertDdToDms(double const &dDeg)
     stringstream ss;
     ss.setf(ios::fixed, ios::floatfield);
     ss.precision(5);
-    ss << nDegrees << ":" <<
-            setfill('0') << setw(2) << (int) dMinutes << ":" <<
-            setfill('0') << setw(8) << nSeconds;
+    ss << nDegrees << ":"
+       << setfill('0') << setw(2) << (int) dMinutes << ":"
+       << setfill('0') << setw(8) << nSeconds;
 
     return ss.str();
 }
