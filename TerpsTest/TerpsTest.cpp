@@ -28,7 +28,6 @@
 #include <cstdlib>
 #include <vector>
 
-#include <sys/types.h>
 #include <sys/stat.h>
 
 #include "LatLongConversions.h"
@@ -77,7 +76,7 @@ extern int TestPointToArcTangents(const string &sFilePath);
 extern int TestPerpTangentPoints(const string &sFilePath);
 
 // @formatter:off
-bool TestLatitudeParsing()
+bool TestLatitudeParsing(void)
 {
     try
     {
@@ -116,13 +115,13 @@ bool TestLatitudeParsing()
     }
     catch (CRNavConversionException &ex)
     {
-        string err = ex.m_sEx;
+        cerr << ex.m_sEx << endl;
         return false;
     }
 }
 
 
-bool TestLongitudeParsing()
+bool TestLongitudeParsing(void)
 {
     try
     {
@@ -179,7 +178,7 @@ bool TestLongitudeParsing()
     }
     catch (CRNavConversionException &ex)
     {
-        string err = ex.m_sEx;
+        cerr << ex.m_sEx << endl;
         return false;
     }
 }
@@ -228,7 +227,6 @@ string PathAppend(const string &path1, const string &path2)
     {
         return path1 + kPathSep + path2;
     }
-
     return path1 + path2;
 }
 
@@ -265,10 +263,6 @@ int main(int argc, char *argv[])
     bitset<32> nTests;
     bool bAllPassed = true;
 
-
-    char **begin = argv;
-    char **end = argv + argc;
-
     string sDirectory;
     vector<string> args{argv, argv + argc};
     for (auto it = args.begin() + 1; it != args.end(); it++)
@@ -297,7 +291,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            int test_number = atoi((*it).c_str());
+            size_t test_number = (size_t) atoi((*it).c_str());
             if (test_number == 0 || test_number > 22)
             {
                 cerr << *it << " is not a valid test value" << endl;
@@ -325,7 +319,7 @@ int main(int argc, char *argv[])
         nTest++;
         cout << "8260.54a Appendix 2 Test suite (version 0.3";
         cout << "\n\nRunning Latitude parsing test: ";
-        if (TestLatitudeParsing() == false)
+        if (!TestLatitudeParsing())
         {
             cerr << "Failed";
             bAllPassed = false;
@@ -340,7 +334,7 @@ int main(int argc, char *argv[])
     {
         nTest++;
         cout << "\n\nRunning Longitude parsing test: ";
-        if (TestLongitudeParsing() == false)
+        if (!TestLongitudeParsing())
         {
             cerr << "Failed";
             bAllPassed = false;
@@ -359,6 +353,7 @@ int main(int argc, char *argv[])
     {
         nTest++;
         sFile = "Direct.csv";
+
         // Direct Test
         cout << "\n\nRunning 8260.54A Direct measurement test.";
         nError = TestDirect(PathAppend(sDirectory, sFile));
@@ -381,7 +376,7 @@ int main(int argc, char *argv[])
     {
         nTest++;
 
-        // Direct Test
+        // Inverse Test
         cout << "\n\nRunning 8260.54A Inverse measurement test.";
         sFile = "Inverse.csv";
         nError = TestInverse(PathAppend(sDirectory, sFile));
