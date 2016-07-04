@@ -25,6 +25,11 @@
 //#include "stdafx.h"
 #include <assert.h>
 #include <bitset>
+#include <cstdlib>
+#include <vector>
+
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include "LatLongConversions.h"
 #include "Conversions.h"
@@ -71,42 +76,42 @@ extern int TestPointToArcTangents(const string &sFilePath);
 
 extern int TestPerpTangentPoints(const string &sFilePath);
 
-
+// @formatter:off
 bool TestLatitudeParsing()
 {
     try
     {
-        //      assert(IsApprox(ParseLatitude("0:0:0.5s"),          -0.000138889, 1e-8) == true);
-        assert(IsApprox(ParseLatitude("  1:2:3.4s "), -1.0342777777777777777777777777778, 1e-15) == true);
-        assert(IsApprox(ParseLatitude(" 1s"), -1.0000000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLatitude(" 1:2s"), -1.0333333333333333333333333333333, 1e-15) == true);
-        assert(IsApprox(ParseLatitude(" 1:2:3s"), -1.0341666666666666666666666666667, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  89:59:59.99s"), -89.9999972222222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  90:0:0.0s "), -90.0000000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  1:2:33.4s "), -1.0426111111111111111111111111111, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  1:22:3.4s "), -1.3676111111111111111111111111111, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  11:2:3.4s "), -11.0342777777777777777777777777778, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  1:2:33.44s "), -1.0426222222222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  1:22:3.44s "), -1.3676222222222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  11:2:3.44s "), -11.0342888888888888888888888888889, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  1:22:33.44s "), -1.3759555555555555555555555555556, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  11:22:33.44s "), -11.3759555555555555555555555555556, 1e-15) == true);
-        //assert(IsApprox(ParseLatitude("  90:00:00.01s "), -90.0000027777777777777777777777778, 1e-15) == true); // will throw exception
-        assert(IsApprox(ParseLatitude("  1:2:3.4n "), 1.0342777777777777777777777777778, 1e-15) == true);
-        assert(IsApprox(ParseLatitude(" 1n"), 1.0000000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLatitude(" 1:2n"), 1.0333333333333333333333333333333, 1e-15) == true);
-        assert(IsApprox(ParseLatitude(" 1:2:3n"), 1.0341666666666666666666666666667, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  89:59:59.99n"), 89.9999972222222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  90:0:0.0n "), 90.0000000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  1:2:33.4n "), 1.0426111111111111111111111111111, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  1:22:3.4n "), 1.3676111111111111111111111111111, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  11:2:3.4n "), 11.0342777777777777777777777777778, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  1:2:33.44n "), 1.0426222222222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  1:22:3.44n "), 1.3676222222222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  11:2:3.44n "), 11.0342888888888888888888888888889, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  1:22:33.44n "), 1.3759555555555555555555555555556, 1e-15) == true);
-        assert(IsApprox(ParseLatitude("  11:22:33.44n "), 11.3759555555555555555555555555556, 1e-15) == true);
-        //assert(IsApprox(ParseLatitude("  90:00:00.01n "), 90.0000027777777777777777777777778, 1e-15) == true); // will throw exception
+        //      assert(IsApprox(ParseLatitude("0:0:0.5s"),          -0.000138889, 1e-8));
+        assert(IsApprox(ParseLatitude("  1:2:3.4s "), -1.0342777777777777777777777777778, 1e-15));
+        assert(IsApprox(ParseLatitude(" 1s"), -1.0000000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLatitude(" 1:2s"), -1.0333333333333333333333333333333, 1e-15));
+        assert(IsApprox(ParseLatitude(" 1:2:3s"), -1.0341666666666666666666666666667, 1e-15));
+        assert(IsApprox(ParseLatitude("  89:59:59.99s"), -89.9999972222222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLatitude("  90:0:0.0s "), -90.0000000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLatitude("  1:2:33.4s "), -1.0426111111111111111111111111111, 1e-15));
+        assert(IsApprox(ParseLatitude("  1:22:3.4s "), -1.3676111111111111111111111111111, 1e-15));
+        assert(IsApprox(ParseLatitude("  11:2:3.4s "), -11.0342777777777777777777777777778, 1e-15));
+        assert(IsApprox(ParseLatitude("  1:2:33.44s "), -1.0426222222222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLatitude("  1:22:3.44s "), -1.3676222222222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLatitude("  11:2:3.44s "), -11.0342888888888888888888888888889, 1e-15));
+        assert(IsApprox(ParseLatitude("  1:22:33.44s "), -1.3759555555555555555555555555556, 1e-15));
+        assert(IsApprox(ParseLatitude("  11:22:33.44s "), -11.3759555555555555555555555555556, 1e-15));
+        //assert(IsApprox(ParseLatitude("  90:00:00.01s "), -90.0000027777777777777777777777778, 1e-15)); // will throw exception
+        assert(IsApprox(ParseLatitude("  1:2:3.4n "), 1.0342777777777777777777777777778, 1e-15));
+        assert(IsApprox(ParseLatitude(" 1n"), 1.0000000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLatitude(" 1:2n"), 1.0333333333333333333333333333333, 1e-15));
+        assert(IsApprox(ParseLatitude(" 1:2:3n"), 1.0341666666666666666666666666667, 1e-15));
+        assert(IsApprox(ParseLatitude("  89:59:59.99n"), 89.9999972222222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLatitude("  90:0:0.0n "), 90.0000000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLatitude("  1:2:33.4n "), 1.0426111111111111111111111111111, 1e-15));
+        assert(IsApprox(ParseLatitude("  1:22:3.4n "), 1.3676111111111111111111111111111, 1e-15));
+        assert(IsApprox(ParseLatitude("  11:2:3.4n "), 11.0342777777777777777777777777778, 1e-15));
+        assert(IsApprox(ParseLatitude("  1:2:33.44n "), 1.0426222222222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLatitude("  1:22:3.44n "), 1.3676222222222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLatitude("  11:2:3.44n "), 11.0342888888888888888888888888889, 1e-15));
+        assert(IsApprox(ParseLatitude("  1:22:33.44n "), 1.3759555555555555555555555555556, 1e-15));
+        assert(IsApprox(ParseLatitude("  11:22:33.44n "), 11.3759555555555555555555555555556, 1e-15));
+        //assert(IsApprox(ParseLatitude("  90:00:00.01n "), 90.0000027777777777777777777777778, 1e-15)); // will throw exception
         return true;
     }
     catch (CRNavConversionException &ex)
@@ -121,53 +126,53 @@ bool TestLongitudeParsing()
 {
     try
     {
-        assert(IsApprox(ParseLongitude("  1:2:3.4w "), -1.0342777777777777777777777777778, 1e-15) == true);
-        assert(IsApprox(ParseLongitude(" 1w"), -1.0000000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLongitude(" 1:2w"), -1.0333333333333333333333333333333, 1e-15) == true);
-        assert(IsApprox(ParseLongitude(" 1:2:3w"), -1.0341666666666666666666666666667, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  89:59:59.99w"), -89.9999972222222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  90:0:0.0w "), -90.0000000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  1:2:33.4w "), -1.0426111111111111111111111111111, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  1:22:3.4w "), -1.3676111111111111111111111111111, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  11:2:3.4w "), -11.0342777777777777777777777777778, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  1:2:33.44w "), -1.0426222222222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  1:22:3.44w "), -1.3676222222222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  11:2:3.44w "), -11.0342888888888888888888888888889, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  1:22:33.44w "), -1.3759555555555555555555555555556, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  11:22:33.44w "), -11.3759555555555555555555555555556, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  90:00:00.01w "), -90.0000027777777777777777777777778, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  1:2:3.4e "), 1.0342777777777777777777777777778, 1e-15) == true);
-        assert(IsApprox(ParseLongitude(" 1e"), 1.0000000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLongitude(" 1:2e"), 1.0333333333333333333333333333333, 1e-15) == true);
-        assert(IsApprox(ParseLongitude(" 1:2:3e"), 1.0341666666666666666666666666667, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  89:59:59.99e"), 89.9999972222222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  90:0:0.0e "), 90.0000000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  1:2:33.4e "), 1.0426111111111111111111111111111, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  1:22:3.4e "), 1.3676111111111111111111111111111, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  11:2:3.4e "), 11.0342777777777777777777777777778, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  1:2:33.44e "), 1.0426222222222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  1:22:3.44e "), 1.3676222222222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  11:2:3.44e "), 11.0342888888888888888888888888889, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  1:22:33.44e "), 1.3759555555555555555555555555556, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  11:22:33.44e "), 11.3759555555555555555555555555556, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  90:00:00.01e "), 90.0000027777777777777777777777778, 1e-15) == true);
-        //assert(IsApprox(ParseLongitude("  180:00:00.01e "),   180.00000277777777777777777777778, 1e-15) == true); // will throw an exception
-        assert(IsApprox(ParseLongitude("  180:00:00.00e "), 180.00000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  180:00:00e "), 180.00000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  180:00e "), 180.00000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  180e "), 180.00000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  179:59:59.99e "), 179.99999722222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  179:59:59e "), 179.99972222222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  179:59e "), 179.98333333333333333333333333333, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  179e "), 179.00000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  180:00:00.00w "), -180.00000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  180:00:00w "), -180.00000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  180:00w "), -180.00000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  180w "), -180.00000000000000000000000000000, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  179:59:59.99w "), -179.99999722222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  179:59:59w "), -179.99972222222222222222222222222, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  179:59w "), -179.98333333333333333333333333333, 1e-15) == true);
-        assert(IsApprox(ParseLongitude("  179w "), -179.00000000000000000000000000000, 1e-15) == true);
+        assert(IsApprox(ParseLongitude("  1:2:3.4w "), -1.0342777777777777777777777777778, 1e-15));
+        assert(IsApprox(ParseLongitude(" 1w"), -1.0000000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLongitude(" 1:2w"), -1.0333333333333333333333333333333, 1e-15));
+        assert(IsApprox(ParseLongitude(" 1:2:3w"), -1.0341666666666666666666666666667, 1e-15));
+        assert(IsApprox(ParseLongitude("  89:59:59.99w"), -89.9999972222222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLongitude("  90:0:0.0w "), -90.0000000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLongitude("  1:2:33.4w "), -1.0426111111111111111111111111111, 1e-15));
+        assert(IsApprox(ParseLongitude("  1:22:3.4w "), -1.3676111111111111111111111111111, 1e-15));
+        assert(IsApprox(ParseLongitude("  11:2:3.4w "), -11.0342777777777777777777777777778, 1e-15));
+        assert(IsApprox(ParseLongitude("  1:2:33.44w "), -1.0426222222222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLongitude("  1:22:3.44w "), -1.3676222222222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLongitude("  11:2:3.44w "), -11.0342888888888888888888888888889, 1e-15));
+        assert(IsApprox(ParseLongitude("  1:22:33.44w "), -1.3759555555555555555555555555556, 1e-15));
+        assert(IsApprox(ParseLongitude("  11:22:33.44w "), -11.3759555555555555555555555555556, 1e-15));
+        assert(IsApprox(ParseLongitude("  90:00:00.01w "), -90.0000027777777777777777777777778, 1e-15));
+        assert(IsApprox(ParseLongitude("  1:2:3.4e "), 1.0342777777777777777777777777778, 1e-15));
+        assert(IsApprox(ParseLongitude(" 1e"), 1.0000000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLongitude(" 1:2e"), 1.0333333333333333333333333333333, 1e-15));
+        assert(IsApprox(ParseLongitude(" 1:2:3e"), 1.0341666666666666666666666666667, 1e-15));
+        assert(IsApprox(ParseLongitude("  89:59:59.99e"), 89.9999972222222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLongitude("  90:0:0.0e "), 90.0000000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLongitude("  1:2:33.4e "), 1.0426111111111111111111111111111, 1e-15));
+        assert(IsApprox(ParseLongitude("  1:22:3.4e "), 1.3676111111111111111111111111111, 1e-15));
+        assert(IsApprox(ParseLongitude("  11:2:3.4e "), 11.0342777777777777777777777777778, 1e-15));
+        assert(IsApprox(ParseLongitude("  1:2:33.44e "), 1.0426222222222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLongitude("  1:22:3.44e "), 1.3676222222222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLongitude("  11:2:3.44e "), 11.0342888888888888888888888888889, 1e-15));
+        assert(IsApprox(ParseLongitude("  1:22:33.44e "), 1.3759555555555555555555555555556, 1e-15));
+        assert(IsApprox(ParseLongitude("  11:22:33.44e "), 11.3759555555555555555555555555556, 1e-15));
+        assert(IsApprox(ParseLongitude("  90:00:00.01e "), 90.0000027777777777777777777777778, 1e-15));
+        //assert(IsApprox(ParseLongitude("  180:00:00.01e "),   180.00000277777777777777777777778, 1e-15)); // will throw an exception
+        assert(IsApprox(ParseLongitude("  180:00:00.00e "), 180.00000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLongitude("  180:00:00e "), 180.00000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLongitude("  180:00e "), 180.00000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLongitude("  180e "), 180.00000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLongitude("  179:59:59.99e "), 179.99999722222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLongitude("  179:59:59e "), 179.99972222222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLongitude("  179:59e "), 179.98333333333333333333333333333, 1e-15));
+        assert(IsApprox(ParseLongitude("  179e "), 179.00000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLongitude("  180:00:00.00w "), -180.00000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLongitude("  180:00:00w "), -180.00000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLongitude("  180:00w "), -180.00000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLongitude("  180w "), -180.00000000000000000000000000000, 1e-15));
+        assert(IsApprox(ParseLongitude("  179:59:59.99w "), -179.99999722222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLongitude("  179:59:59w "), -179.99972222222222222222222222222, 1e-15));
+        assert(IsApprox(ParseLongitude("  179:59w "), -179.98333333333333333333333333333, 1e-15));
+        assert(IsApprox(ParseLongitude("  179w "), -179.00000000000000000000000000000, 1e-15));
 
 
         return true;
@@ -178,6 +183,8 @@ bool TestLongitudeParsing()
         return false;
     }
 }
+
+// @formatter:on
 
 void OutputError(int nError, const string &sDirectory, const string &sFile)
 {
@@ -193,6 +200,55 @@ void OutputError(int nError, const string &sDirectory, const string &sFile)
         cout << "\nFailed: 8260.54A Direct measurement test.";
 }
 
+bool PathExists(string path)
+{
+    struct stat info;
+    if (stat(path.c_str(), &info) != 0)
+    {
+        cerr << "Cannot access " << path << endl;
+        return false;
+    }
+    if (!info.st_mode & S_IFDIR)
+    {
+        cerr << path << " is not a directory" << endl;
+        return false;
+    }
+    return true;
+}
+
+#if defined(WIN32)
+const char kPathSep = '\\';
+#else
+const char kPathSep = '/';
+#endif
+
+string PathAppend(const string &path1, const string &path2)
+{
+    if (path1[path1.length()] != kPathSep)
+    {
+        return path1 + kPathSep + path2;
+    }
+
+    return path1 + path2;
+}
+
+string GetAppName(const string & fullPath)
+{
+    size_t pos = fullPath.find_last_of(kPathSep);
+    if(pos != string::npos)
+        return fullPath.substr(pos + 1);
+    return fullPath;
+}
+
+void ShowUsage(string name)
+{
+    cerr << "Usage: " << name << " -d TEST_DIR [TEST_NUMBERS]" << endl
+         << "  -h  Show this help message" << endl
+         << "  -d  Path to test data" << endl
+         << "TEST_NUMBERS are tests to run from 1 to 22, all tests are run "
+         << "if not specified."
+         << endl;
+}
 
 int main(int argc, char *argv[])
 {
@@ -200,12 +256,55 @@ int main(int argc, char *argv[])
     bitset<32> nTests;
     bool bAllPassed = true;
 
-    for (int i = 1; i < argc; i++)
+
+    char **begin = argv;
+    char **end = argv + argc;
+
+    string sDirectory;
+    vector<string> args{argv, argv + argc};
+    for (auto it = args.begin() + 1; it != args.end(); it++)
     {
-        nTests.set(atoi(argv[i]) - 1);
+        if (*it == "-h")
+        {
+            ShowUsage(GetAppName(argv[0]));
+            return 0;
+        }
+        else if (*it == "-d")
+        {
+            if (it + 1 < args.end())
+            {
+                sDirectory = *++it;
+            }
+            else
+            {
+                std::cerr << "-d option requires one argument." << endl;
+                return 1;
+            }
+        }
+        else
+        {
+            int test_number = atoi((*it).c_str());
+            if (test_number == 0 || test_number > 22)
+            {
+                cerr << *it << " is not a valid test value" << endl;
+                return 1;
+            }
+            nTests.set(test_number - 1);
+        }
     }
-    if (argc == 1)
-        nTests.set(); // set all bits
+
+    if (sDirectory.empty())
+    {
+        cerr << "-d path argument missing." << endl;
+        return 1;
+    }
+    else if (!PathExists(sDirectory))
+    {
+        return 1;
+    }
+
+    if (nTests.count() == 0)
+        nTests.set(); // Run all tests
 
     if (nTests.test(0))
     {
@@ -238,7 +337,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    string sDirectory = "../8260.54ATestData/Test Cases and Expected Results in CSV Format/";
+
     string sFile;
     int nError;
 
@@ -248,7 +347,7 @@ int main(int argc, char *argv[])
         sFile = "Direct.csv";
         // Direct Test
         cout << "\n\nRunning 8260.54A Direct measurement test.";
-        nError = TestDirect(sDirectory + sFile);
+        nError = TestDirect(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -271,7 +370,7 @@ int main(int argc, char *argv[])
         // Direct Test
         cout << "\n\nRunning 8260.54A Inverse measurement test.";
         sFile = "Inverse.csv";
-        nError = TestInverse(sDirectory + sFile);
+        nError = TestInverse(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -293,7 +392,7 @@ int main(int argc, char *argv[])
         // PtIsOnGeodesic Test
         cout << "\n\nRunning 8260.54A PtIsOnGeodesiic Test.";
         sFile = "PtIsOnGeodesic.csv";
-        nError = TestPtIsOnGeodesic(sDirectory + sFile);
+        nError = TestPtIsOnGeodesic(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -317,7 +416,7 @@ int main(int argc, char *argv[])
         // PointIsOnArc test
         cout << "\n\nRunning 8260.54A PtIsOnArc Test.";
         sFile = "PointIsOnArc.csv";
-        nError = TestPtIsOnArc(sDirectory + sFile);
+        nError = TestPtIsOnArc(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -341,7 +440,7 @@ int main(int argc, char *argv[])
         // Discretized arc length test
         cout << "\n\nRunning 8260.54A DiscretizedArcLength Test.";
         sFile = "DiscretizedArcLength.csv";
-        nError = TestDiscretizedArcLength(sDirectory + sFile);
+        nError = TestDiscretizedArcLength(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -365,7 +464,7 @@ int main(int argc, char *argv[])
         // Perp Intercept test
         cout << "\n\nRunning 8260.54A Perp Intercept Test.";
         sFile = "PerpIntercept.csv";
-        nError = TestPerpIntercept(sDirectory + sFile);
+        nError = TestPerpIntercept(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -389,7 +488,7 @@ int main(int argc, char *argv[])
         // PointIsOnLocus test
         cout << "\n\nRunning 8260.54A Pt is on Locus.";
         sFile = "PtIsOnLocus.csv";
-        nError = TestPtIsOnLocus(sDirectory + sFile);
+        nError = TestPtIsOnLocus(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -413,7 +512,7 @@ int main(int argc, char *argv[])
         // Locus Crs at Point test
         cout << "\n\nRunning 8260.54A Locus Crs at Point";
         sFile = "LocusCrsAtPoint.csv";
-        nError = TestLocusCrsAtPoint(sDirectory + sFile);
+        nError = TestLocusCrsAtPoint(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -437,7 +536,7 @@ int main(int argc, char *argv[])
         // Crs Intersect
         cout << "\n\nRunning 8260.54A Crs Intersect";
         sFile = "CrsIntersect.csv";
-        nError = TestCrsIntersect(sDirectory + sFile);
+        nError = TestCrsIntersect(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -461,7 +560,7 @@ int main(int argc, char *argv[])
         // Arc Intersect
         cout << "\n\nRunning 8260.54A Arc Intersect";
         sFile = "ArcIntersect.csv";
-        nError = TestArcIntersect(sDirectory + sFile);
+        nError = TestArcIntersect(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -485,7 +584,7 @@ int main(int argc, char *argv[])
         // Geodesic Arc Intersect
         cout << "\n\nRunning 8260.54A Geodesic Arc Intersect";
         sFile = "GeodesicArcIntersect.csv";
-        nError = TestGeodesicArcIntersect(sDirectory + sFile);
+        nError = TestGeodesicArcIntersect(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -510,7 +609,7 @@ int main(int argc, char *argv[])
         // Geodesic Tangent Fixed Radius Arc
         cout << "\n\nRunning 8260.54A Tangent Fixed Radius Arc";
         sFile = "TangentFixedRadiusArc.csv";
-        nError = TestTangentFixedRadiusArc(sDirectory + sFile);
+        nError = TestTangentFixedRadiusArc(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -534,7 +633,7 @@ int main(int argc, char *argv[])
         // Geodesic Locus Intersect
         cout << "\n\nRunning 8260.54A GeoLocusIntersect";
         sFile = "GeoLocusIntersect.csv";
-        nError = TestGeoLocusIntersect(sDirectory + sFile);
+        nError = TestGeoLocusIntersect(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -558,7 +657,7 @@ int main(int argc, char *argv[])
         // Locus Arc Intersect
         cout << "\n\nRunning 8260.54A Locus Arc Intersect";
         sFile = "LocusArcIntersect.csv";
-        nError = TestLocusArcIntersect(sDirectory + sFile);
+        nError = TestLocusArcIntersect(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -582,7 +681,7 @@ int main(int argc, char *argv[])
         // Locus Intersect
         cout << "\n\nRunning 8260.54A Locus Intersect";
         sFile = "LocusIntersect.csv";
-        nError = TestLocusIntersect(sDirectory + sFile);
+        nError = TestLocusIntersect(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -606,7 +705,7 @@ int main(int argc, char *argv[])
         // Locus Tan Fixed Radius Arc
         cout << "\n\nRunning 8260.54A Locus Tan Fixed Radius Arc";
         sFile = "LocusTanFixedRadiusArc.csv";
-        nError = TestLocusTanFixedRadiusArc(sDirectory + sFile);
+        nError = TestLocusTanFixedRadiusArc(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -630,7 +729,7 @@ int main(int argc, char *argv[])
         // Locus Perp Intersect
         cout << "\n\nRunning 8260.54A Locus Perp Intercept";
         sFile = "LocusPerpIntercept.csv";
-        nError = TestLocusPerpIntercept(sDirectory + sFile);
+        nError = TestLocusPerpIntercept(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -654,7 +753,7 @@ int main(int argc, char *argv[])
         // Point to Arc Tangents
         cout << "\n\nRunning 8260.54A Point to Arc Tangents";
         sFile = "PointToArcTangents.csv";
-        nError = TestPointToArcTangents(sDirectory + sFile);
+        nError = TestPointToArcTangents(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
@@ -678,7 +777,7 @@ int main(int argc, char *argv[])
         // Perp Tangent Points
         cout << "\n\nRunning 8260.54A Perp Tangent Points";
         sFile = "PerpTangentPoints.csv";
-        nError = TestPerpTangentPoints(sDirectory + sFile);
+        nError = TestPerpTangentPoints(PathAppend(sDirectory, sFile));
         if (nError != 0)
         {
             if (nError < 0)
