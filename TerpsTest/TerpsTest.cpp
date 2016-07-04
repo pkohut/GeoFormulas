@@ -189,15 +189,15 @@ bool TestLongitudeParsing()
 void OutputError(int nError, const string &sDirectory, const string &sFile)
 {
     if (nError == -1)
-        cout << "\nProblem opening file " << sDirectory << sFile;
+        cerr << "\nProblem opening file " << sDirectory << sFile;
     else if (nError == -2)
-        cout << "\nUnexpected problem reading file " << sDirectory << sFile;
+        cerr << "\nUnexpected problem reading file " << sDirectory << sFile;
     else if (nError == -3)
-        cout << "\nUnexpected end of file found " << sDirectory << sFile;
+        cerr << "\nUnexpected end of file found " << sDirectory << sFile;
     else if (nError == -99)
-        cout << "\nUnknown file IO error occurred with file " << sDirectory << sFile;
+        cerr << "\nUnknown file IO error occurred with file " << sDirectory << sFile;
     else
-        cout << "\nFailed: 8260.54A Direct measurement test.";
+        cerr << "\nFailed: 8260.54A Direct measurement test.";
 }
 
 bool PathExists(string path)
@@ -232,22 +232,31 @@ string PathAppend(const string &path1, const string &path2)
     return path1 + path2;
 }
 
-string GetAppName(const string & fullPath)
+string GetAppName(const string &fullPath)
 {
     size_t pos = fullPath.find_last_of(kPathSep);
-    if(pos != string::npos)
+    if (pos != string::npos)
         return fullPath.substr(pos + 1);
     return fullPath;
 }
 
 void ShowUsage(string name)
 {
-    cerr << "Usage: " << name << " -d TEST_DIR [TEST_NUMBERS]" << endl
-         << "  -h  Show this help message" << endl
-         << "  -d  Path to test data" << endl
-         << "TEST_NUMBERS are tests to run from 1 to 22, all tests are run "
-         << "if not specified."
-         << endl;
+    cout << "Usage: " << name << " -d TEST_DIR [TEST_NUMBERS]" << endl
+    << "  -h  Show this help message" << endl
+    << "  -d  Path to test data" << endl
+    << "  -v  Show version number and copyright" << endl
+    << "TEST_NUMBERS are tests to run from 1 to 22, all tests are run "
+    << "if not specified."
+    << endl;
+}
+
+void ShowVersion(const string &name)
+{
+    cout << name << " " << to_string(geo_formulas_VERSION_MAJOR)
+                           + "." + to_string(geo_formulas_VERSION_MINOR)
+                           + "." + to_string(geo_formulas_VERSION_PATCH);
+    cout << endl << geo_formulas_COPYRIGHT << endl;
 }
 
 int main(int argc, char *argv[])
@@ -267,6 +276,11 @@ int main(int argc, char *argv[])
         if (*it == "-h")
         {
             ShowUsage(GetAppName(argv[0]));
+            return 0;
+        }
+        else if (*it == "-v")
+        {
+            ShowVersion(GetAppName(argv[0]));
             return 0;
         }
         else if (*it == "-d")
@@ -313,7 +327,7 @@ int main(int argc, char *argv[])
         cout << "\n\nRunning Latitude parsing test: ";
         if (TestLatitudeParsing() == false)
         {
-            cout << "Failed";
+            cerr << "Failed";
             bAllPassed = false;
         }
         else
@@ -328,7 +342,7 @@ int main(int argc, char *argv[])
         cout << "\n\nRunning Longitude parsing test: ";
         if (TestLongitudeParsing() == false)
         {
-            cout << "Failed";
+            cerr << "Failed";
             bAllPassed = false;
         }
         else
@@ -358,7 +372,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Direct measurement test.";
+            cerr << "\nFailed: 8260.54A Direct measurement test.";
             bAllPassed = false;
         }
     }
@@ -381,7 +395,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Inverse measurement test.";
+            cerr << "\nFailed: 8260.54A Inverse measurement test.";
             bAllPassed = false;
         }
     }
@@ -405,7 +419,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A PtIsOnGeodesiic Test.";
+            cerr << "\nFailed: 8260.54A PtIsOnGeodesiic Test.";
             bAllPassed = false;
         }
     }
@@ -429,7 +443,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A PtIsOnArc Test.";
+            cerr << "\nFailed: 8260.54A PtIsOnArc Test.";
             bAllPassed = false;
         }
     }
@@ -453,7 +467,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A DiscretizedArcLength Test.";
+            cerr << "\nFailed: 8260.54A DiscretizedArcLength Test.";
             bAllPassed = false;
         }
     }
@@ -477,7 +491,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Perp Intercept Test.";
+            cerr << "\nFailed: 8260.54A Perp Intercept Test.";
             bAllPassed = false;
         }
     }
@@ -501,7 +515,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Perp PtIsOnLocus Test.";
+            cerr << "\nFailed: 8260.54A Perp PtIsOnLocus Test.";
             bAllPassed = false;
         }
     }
@@ -525,7 +539,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Locus Crs at Point.";
+            cerr << "\nFailed: 8260.54A Locus Crs at Point.";
             bAllPassed = false;
         }
     }
@@ -549,7 +563,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Crs Intersect.";
+            cerr << "\nFailed: 8260.54A Crs Intersect.";
             bAllPassed = false;
         }
     }
@@ -573,7 +587,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Arc Intersect.";
+            cerr << "\nFailed: 8260.54A Arc Intersect.";
             bAllPassed = false;
         }
     }
@@ -597,7 +611,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Geodesic Arc Intersect.";
+            cerr << "\nFailed: 8260.54A Geodesic Arc Intersect.";
             bAllPassed = false;
         }
     }
@@ -622,7 +636,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Tangent Fixed Radius Arc.";
+            cerr << "\nFailed: 8260.54A Tangent Fixed Radius Arc.";
             bAllPassed = false;
         }
     }
@@ -646,7 +660,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Geo Locus Intersect.";
+            cerr << "\nFailed: 8260.54A Geo Locus Intersect.";
             bAllPassed = false;
         }
     }
@@ -670,7 +684,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Locus Arc Intersect.";
+            cerr << "\nFailed: 8260.54A Locus Arc Intersect.";
             bAllPassed = false;
         }
     }
@@ -694,7 +708,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Locus Intersect.";
+            cerr << "\nFailed: 8260.54A Locus Intersect.";
             bAllPassed = false;
         }
     }
@@ -718,7 +732,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Locus Tan Fixed Radius Arc.";
+            cerr << "\nFailed: 8260.54A Locus Tan Fixed Radius Arc.";
             bAllPassed = false;
         }
     }
@@ -742,7 +756,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Locus Perp Intersect.";
+            cerr << "\nFailed: 8260.54A Locus Perp Intersect.";
             bAllPassed = false;
         }
     }
@@ -766,7 +780,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Point to Arc Tangents.";
+            cerr << "\nFailed: 8260.54A Point to Arc Tangents.";
             bAllPassed = false;
         }
     }
@@ -790,7 +804,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "\nFailed: 8260.54A Perp Tangent Points.";
+            cerr << "\nFailed: 8260.54A Perp Tangent Points.";
             bAllPassed = false;
         }
     }
@@ -816,16 +830,14 @@ int main(int argc, char *argv[])
 
     }
 
-
-    if (bAllPassed == false)
+    if (!bAllPassed)
     {
-        cout << "\n\n*********** One or more tests failed quality control ***********";
+        cerr << "\n\n*********** One or more tests failed quality control ***********\n";
     }
     else
     {
-        cout << "\n\n*********** All tests passed quality control ***********";
+        cout << "\n\n*********** All tests passed quality control ***********\n";
     }
-
 
     return 0;
 }
