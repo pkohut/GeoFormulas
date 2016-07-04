@@ -36,7 +36,7 @@ using namespace std;
 bool ParseTestPtIsOnArc(string sString)
 {
     bool bPassed = true;
-    TrimWhitespace(sString);
+    trim(sString);
     string soTestId, soArcCenterLat, soArcCenterLong, soArcRadius, soArcStartAzimuth, soArcEndAzimuth, soArcDirection;
     string soTestPtLat, soTestPtLong, soResult;
     try

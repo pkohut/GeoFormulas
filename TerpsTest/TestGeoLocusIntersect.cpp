@@ -36,7 +36,7 @@ using namespace std;
 bool ParseGeoLocusIntersect3(string sLine3, string &sIntersectionLat, string &sIntersectionLon)
 {
     bool bPassed = false;
-    TrimWhitespace(sLine3);
+    trim(sLine3);
     try
     {
         regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
@@ -69,7 +69,7 @@ bool ParseGeoLocusIntersect2(string sLine2, string &sGeoStartLat, string &sGeoSt
                              string &sLocusStartDist, string &sLocusEndDist)
 {
     bool bPassed = false;
-    TrimWhitespace(sLine2);
+    trim(sLine2);
     //string sTestId, sGeodesicStartLat, sGeodesicStartLong, sGeodesicEndLat, sGeodesicEndLong;
     //string sLocusStartLat, sLocusStartLong, sLocusEndLat, sLocusEndLong;
     //string sLocusStartDist, sLocusEndDist, sTestPointLat, sTestPointLong;
@@ -113,7 +113,7 @@ bool ParseGeoLocusIntersect2(string sLine2, string &sGeoStartLat, string &sGeoSt
 bool ParseGeoLocusIntersect(string sLine1, string sLine2, string sLine3)
 {
     bool bPassed = true;
-    TrimWhitespace(sLine1);
+    trim(sLine1);
     string sTestId, sGeodesicStartLat, sGeodesicStartLong, sGeodesicEndLat, sGeodesicEndLong;
     try
     {

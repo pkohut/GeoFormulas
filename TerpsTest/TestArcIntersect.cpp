@@ -37,7 +37,7 @@ using namespace std;
 bool ParseTestArcIntersect(string sString)
 {
     bool bPassed = true;
-    TrimWhitespace(sString);
+    trim(sString);
     string soTestId, soArc1CenterLat, soArc1CenterLon, soArc1Radius;
     string soArc2CenterLat, soArc2CenterLon, soArc2Radius;
     string soIntersection1Lat, soIntersection1Lon;

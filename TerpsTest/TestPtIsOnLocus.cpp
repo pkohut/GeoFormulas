@@ -36,7 +36,7 @@ using namespace std;
 bool ParseTestPtIsOnLocus(string sString)
 {
     bool bPassed = true;
-    TrimWhitespace(sString);
+    trim(sString);
     string soTestId, soGeodesicStartLat, soGeodesicStartLong, soGeodesicEndLat, soGeodesicEndLong, soLocStartLat, soLocStartLong;
     string soLocEndLat, soLocEndLong, soLocStartDist, soLocEndDist, soTestPtLat, soTestPtLong, soResult;
     try

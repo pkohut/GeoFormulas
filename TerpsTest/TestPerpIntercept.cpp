@@ -36,7 +36,7 @@ using namespace std;
 bool ParseTestPerpIntercept(string sString)
 {
     bool bPassed = true;
-    TrimWhitespace(sString);
+    trim(sString);
     string soTestId, soStartLat, soStartLong, soAz, soTestPtLat, soTestPtLong, soAzFromPt, soDistFromPt;
     string soInterceptLat, soInterceptLong;
     try

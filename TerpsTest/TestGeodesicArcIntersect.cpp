@@ -36,7 +36,7 @@ using namespace std;
 bool ParseTestGeodesicArcIntersect(string sString)
 {
     bool bPassed = true;
-    TrimWhitespace(sString);
+    trim(sString);
     string soTestId, soGeodesicStartLat, soGeodesicStartLon;
     string soGeodesicAzimuth, soArcCenterLat, soArcCenterLon;
     string soArcRadius, soIntersection1Lat, soIntersection1Lon;

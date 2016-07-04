@@ -36,7 +36,7 @@ using namespace std;
 bool ParseTestPerpTangentPoints(string sString)
 {
     bool bPassed = false;
-    TrimWhitespace(sString);
+    trim(sString);
     string sTestId, sGeoStartLat, sGeoStartLon, sGeoAzimuth;
     string sArcCenterLat, sArcCenterLon, sArcRadius;
     string sIntPt1Lat, sIntPt1Lon, sIntPt2Lat, sIntPt2Lon;

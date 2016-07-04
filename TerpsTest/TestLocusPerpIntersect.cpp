@@ -81,7 +81,7 @@ bool ParseLocusPerpIntercept1(string sLine1, string &sTestId, string &sGeoStartL
                               string &sLocusStartDist, string &sLocusEndDist, string &sTestPtLat, string &sTestPtLon)
 {
     bool bPassed = false;
-    TrimWhitespace(sLine1);
+    trim(sLine1);
     try
     {
         regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
@@ -128,7 +128,7 @@ bool ParseLocusPerpIntercept2(string sLine2, string &sAzFromTestPtToIntercept, s
                               string &sInterceptLat, string &sInterceptLon)
 {
     bool bPassed = false;
-    TrimWhitespace(sLine2);
+    trim(sLine2);
 
     try
     {

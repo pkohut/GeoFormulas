@@ -29,46 +29,40 @@
 
 using namespace std;
 
-void TrimWhitespace(string &szString)
-{
-    regex pat("^[ \t]+|[ \t]+$");
-    szString = regex_replace(szString, pat, "");
-}
-
-double ParseLatitude(string szDeg)
+double ParseLatitude(string sDeg)
 {
     regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
-    TrimWhitespace(szDeg);
+    trim(sDeg);
     string sPattern = "[+-]+|[sn]+";
     smatch what;
     regex pat(sPattern, flags);
-    if (!regex_search(szDeg, what, pat))
+    if (!regex_search(sDeg, what, pat))
     {
         // did not find pattern so assume value is positive and North
         // and stuff 'N' at the beginning of the string
-        szDeg = "N" + szDeg;
-        regex_search(szDeg, what, pat);
+        sDeg = "N" + sDeg;
+        regex_search(sDeg, what, pat);
     }
 
     // Replace all '+' 'n' and 'N' with 'N'
     pat.assign("[+N]", flags);
-    szDeg = regex_replace(szDeg, pat, "N");
+    sDeg = regex_replace(sDeg, pat, "N");
 
     // Replace all '-' 's' and 'S' with 'S'
     pat.assign("[-S]", flags);
-    szDeg = regex_replace(szDeg, pat, "S");
+    sDeg = regex_replace(sDeg, pat, "S");
 
     // determine if pattern above was found at the beginning or
     // end of the string.  If found at the end the swap it to the
     // beginning.
     size_t pos = what.position();
-    if (pos == szDeg.length() - 1)
+    if (pos == sDeg.length() - 1)
     {
-        szDeg = szDeg[pos] + szDeg.substr(0, pos);
+        sDeg = sDeg[pos] + sDeg.substr(0, pos);
     }
 
     // String has been normalized continue on with the parsing
-    return ParseLatitudeBegin(szDeg);
+    return ParseLatitudeBegin(sDeg);
 }
 
 
@@ -153,7 +147,7 @@ double ParseLatitudeBegin(string &sString)
 double ParseLongitude(string szDeg)
 {
     regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
-    TrimWhitespace(szDeg);
+    trim(szDeg);
     string sPattern = "[+-]+|[ew]+";
     smatch what;
     regex pat(sPattern, flags);

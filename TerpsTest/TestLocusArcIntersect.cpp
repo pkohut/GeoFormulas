@@ -37,7 +37,7 @@ bool ParseLocusArcIntersect3(string sLine3, string &sIntersection1Lat, string &s
                              string &sIntersection2Lat, string &sIntersection2Lon)
 {
     bool bPassed = false;
-    TrimWhitespace(sLine3);
+    trim(sLine3);
     try
     {
         regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
@@ -73,7 +73,7 @@ bool ParseLocusArcIntersect1(string sLine1, string &sTestId, string &sGeoStartLa
                              string &sLocusStartDist, string &sLocusEndDist)
 {
     bool bPassed = false;
-    TrimWhitespace(sLine1);
+    trim(sLine1);
     //string sTestId, sGeodesicStartLat, sGeodesicStartLong, sGeodesicEndLat, sGeodesicEndLong;
     //string sLocusStartLat, sLocusStartLong, sLocusEndLat, sLocusEndLong;
     //string sLocusStartDist, sLocusEndDist, sTestPointLat, sTestPointLong;
@@ -119,7 +119,7 @@ bool ParseLocusArcIntersect1(string sLine1, string &sTestId, string &sGeoStartLa
 bool ParseLocusArcIntersect2(string sLine2, string &sArcCenterLat, string &sArcCenterLon, string &sArcRadius)
 {
     bool bPassed = true;
-    TrimWhitespace(sLine2);
+    trim(sLine2);
 
     try
     {

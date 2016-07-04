@@ -37,7 +37,7 @@ bool ParseLocusTanFixedRadiusArc3(string sLine3, string &sArcDirection, string &
                                   string &sTanPt1Lat, string &sTanPt1Lon, string &sTanPt2Lat, string &sTanPt2Lon)
 {
     bool bPassed = false;
-    TrimWhitespace(sLine3);
+    trim(sLine3);
     try
     {
         regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
@@ -80,7 +80,7 @@ bool ParseLocusTanFixedRadiusArc1(string sLine1, string &sTestId, string &sGeoSt
                                   string &sLocusStartDist, string &sLocusEndDist)
 {
     bool bPassed = false;
-    TrimWhitespace(sLine1);
+    trim(sLine1);
     try
     {
         regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
@@ -127,7 +127,7 @@ bool ParseLocusTanFixedRadiusArc2(string sLine2, string &sGeoStartLat, string &s
                                   string &sLocusStartDist, string &sLocusEndDist, string &sArcRadius)
 {
     bool bPassed = false;
-    TrimWhitespace(sLine2);
+    trim(sLine2);
 
     try
     {

@@ -36,7 +36,7 @@ using namespace std;
 bool ParseDiscretizedArcLength(string sString)
 {
     bool bPassed = true;
-    TrimWhitespace(sString);
+    trim(sString);
     string sTestId, sArcCenterLat, sArcCenterLong, sArcRadius;
     string sStartAz, sEndAz, sDirection, sComputedArcLength;
     string sDirectComputedArcLength, sDifference;
