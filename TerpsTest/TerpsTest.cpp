@@ -195,21 +195,24 @@ void OutputError(int nError, const string &sDirectory, const string &sFile)
         cerr << "\nUnexpected end of file found " << sDirectory << sFile;
     else if (nError == -99)
         cerr << "\nUnknown file IO error occurred with file " << sDirectory << sFile;
-    else
-        cerr << "\nFailed: 8260.54A Direct measurement test.";
 }
 
-bool PathExists(string path)
+void OutputRunning(const string &sName)
+{
+    cout << "\n\nRunning: " << sName;
+}
+
+bool PathExists(const string &sPath)
 {
     struct stat info;
-    if (stat(path.c_str(), &info) != 0)
+    if (stat(sPath.c_str(), &info) != 0)
     {
-        cerr << "Cannot access " << path << endl;
+        cerr << "Cannot access " << sPath << endl;
         return false;
     }
     if (!info.st_mode & S_IFDIR)
     {
-        cerr << path << " is not a directory" << endl;
+        cerr << sPath << " is not a directory" << endl;
         return false;
     }
     return true;
@@ -221,26 +224,26 @@ const char kPathSep = '\\';
 const char kPathSep = '/';
 #endif
 
-string PathAppend(const string &path1, const string &path2)
+string PathAppend(const string &sPath1, const string &sPath2)
 {
-    if (path1[path1.length()] != kPathSep)
+    if (sPath1[sPath1.length()] != kPathSep)
     {
-        return path1 + kPathSep + path2;
+        return sPath1 + kPathSep + sPath2;
     }
-    return path1 + path2;
+    return sPath1 + sPath2;
 }
 
-string GetAppName(const string &fullPath)
+string GetAppName(const string &sFullPath)
 {
-    size_t pos = fullPath.find_last_of(kPathSep);
+    size_t pos = sFullPath.find_last_of(kPathSep);
     if (pos != string::npos)
-        return fullPath.substr(pos + 1);
-    return fullPath;
+        return sFullPath.substr(pos + 1);
+    return sFullPath;
 }
 
-void ShowUsage(string name)
+void ShowUsage(const string &sName)
 {
-    cout << "Usage: " << name << " -d TEST_DIR [TEST_NUMBERS]" << endl
+    cout << "Usage: " << sName << " -d TEST_DIR [TEST_NUMBERS]" << endl
     << "  -h  Show this help message" << endl
     << "  -d  Path to test data" << endl
     << "  -v  Show version number and copyright" << endl
@@ -249,22 +252,312 @@ void ShowUsage(string name)
     << endl;
 }
 
-void ShowVersion(const string &name)
+void ShowVersion(const string &sName)
 {
-    cout << name << " " << to_string(geo_formulas_VERSION_MAJOR)
-                           + "." + to_string(geo_formulas_VERSION_MINOR)
-                           + "." + to_string(geo_formulas_VERSION_PATCH);
+    cout << sName << " " << to_string(geo_formulas_VERSION_MAJOR)
+                            + "." + to_string(geo_formulas_VERSION_MINOR)
+                            + "." + to_string(geo_formulas_VERSION_PATCH);
     cout << endl << geo_formulas_COPYRIGHT << endl;
+}
+
+bool TestPassed(const string &sName, const string &sDirectory, const string &sFile, int nError)
+{
+    if (nError != 0)
+    {
+        if (nError < 0)
+        {
+            OutputError(nError, sDirectory, sFile);
+            return false;
+        }
+        else
+        {
+            cout << "\nPassed: " << sName;
+            return true;
+        }
+
+    }
+    cerr << "\nFailed: " << sName;
+    return false;
+}
+
+
+bool RunTests(const string &sDirectory, const bitset<32> &nTests)
+{
+    bool bAllPassed = true;
+    int nTest = 0;
+    if (nTests.test(0))
+    {
+        nTest++;
+        cout << "8260.54a Appendix 2 Test suite (version 0.3";
+        cout << "\n\nRunning Latitude parsing test: ";
+        if (!TestLatitudeParsing())
+        {
+            cerr << "Failed";
+            bAllPassed = false;
+        }
+        else
+        {
+            cout << "Passed";
+        }
+    }
+
+    if (nTests.test(1))
+    {
+        nTest++;
+        cout << "\n\nRunning Longitude parsing test: ";
+        if (!TestLongitudeParsing())
+        {
+            cerr << "Failed";
+            bAllPassed = false;
+        }
+        else
+        {
+            cout << "Passed";
+        }
+    }
+
+    if (nTests.test(2))
+    {
+        nTest++;
+        string sFile = "Direct.csv";
+        string sName = "Running 8260.54A Direct measurement test";
+
+        // Direct Test
+        cout << "\n\n" << sName;
+        int nError = TestDirect(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(3))
+    {
+        nTest++;
+        string sFile = "Inverse.csv";
+        string sName = "8260.54A Inverse measurement test";
+        OutputRunning(sName);
+        int nError = TestInverse(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(4))
+    {
+        nTest++;
+        string sFile = "PtIsOnGeodesic.csv";
+        string sName = "8260.54A PtIsOnGeodesiic Test";
+        OutputRunning(sName);
+        int nError = TestPtIsOnGeodesic(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(5))
+    {
+        nTest++;
+        string sFile = "PointIsOnArc.csv";
+        string sName = "8260.54A PtIsOnArc Test";
+        OutputRunning(sName);
+        int nError = TestPtIsOnArc(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(6))
+    {
+        nTest++;
+        string sFile = "DiscretizedArcLength.csv";
+        string sName = "8260.54A DiscretizedArcLength Test";
+        OutputRunning(sName);
+        int nError = TestDiscretizedArcLength(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(7))
+    {
+        nTest++;
+        string sFile = "PerpIntercept.csv";
+        string sName = "8260.54A Perp Intercept Test";
+        OutputRunning(sName);
+        int nError = TestPerpIntercept(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(8))
+    {
+        nTest++;
+        string sFile = "PtIsOnLocus.csv";
+        string sName = "8260.54A Pt is on Locus";
+        OutputRunning(sName);
+        int nError = TestPtIsOnLocus(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(9))
+    {
+        nTest++;
+        string sFile = "LocusCrsAtPoint.csv";
+        string sName = "8260.54A Locus Crs at Point";
+        OutputRunning(sName);
+        cout << "\n\nRunning: " << sName;
+        int nError = TestLocusCrsAtPoint(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(10))
+    {
+        nTest++;
+        string sFile = "CrsIntersect.csv";
+        string sName = "8260.54A Crs Intersect";
+        OutputRunning(sName);
+        int nError = TestCrsIntersect(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(11))
+    {
+        nTest++;
+        // Arc Intersect
+        string sFile = "ArcIntersect.csv";
+        string sName = "8260.54A Arc Intersect";
+        OutputRunning(sName);
+        int nError = TestArcIntersect(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(12))
+    {
+        nTest++;
+        string sFile = "GeodesicArcIntersect.csv";
+        string sName = "8260.54A Geodesic Arc Intersect";
+        OutputRunning(sName);
+        int nError = TestGeodesicArcIntersect(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(13))
+    {
+        nTest++;
+        string sFile = "TangentFixedRadiusArc.csv";
+        string sName = "8260.54A Tangent Fixed Radius Arc";
+        OutputRunning(sName);
+        int nError = TestTangentFixedRadiusArc(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(14))
+    {
+        nTest++;
+        string sFile = "GeoLocusIntersect.csv";
+        string sName = "8260.54A GeoLocusIntersect";
+        OutputRunning(sName);
+        int nError = TestGeoLocusIntersect(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(15))
+    {
+        nTest++;
+        string sFile = "LocusArcIntersect.csv";
+        string sName = "8260.54A Locus Arc Intersect";
+        OutputRunning(sName);
+        int nError = TestLocusArcIntersect(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(16))
+    {
+        nTest++;
+        string sFile = "LocusIntersect.csv";
+        string sName = "8260.54A Locus Intersect";
+        OutputRunning(sName);
+        int nError = TestLocusIntersect(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(17))
+    {
+        nTest++;
+        string sFile = "LocusTanFixedRadiusArc.csv";
+        string sName = "8260.54A Locus Tan Fixed Radius Arc";
+        OutputRunning(sName);
+        int nError = TestLocusTanFixedRadiusArc(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(18))
+    {
+        nTest++;
+        string sFile = "LocusPerpIntercept.csv";
+        string sName = "8260.54A Locus Perp Intercept";
+        OutputRunning(sName);
+        int nError = TestLocusPerpIntercept(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(19))
+    {
+        nTest++;
+        string sFile = "PointToArcTangents.csv";
+        string sName = "8260.54A Point to Arc Tangents";
+        OutputRunning(sName);
+        int nError = TestPointToArcTangents(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(20))
+    {
+        nTest++;
+        string sFile = "PerpTangentPoints.csv";
+        string sName = "8260.54A Perp Tangent Points";
+        OutputRunning(sName);
+        int nError = TestPerpTangentPoints(PathAppend(sDirectory, sFile));
+        if (!TestPassed(sName, sDirectory, sFile, nError))
+            bAllPassed = false;
+    }
+
+    if (nTests.test(21))
+    {
+        GeoCalcs::LLPoint pt1, pt3;
+        GeoCalcs::LLPoint pt2(Deg2Rad(-45 + 33.5 / 60), M_PI_2 * 0.5);
+        double crs, crsFromPt, distFromPt;
+
+        for (int k = 0; k < 10; k++)
+        {
+            for (int i = 0; i < 90; i++)
+            {
+                for (int j = 0; j < 60; j++)
+                {
+                    crs = Deg2Rad(i + j / 60.0);
+                    pt1.Set(i, M_PI_2);
+                    pt3 = GeoCalcs::PerpIntercept(pt1, crs, pt2, crsFromPt, distFromPt, 1e-9);
+                }
+            }
+        }
+
+    }
+    return bAllPassed;
 }
 
 int main(int argc, char *argv[])
 {
-    int nTest = 0;
     bitset<32> nTests;
-    bool bAllPassed = true;
-
     string sDirectory;
     vector<string> args{argv, argv + argc};
+
     for (auto it = args.begin() + 1; it != args.end(); it++)
     {
         if (*it == "-h")
@@ -314,526 +607,13 @@ int main(int argc, char *argv[])
     if (nTests.count() == 0)
         nTests.set(); // Run all tests
 
-    if (nTests.test(0))
-    {
-        nTest++;
-        cout << "8260.54a Appendix 2 Test suite (version 0.3";
-        cout << "\n\nRunning Latitude parsing test: ";
-        if (!TestLatitudeParsing())
-        {
-            cerr << "Failed";
-            bAllPassed = false;
-        }
-        else
-        {
-            cout << "Passed";
-        }
-    }
-
-    if (nTests.test(1))
-    {
-        nTest++;
-        cout << "\n\nRunning Longitude parsing test: ";
-        if (!TestLongitudeParsing())
-        {
-            cerr << "Failed";
-            bAllPassed = false;
-        }
-        else
-        {
-            cout << "Passed";
-        }
-    }
-
-
-    string sFile;
-    int nError;
-
-    if (nTests.test(2))
-    {
-        nTest++;
-        sFile = "Direct.csv";
-
-        // Direct Test
-        cout << "\n\nRunning 8260.54A Direct measurement test.";
-        nError = TestDirect(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-                OutputError(nError, sDirectory, sFile);
-            else
-                cout << "\nPassed: 8260.54A Direct measurement test.";
-
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Direct measurement test.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(3))
-    {
-        nTest++;
-
-        // Inverse Test
-        cout << "\n\nRunning 8260.54A Inverse measurement test.";
-        sFile = "Inverse.csv";
-        nError = TestInverse(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-                OutputError(nError, sDirectory, sFile);
-            else
-                cout << "\nPassed: 8260.54A Inverse measurement test.";
-
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Inverse measurement test.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(4))
-    {
-        nTest++;
-        // PtIsOnGeodesic Test
-        cout << "\n\nRunning 8260.54A PtIsOnGeodesiic Test.";
-        sFile = "PtIsOnGeodesic.csv";
-        nError = TestPtIsOnGeodesic(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A PtIsOnGeodesiic Test.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A PtIsOnGeodesiic Test.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(5))
-    {
-        nTest++;
-        // PointIsOnArc test
-        cout << "\n\nRunning 8260.54A PtIsOnArc Test.";
-        sFile = "PointIsOnArc.csv";
-        nError = TestPtIsOnArc(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A PtIsOnArc Test.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A PtIsOnArc Test.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(6))
-    {
-        nTest++;
-        // Discretized arc length test
-        cout << "\n\nRunning 8260.54A DiscretizedArcLength Test.";
-        sFile = "DiscretizedArcLength.csv";
-        nError = TestDiscretizedArcLength(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A DiscretizedArcLength Test.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A DiscretizedArcLength Test.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(7))
-    {
-        nTest++;
-        // Perp Intercept test
-        cout << "\n\nRunning 8260.54A Perp Intercept Test.";
-        sFile = "PerpIntercept.csv";
-        nError = TestPerpIntercept(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A Perp Intercept Test.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Perp Intercept Test.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(8))
-    {
-        nTest++;
-        // PointIsOnLocus test
-        cout << "\n\nRunning 8260.54A Pt is on Locus.";
-        sFile = "PtIsOnLocus.csv";
-        nError = TestPtIsOnLocus(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A PtIsOnLocus Test.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Perp PtIsOnLocus Test.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(9))
-    {
-        nTest++;
-        // Locus Crs at Point test
-        cout << "\n\nRunning 8260.54A Locus Crs at Point";
-        sFile = "LocusCrsAtPoint.csv";
-        nError = TestLocusCrsAtPoint(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A Locus Crs at Point.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Locus Crs at Point.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(10))
-    {
-        nTest++;
-        // Crs Intersect
-        cout << "\n\nRunning 8260.54A Crs Intersect";
-        sFile = "CrsIntersect.csv";
-        nError = TestCrsIntersect(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A Crs Intersect.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Crs Intersect.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(11))
-    {
-        nTest++;
-        // Arc Intersect
-        cout << "\n\nRunning 8260.54A Arc Intersect";
-        sFile = "ArcIntersect.csv";
-        nError = TestArcIntersect(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A Arc Intersect.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Arc Intersect.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(12))
-    {
-        nTest++;
-        // Geodesic Arc Intersect
-        cout << "\n\nRunning 8260.54A Geodesic Arc Intersect";
-        sFile = "GeodesicArcIntersect.csv";
-        nError = TestGeodesicArcIntersect(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A Geodesic Arc Intersect.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Geodesic Arc Intersect.";
-            bAllPassed = false;
-        }
-    }
-
-
-    if (nTests.test(13))
-    {
-        nTest++;
-        // Geodesic Tangent Fixed Radius Arc
-        cout << "\n\nRunning 8260.54A Tangent Fixed Radius Arc";
-        sFile = "TangentFixedRadiusArc.csv";
-        nError = TestTangentFixedRadiusArc(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A Tangent Fixed Radius Arc.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Tangent Fixed Radius Arc.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(14))
-    {
-        nTest++;
-        // Geodesic Locus Intersect
-        cout << "\n\nRunning 8260.54A GeoLocusIntersect";
-        sFile = "GeoLocusIntersect.csv";
-        nError = TestGeoLocusIntersect(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A Geo Locus Intersect.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Geo Locus Intersect.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(15))
-    {
-        nTest++;
-        // Locus Arc Intersect
-        cout << "\n\nRunning 8260.54A Locus Arc Intersect";
-        sFile = "LocusArcIntersect.csv";
-        nError = TestLocusArcIntersect(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A Locus Arc Intersect.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Locus Arc Intersect.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(16))
-    {
-        nTest++;
-        // Locus Intersect
-        cout << "\n\nRunning 8260.54A Locus Intersect";
-        sFile = "LocusIntersect.csv";
-        nError = TestLocusIntersect(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A Locus Intersect.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Locus Intersect.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(17))
-    {
-        nTest++;
-        // Locus Tan Fixed Radius Arc
-        cout << "\n\nRunning 8260.54A Locus Tan Fixed Radius Arc";
-        sFile = "LocusTanFixedRadiusArc.csv";
-        nError = TestLocusTanFixedRadiusArc(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A Locus Tan Fixed Radius Arc.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Locus Tan Fixed Radius Arc.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(18))
-    {
-        nTest++;
-        // Locus Perp Intersect
-        cout << "\n\nRunning 8260.54A Locus Perp Intercept";
-        sFile = "LocusPerpIntercept.csv";
-        nError = TestLocusPerpIntercept(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A Locus Perp Intersect.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Locus Perp Intersect.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(19))
-    {
-        nTest++;
-        // Point to Arc Tangents
-        cout << "\n\nRunning 8260.54A Point to Arc Tangents";
-        sFile = "PointToArcTangents.csv";
-        nError = TestPointToArcTangents(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A Point to Arc Tangents.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Point to Arc Tangents.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(20))
-    {
-        nTest++;
-        // Perp Tangent Points
-        cout << "\n\nRunning 8260.54A Perp Tangent Points";
-        sFile = "PerpTangentPoints.csv";
-        nError = TestPerpTangentPoints(PathAppend(sDirectory, sFile));
-        if (nError != 0)
-        {
-            if (nError < 0)
-            {
-                OutputError(nError, sDirectory, sFile);
-                bAllPassed = false;
-            }
-            else
-                cout << "\nPassed 8260.54A Perp Tangent Points.";
-        }
-        else
-        {
-            cerr << "\nFailed: 8260.54A Perp Tangent Points.";
-            bAllPassed = false;
-        }
-    }
-
-    if (nTests.test(21))
-    {
-        GeoCalcs::LLPoint pt1, pt3;
-        GeoCalcs::LLPoint pt2(Deg2Rad(-45 + 33.5 / 60), M_PI_2 * 0.5);
-        double crs, crsFromPt, distFromPt;
-
-        for (int k = 0; k < 10; k++)
-        {
-            for (int i = 0; i < 90; i++)
-            {
-                for (int j = 0; j < 60; j++)
-                {
-                    crs = Deg2Rad(i + j / 60.0);
-                    pt1.Set(i, M_PI_2);
-                    pt3 = GeoCalcs::PerpIntercept(pt1, crs, pt2, crsFromPt, distFromPt, 1e-9);
-                }
-            }
-        }
-
-    }
-
-    if (!bAllPassed)
+    if (!RunTests(sDirectory, nTests))
     {
         cerr << "\n\n*********** One or more tests failed quality control ***********\n";
-    }
-    else
-    {
-        cout << "\n\n*********** All tests passed quality control ***********\n";
+        return 1;
     }
 
+    cout << "\n\n*********** All tests passed quality control ***********\n";
     return 0;
 }
 
