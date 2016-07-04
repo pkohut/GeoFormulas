@@ -2,7 +2,7 @@
 
 ==========================
 ###0.2.1
-####Date: (2016-07-03)
+####Date: (2016-07-04)
 
 Features:
   - Remove C++ Boost dependency.
@@ -15,10 +15,14 @@ Features:
     - Example of creating VS2015 project with CMake:</br>
         ``cmake -G "Visual Studio 14 2015" ..\GeoFormulas``
     - Add changelog
+    - Add command line options for terps test, use -h for
+      more help.
+    - Add command line option to specify test data location.
 
 Bug Fixes:
   - Fix regex pattern []. with [.]
   - Windows CMake and VS project tweaks
+  - Remove hardcoded test data path in terps tests.
 
 
 ###0.2.0
