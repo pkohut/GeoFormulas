@@ -4,17 +4,13 @@
 
 //////////////////////////////////////////////////////////////////////////
 // Latitude and longitude string and double conversions
+double ParseLatLongBegin(bool bIsLatitude, std::string &sString);
+
 double ParseLatitude(std::string sDeg);
 
-double ParseLatitudeBegin(std::string &sString);
+double ParseLongitude(std::string sDeg);
 
-double ParseLongitude(std::string szDeg);
-
-double ParseLongitudeBegin(std::string &sString);
-
-std::string Pad0(std::string szOrg, size_t nMinDigits);
-
-double ConvertDmsToDd(std::string const &sDeg, std::string const &sMin, std::string const &sSec);
+std::string PadString(std::string szOrg, char c, size_t nMinDigits);
 
 double ConvertDmsToDd(double const &dDeg, double const &dMin, double const &dSec);
 
