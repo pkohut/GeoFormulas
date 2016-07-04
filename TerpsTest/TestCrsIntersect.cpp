@@ -37,7 +37,7 @@ using namespace std;
 bool ParseTestCrsIntersect(string sString)
 {
     bool bPassed = true;
-    TrimWhitespace(sString);
+    trim(sString);
     string soTestId, soPt1Lat, soPt1Lon, soPt2Lat, soPt2Lon, soAzAtPt1;
     string soAzFromIntersectionToPt1, soDistToPt1FromIntersection;
     string soAzAtPt2, soAzFromIntersectionToPt2, soDistToPt2FromIntersection;

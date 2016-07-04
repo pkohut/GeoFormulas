@@ -36,7 +36,7 @@ using namespace std;
 bool ParseTestDirectLine(string sString)
 {
     bool bPassed = true;
-    TrimWhitespace(sString);
+    trim(sString);
     string sTestId, sStartLat, sStartLong, sDist, sAzimuth;
     string sComputedDestLat, sComputedDestLong;
 

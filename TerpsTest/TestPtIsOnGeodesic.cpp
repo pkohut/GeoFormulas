@@ -36,7 +36,7 @@ using namespace std;
 bool ParseTestPtIsOnGeodesicLine(string sString)
 {
     bool bPassed = true;
-    TrimWhitespace(sString);
+    trim(sString);
     string soTestId, soStartLat, soStartLong, soEndLat, soEndLong, soPtLat, soPtLong, soLengthCode, soResult;
     try
     {

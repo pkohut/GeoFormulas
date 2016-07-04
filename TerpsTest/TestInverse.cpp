@@ -122,7 +122,7 @@ bool ParseTestInverseLine(string sString)
 bool ParseTestInverseLine(string sString)
 {
     bool bPassed = true;
-    TrimWhitespace(sString);
+    trim(sString);
     string soTestId, soStartLat, soStartLong, soDestLat, soDestLong;
     string soComputedAz, soComputedReverseAz, soComputedDist;
 

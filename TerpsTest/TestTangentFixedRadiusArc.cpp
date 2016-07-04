@@ -36,7 +36,7 @@ using namespace std;
 bool ParseTestTangentFixedRadiusArc(string sString)
 {
     bool bPassed = true;
-    TrimWhitespace(sString);
+    trim(sString);
     string soTestId, soGeodesic1StartLat, soGeodesic1StartLon, soGeodesic1Azimuth, soGeodesic2StartLat, soGeodesic2StartLon;
     string soGeodesic2Azimuth, soArcRadius, soArcDirection, soArcCenterLat, soArcCenterLon;
     string soTangentPt1Lat, soTangentPt1Lon, soTangentPt2Lat, soTangentPt2Lon;

@@ -36,7 +36,7 @@ using namespace std;
 bool ParseTestPointToArcTangents(string sString)
 {
     bool bPassed = false;
-    TrimWhitespace(sString);
+    trim(sString);
     string sTestId, sPointLat, sPointLon, sArcCenterLat, sArcCenterLon, sArcRadius;
     string sTanPt1Lat, sTanPt1Lon, sTanPt2Lat, sTanPt2Lon;
     try

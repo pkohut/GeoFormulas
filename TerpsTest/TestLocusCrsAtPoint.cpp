@@ -37,7 +37,7 @@ bool ParseLocusCrsAtPointLine2(string sLine2, string &sGeoPtLat, string &sGeoPtL
                                string &sLocusAzToTestPt, string &sTestPtAzToGeoPt)
 {
     bool bPassed = true;
-    TrimWhitespace(sLine2);
+    trim(sLine2);
     string sTestId, sGeodesicStartLat, sGeodesicStartLong;
     string sGeodesicEndLat, sGeodesicEndLong;
     string sLocusStartLat, sLocusStartLong, sLocusEndLat, sLocusEndLong;
@@ -76,7 +76,7 @@ bool ParseLocusCrsAtPointLine2(string sLine2, string &sGeoPtLat, string &sGeoPtL
 bool ParseLocusCrsAtPoint(string sLine1, string sLine2)
 {
     bool bPassed = true;
-    TrimWhitespace(sLine1);
+    trim(sLine1);
     string sTestId, sGeodesicStartLat, sGeodesicStartLong, sGeodesicEndLat, sGeodesicEndLong;
     string sLocusStartLat, sLocusStartLong, sLocusEndLat, sLocusEndLong;
     string sLocusStartDist, sLocusEndDist, sTestPointLat, sTestPointLong;
