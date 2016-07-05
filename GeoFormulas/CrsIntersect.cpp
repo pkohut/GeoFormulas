@@ -80,7 +80,7 @@ namespace GeoCalcs {
         const double a = kSphereRadius * acos((cosA + cosB * cosC) / (sinB * sinC));
         const double b = kSphereRadius * acos((cosB + cosA * cosC) / (sinA * sinC));
 
-        if (isnan(a) || isnan(b))
+        if (std::isnan(a) || std::isnan(b))
             return false;
 
         llIntersect = DestVincenty(pt1, az13, b);
@@ -144,7 +144,7 @@ namespace GeoCalcs {
         while (k == 0 || ((dErr > dTol) && (k <= nMaxCount)))
         {
             FindLinearRoot(distarray, errarray, dist13);
-            if (isnan(dist13))
+            if (std::isnan(dist13))
                 break;
 
             LLPoint newPt = DestVincenty(pt1, az13, dist13);

@@ -49,7 +49,8 @@ bool ParseLocusArcIntersect3(string sLine3, string &sIntersection1Lat, string &s
         regex pat(sRxPat, flags);
         int const sub_matches[] = {1, 2, 3, 4,};
         sregex_token_iterator it(sLine3.begin(), sLine3.end(), pat, sub_matches);
-        if (it != sregex_token_iterator())
+        sregex_token_iterator s_end;
+        if (it != s_end)
         {
             sIntersection1Lat = *it++;
             sIntersection1Lon = *it++;
@@ -81,7 +82,7 @@ bool ParseLocusArcIntersect1(string sLine1, string &sTestId, string &sGeoStartLa
     {
         regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
 
-        string sRxPat = "([a-z]+|[A-Z]+\\d+)[,]";
+        string sRxPat = "([a-zA-Z]*\\d*)[,]";
         sRxPat += "[A-z ]+[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
@@ -92,7 +93,8 @@ bool ParseLocusArcIntersect1(string sLine1, string &sTestId, string &sGeoStartLa
         regex pat(sRxPat, flags);
         int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
         sregex_token_iterator it(sLine1.begin(), sLine1.end(), pat, sub_matches);
-        if (it != sregex_token_iterator())
+        sregex_token_iterator s_end;
+        if (it != s_end)
         {
             sTestId = *it++;
             sGeoStartLat = *it++;
@@ -132,7 +134,8 @@ bool ParseLocusArcIntersect2(string sLine2, string &sArcCenterLat, string &sArcC
         regex pat(sRxPat, flags);
         int const sub_matches[] = {1, 2, 3,};
         sregex_token_iterator it(sLine2.begin(), sLine2.end(), pat, sub_matches);
-        if (it != sregex_token_iterator())
+        sregex_token_iterator s_end;
+        if (it != s_end)
         {
             sArcCenterLat = *it++;
             sArcCenterLon = *it++;

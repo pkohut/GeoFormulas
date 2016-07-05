@@ -58,22 +58,23 @@ double ParseLatLongBegin(bool bIsLatitude, string &sString)
     sPattern = rxLatLong + "(\\d+)[ ](\\d+)[ ](\\d+)[ ](\\d+)";
     pat.assign(sPattern, flags);
     sregex_token_iterator it(sString.begin(), sString.end(), pat, sub_matches);
-    if (it == sregex_token_iterator())
+    sregex_token_iterator s_end;
+    if (it == s_end)
     {
         sPattern = rxLatLong + "(\\d+)[ ](\\d+)[ ](\\d+)()";
         pat.assign(sPattern, flags);
         it = sregex_token_iterator(sString.begin(), sString.end(), pat, sub_matches);
-        if (it == sregex_token_iterator())
+        if (it == s_end)
         {
             sPattern = rxLatLong + "(\\d+)[ ](\\d+)()()";
             pat.assign(sPattern, flags);
             it = sregex_token_iterator(sString.begin(), sString.end(), pat, sub_matches);
-            if (it == sregex_token_iterator())
+            if (it == s_end)
             {
                 sPattern = rxLatLong + "(\\d+)()()()";
                 pat.assign(sPattern, flags);
                 it = sregex_token_iterator(sString.begin(), sString.end(), pat, sub_matches);
-                if (it == sregex_token_iterator())
+                if (it == s_end)
                     throw CRNavConversionException(
                             string("Value out of range, are you passing an angle greater than ")
                             + to_string(nAngle / 2) + " degrees?");

@@ -62,7 +62,7 @@ namespace GeoCalcs {
 
         int k = 0;
         const int maxCount = 10;
-        while (!isnan(distBase) && fabs(errarray[1]) > dTol && k < maxCount)
+        while (!std::isnan(distBase) && fabs(errarray[1]) > dTol && k < maxCount)
         {
             pt1 = DestVincenty(gStart, gAz, distBase);
             errarray[0] = errarray[1];

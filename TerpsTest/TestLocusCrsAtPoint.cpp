@@ -54,7 +54,8 @@ bool ParseLocusCrsAtPointLine2(string sLine2, string &sGeoPtLat, string &sGeoPtL
         regex pat(sRxPat, flags);
         int const sub_matches[] = {1, 2, 3, 4,};
         sregex_token_iterator it(sLine2.begin(), sLine2.end(), pat, sub_matches);
-        if (it == sregex_token_iterator())
+        sregex_token_iterator s_end;
+        if (it == s_end)
             bPassed = false;
         else
         {
@@ -84,8 +85,8 @@ bool ParseLocusCrsAtPoint(string sLine1, string sLine2)
     {
         regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
 
-        string sRxPat = "([a-z]+|[A-Z]+\\d+)[,]";
-        sRxPat += "[A-z]+[,]";
+        string sRxPat = "([a-zA-Z]*\\d*)[,]";
+        sRxPat += "[A-z]*[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
@@ -95,7 +96,8 @@ bool ParseLocusCrsAtPoint(string sLine1, string sLine2)
         regex pat(sRxPat, flags);
         int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,};
         sregex_token_iterator it(sLine1.begin(), sLine1.end(), pat, sub_matches);
-        if (it != sregex_token_iterator())
+        sregex_token_iterator s_end;
+        if (it != s_end)
         {
             sTestId = *it++;
             sGeodesicStartLat = *it++;

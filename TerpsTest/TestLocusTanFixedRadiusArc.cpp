@@ -52,7 +52,8 @@ bool ParseLocusTanFixedRadiusArc3(string sLine3, string &sArcDirection, string &
         regex pat(sRxPat, flags);
         int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7,};
         sregex_token_iterator it(sLine3.begin(), sLine3.end(), pat, sub_matches);
-        if (it != sregex_token_iterator())
+        sregex_token_iterator s_end;
+        if (it != s_end)
         {
             sArcDirection = *it++;
             sArcCenterLat = *it++;
@@ -85,7 +86,7 @@ bool ParseLocusTanFixedRadiusArc1(string sLine1, string &sTestId, string &sGeoSt
     {
         regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
 
-        string sRxPat = "([a-z]+|[A-Z]+\\d+)[,]";
+        string sRxPat = "([a-zA-Z]*\\d*)[,]";
         sRxPat += "[0-9A-z ]+[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
@@ -96,7 +97,8 @@ bool ParseLocusTanFixedRadiusArc1(string sLine1, string &sTestId, string &sGeoSt
         regex pat(sRxPat, flags);
         int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
         sregex_token_iterator it(sLine1.begin(), sLine1.end(), pat, sub_matches);
-        if (it != sregex_token_iterator())
+        sregex_token_iterator s_end;
+        if (it != s_end)
         {
             sTestId = *it++;
             sGeoStartLat = *it++;
@@ -143,7 +145,8 @@ bool ParseLocusTanFixedRadiusArc2(string sLine2, string &sGeoStartLat, string &s
         regex pat(sRxPat, flags);
         int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,};
         sregex_token_iterator it(sLine2.begin(), sLine2.end(), pat, sub_matches);
-        if (it != sregex_token_iterator())
+        sregex_token_iterator s_end;
+        if (it != s_end)
         {
             sGeoStartLat = *it++;
             sGeoStartLon = *it++;

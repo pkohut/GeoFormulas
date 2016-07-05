@@ -61,7 +61,7 @@ namespace GeoCalcs {
         const int maxCount = 15;
         double newDist = 0.0;
         int k = 0;
-        while (k == 0 || (!isnan(newDist) && fabs(errarray[1]) > dTol && k < maxCount))
+        while (k == 0 || (!std::isnan(newDist) && fabs(errarray[1]) > dTol && k < maxCount))
         {
             geoPt = DestVincenty(loc.geoStart, gcrs, distarray[1]);
             locPt = PointOnLocusP(loc /*loc.geoStart*/, geoPt, dTol, kEps);

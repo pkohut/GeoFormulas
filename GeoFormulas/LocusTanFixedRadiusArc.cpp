@@ -66,7 +66,7 @@ namespace GeoCalcs {
         const int maxCount = 15;
         double dErr = 0.0;
         int k = 0;
-        while (k == 0 || (!isnan(distbase) && k < maxCount && fabs(dErr) > dTol))
+        while (k == 0 || (!std::isnan(distbase) && k < maxCount && fabs(dErr) > dTol))
         {
             if (k > 0)
             {

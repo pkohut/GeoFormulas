@@ -130,7 +130,7 @@ bool ParseTestInverseLine(string sString)
     {
         regex_constants::syntax_option_type flags = regex_constants::icase | regex_constants::ECMAScript;
 
-        string sRxPat = "([a-z]+|[A-Z]+\\d+)[,]";
+        string sRxPat = "([a-zA-Z]*\\d*)[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
         sRxPat += "([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[NS])[,]([0-9]*[:][0-9]*[:][0-9]*[.][0-9]*[WE])[,]";
         sRxPat += "([-+]?[0-9]*[.]?[0-9]+)[,]([-+]?[0-9]*[.]?[0-9]+)[,]";
@@ -139,7 +139,8 @@ bool ParseTestInverseLine(string sString)
 
         int const sub_matches[] = {1, 2, 3, 4, 5, 6, 7, 8,};
         sregex_token_iterator it(sString.begin(), sString.end(), pat, sub_matches);
-        if (it != sregex_token_iterator())
+        sregex_token_iterator s_end;
+        if (it != s_end)
         {
             soTestId = *it++;
             soStartLat = *it++;
