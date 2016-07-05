@@ -60,6 +60,7 @@ namespace GeoCalcs {
     */
     GEOAPI
     typedef struct LOCUS {
+        LOCUS() : startDist(0.0), endDist(0.), lineType(0) {}
         LLPoint geoStart;   /**< start point of geodesic */
         LLPoint geoEnd;     /**< end point of geodesic */
         LLPoint locusStart; /**< start point of locus */
@@ -88,6 +89,7 @@ namespace GeoCalcs {
     */
     GEOAPI
     typedef struct INVERSE_RESULT {
+        INVERSE_RESULT() : azimuth(0.0), reverseAzimuth(0.0), distance(0.0) {}
         double azimuth;         /**< calculated azimuth in radians */
         double reverseAzimuth;  /**< calculated reverse azimuth in radians */
         double distance;        /**< calculated distance in meters */
@@ -107,6 +109,7 @@ namespace GeoCalcs {
     */
     GEOAPI
     typedef struct PTISONGEODESIC_RESULT {
+        PTISONGEODESIC_RESULT() : lengthCode(0), result(0) {}
         LLPoint geoStart;   /**< Geodetic coordinate of line start point */
         LLPoint geoEnd;     /**< Geodetic coordinate of line end point */
         LLPoint geoPt;      /**< Geodetic coordinate of point to test */
