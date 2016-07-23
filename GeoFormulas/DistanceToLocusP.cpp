@@ -1,12 +1,12 @@
-/**	\file DistanceToLocusP.cpp
-*	\brief 
+/** \file DistanceToLocusP.cpp
+*   \brief
 */
 
 /****************************************************************************/
-/*	DistanceToLocusP.cpp													*/
+/*  DistanceToLocusP.cpp                                                    */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -27,13 +27,13 @@
 using namespace std;
 
 namespace GeoCalcs {
-	double _stdcall DistToLocusP(const Locus & loc, const LLPoint & geoPt, double dTtol, double eps)
-	{
-		InverseResult result;
+    double DistToLocusP(const Locus &loc, const LLPoint &geoPt, double dTtol, double eps)
+    {
+        InverseResult result;
 
-		if(!DistVincenty(loc.geoStart, geoPt, result))
-			return numeric_limits<double>::signaling_NaN();
+        if (!DistVincenty(loc.geoStart, geoPt, result))
+            return numeric_limits<double>::signaling_NaN();
 
-		return DistToLocusD(loc, result.distance, eps);
-	}
+        return DistToLocusD(loc, result.distance, eps);
+    }
 }

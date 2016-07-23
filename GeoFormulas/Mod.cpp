@@ -1,12 +1,12 @@
-/**	\file Mod.cpp
-*	\brief 
+/** \file Mod.cpp
+*   \brief
 */
 
 /****************************************************************************/
-/*	Mod.cpp													*/
+/*  Mod.cpp                                                                 */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -26,14 +26,14 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	double _stdcall Mod(double a, double b)
-	{
-		double mod = a - b * int(a / b);
-		if(mod < 0)
-			mod = mod + b;
-		return mod;
-	}
+    /**
+    *
+    */
+    double Mod(double a, double b)
+    {
+        double mod = a - b * int(a / b);
+        if (mod < 0)
+            mod = mod + b;
+        return mod;
+    }
 }

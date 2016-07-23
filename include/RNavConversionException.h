@@ -1,12 +1,12 @@
-/**	\file RNavConversionException.h
-*	\brief 
+/** \file RNavConversionException.h
+*   \brief
 */
 
 /****************************************************************************/
-/*	RNavConversionException.h												*/
+/*  RNavConversionException.h                                               */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -22,16 +22,21 @@
 /****************************************************************************/
 
 #pragma once
+
 #include <iostream>
 #include <exception>
 
-class CRNavConversionException : public std::exception
-{
+class CRNavConversionException : public std::exception {
 public:
-//	CRNavConversionException(void) {}
-	CRNavConversionException(std::string sEx) : m_sEx(sEx) {}
-	virtual ~CRNavConversionException(void) {}
+    //  CRNavConversionException(void) {}
+    CRNavConversionException(std::string sEx) : m_sEx(sEx)
+    { }
 
-	const char * what() const throw() { return m_sEx.c_str(); }
-	std::string m_sEx;
+    virtual ~CRNavConversionException(void)
+    { }
+
+    const char *what() const throw()
+    { return m_sEx.c_str(); }
+
+    std::string m_sEx;
 };

@@ -1,12 +1,12 @@
-/**	\file DistToLocusD.cpp
-*	\brief 
+/** \file DistToLocusD.cpp
+*   \brief
 */
 
 /****************************************************************************/
-/*	DistToLocusD.cpp													*/
+/*  DistToLocusD.cpp                                                        */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -27,21 +27,21 @@
 using namespace std;
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	double _stdcall DistToLocusD(const Locus & loc, double dDistance, double dEps)
-	{
-		InverseResult result;
-		double distToLoc = 0.0;
+    /**
+    *
+    */
+    double DistToLocusD(const Locus &loc, double dDistance, double dEps)
+    {
+        InverseResult result;
 
-		if(!DistVincenty(loc.geoStart, loc.geoEnd, result))
-			distToLoc = numeric_limits<double>::signaling_NaN();
-		double geoLen = result.distance;
-		if(geoLen > 0.0)
-		{
-			distToLoc = loc.startDist + (dDistance / geoLen) * (loc.endDist - loc.startDist);
-		}
-		return distToLoc;
-	}
+        if (!DistVincenty(loc.geoStart, loc.geoEnd, result))
+            return numeric_limits<double>::signaling_NaN();
+
+        if (result.distance > 0.0)
+        {
+            return loc.startDist + (dDistance / result.distance) * (loc.endDist - loc.startDist);
+        }
+
+        return 0.0;
+    }
 }

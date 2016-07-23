@@ -1,12 +1,12 @@
-/**	\file PointOnLocusP.cpp
-*	\brief 
+/** \file PointOnLocusP.cpp
+*   \brief
 */
 
 /****************************************************************************/
-/*	PointOnLocusP.cpp													*/
+/*  PointOnLocusP.cpp                                                       */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -26,22 +26,21 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	LLPoint _stdcall PointOnLocusP(const Locus & loc, const LLPoint & geoPt, double tol, double eps)
-	{
-		double distp = DistToLocusP(loc, geoPt, tol, eps);
-		if(distp == 0)
-			return geoPt;
-		InverseResult result;
-		DistVincenty(geoPt, loc.geoStart, result);
-		double fcrs = result.azimuth;
-		double tempcrs;
-		if(distp > 0.0)
-			tempcrs = fcrs - (M_PI / 2);
-		else
-			tempcrs = fcrs + (M_PI / 2);
-		return DestVincenty(geoPt, tempcrs, fabs(distp));
-	}
+    /**
+    *
+    */
+    LLPoint PointOnLocusP(const Locus &loc, const LLPoint &geoPt, double tol, double eps)
+    {
+        const double distp = DistToLocusP(loc, geoPt, tol, eps);
+
+        if (distp == 0)
+            return geoPt;
+
+        InverseResult result;
+        DistVincenty(geoPt, loc.geoStart, result);
+
+        result.azimuth += distp > 0.0 ? -M_PI / 2.0 : M_PI / 2.0;
+
+        return DestVincenty(geoPt, result.azimuth, fabs(distp));
+    }
 }

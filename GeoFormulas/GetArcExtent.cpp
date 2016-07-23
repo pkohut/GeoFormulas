@@ -1,12 +1,12 @@
-/**	\file GetArcExtent.cpp
-*	\brief 
+/** \file GetArcExtent.cpp
+*   \brief
 */
 
 /****************************************************************************/
-/*	GetArcExtent.cpp													*/
+/*  GetArcExtent.cpp                                                        */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -26,29 +26,24 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	double _stdcall GetArcExtent(double dStartCrs, double dEndCrs, const int nOrientation, double dTol)
-	{
-		double dstartCrs = dStartCrs;
-		double dendCrs = dEndCrs;
-		if(fabs(dstartCrs - dendCrs) < dTol)
-			return M_2PI;
-		if(nOrientation < 0)
-		{
-			double dTemp = dstartCrs;
-			dstartCrs = dendCrs;
-			dendCrs = dTemp;
-		}
-		double dAngle;
-		if(dstartCrs > dendCrs)
-			dAngle = dstartCrs - dendCrs;
-		else
-			dAngle = M_2PI + dstartCrs - dendCrs;
-		if(nOrientation < 0)
-			dAngle = -dAngle;
-		return dAngle;
+    /**
+    *
+    */
+    double GetArcExtent(double dStartCrs, double dEndCrs, const int nOrientation, double dTol)
+    {
+        if (fabs(dStartCrs - dEndCrs) < dTol)
+            return M_2PI;
 
-	}
+        if (nOrientation < 0)
+        {
+            std::swap(dStartCrs, dEndCrs);
+        }
+
+        double dAngle = dStartCrs > dEndCrs ? dStartCrs - dEndCrs : M_2PI + dStartCrs - dEndCrs;
+
+        if (nOrientation < 0)
+            dAngle = -dAngle;
+
+        return dAngle;
+    }
 }

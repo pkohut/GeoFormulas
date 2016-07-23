@@ -1,12 +1,12 @@
-/**	\file PerpTangentPoints.cpp
-*	\brief 
+/** \file PerpTangentPoints.cpp
+*   \brief
 */
 
 /****************************************************************************/
-/*	PerpTangentPoints.cpp													*/
+/*  PerpTangentPoints.cpp                                                   */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -26,83 +26,62 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	void _stdcall PerpTangentPoints(const LLPoint & lineStart, double crs,
-		const LLPoint & center, double radius,
-		LLPoint linePts[2], LLPoint tanPts[2], double dTol)
-	{
-		InverseResult result;
-		DistVincenty(lineStart, center, result);
-		double distStartToCenter = result.distance;
-		double crsStartToCenter = result.azimuth;
-		//        double crsCenterToStart = result.reverseAzimuth;
+    /**
+    *
+    */
+    void PerpTangentPoints(const LLPoint &lineStart, double crs,
+                           const LLPoint &center, double radius,
+                           LLPoint *linePts, LLPoint *tanPts, double dTol)
+    {
+        InverseResult result;
+        DistVincenty(lineStart, center, result);
+        const double signAngle1 = SignAzimuthDifference(crs, result.azimuth) >= 0.0 ? 1.0 : -1.0;
 
-		double angle1 = SignAzimuthDifference(crs, crsStartToCenter);
+        if (fabs(result.distance * (result.azimuth - crs)) < dTol)
+        {
+            tanPts[0] = DestVincenty(lineStart, crs, result.distance - radius);
+            tanPts[1] = DestVincenty(lineStart, crs, result.distance + radius);
+            linePts[0] = tanPts[0];
+            linePts[1] = tanPts[1];
+            return;
+        }
 
-		if(fabs(distStartToCenter * (crsStartToCenter - crs)) < dTol)
-		{
-			tanPts[0] = DestVincenty(lineStart, crs, distStartToCenter - radius);
-			tanPts[1] = DestVincenty(lineStart, crs, distStartToCenter + radius);
-			linePts[0] = tanPts[0];
-			linePts[1] = tanPts[1];
-			return;
-		}
+        double dCrsFromPt, dDistFromPt;
+        LLPoint perpPt = PerpIntercept(lineStart, crs, center, dCrsFromPt, dDistFromPt, dTol);
 
-		double dCrsFromPt, dDistFromPt;
-		LLPoint perpPt = PerpIntercept(lineStart, crs, center, dCrsFromPt, dDistFromPt, dTol);
+        DistVincenty(perpPt, lineStart, result);
+        const double crs21 = result.azimuth;
 
-		DistVincenty(perpPt, lineStart, result);
-		//        double dist12 = result.distance;
-		double crs21 = result.azimuth;
+        double delta = radius;
+        const int maxCount = 15;
+        double dErr = 0.0;
+        int k = 0;
+        while (k == 0 || (fabs(dErr) > dTol && k < maxCount))
+        {
+            linePts[0] = DestVincenty(perpPt, crs21 + M_PI, delta);
+            DistVincenty(linePts[0], perpPt, result);
 
-		double delta = radius;
+            tanPts[0] = PerpIntercept(linePts[0], result.azimuth - signAngle1 * M_PI_2,
+                                      center, dCrsFromPt, dDistFromPt, dTol);
+            dErr = dDistFromPt - radius;
+            delta = delta - dErr;
+            k++;
+        }
 
-		int k = 0;
-		int maxCount = 15;
-		double dErr = 0.0;
-		double signAngle1 = angle1 >= 0.0 ? 1.0 : -1.0;
+        dErr = 0.0;
+        k = 0;
+        while (k == 0 || (fabs(dErr) > dTol && k < maxCount))
+        {
+            linePts[1] = DestVincenty(perpPt, crs21, delta);
+            DistVincenty(linePts[1], perpPt, result);
 
-		while(k == 0 || (fabs(dErr) > dTol && k < maxCount))
-		{
-			linePts[0] = DestVincenty(perpPt, crs21 + M_PI, delta);
-			DistVincenty(linePts[0], perpPt, result);
-			double strCrs = result.azimuth;
+            tanPts[1] = PerpIntercept(linePts[1], result.azimuth - signAngle1 * M_PI_2,
+                                      center, dCrsFromPt, dDistFromPt, dTol);
+            dErr = dDistFromPt - radius;
+            delta = delta - dErr;
+            k++;
+        }
 
-
-			double perpCrs = strCrs - signAngle1 * M_PI_2;
-
-			tanPts[0] = PerpIntercept(linePts[0], perpCrs, center, dCrsFromPt, dDistFromPt, dTol);
-			double radDist = dDistFromPt;
-
-			dErr = radDist - radius;
-
-			delta = delta - dErr;
-			k++;
-		}
-
-		dErr = 0.0;
-		k = 0;
-		while(k == 0 || (fabs(dErr) > dTol && k < maxCount))
-		{
-			linePts[1] = DestVincenty(perpPt, crs21, delta);
-			DistVincenty(linePts[1], perpPt, result);
-			double strCrs = result.azimuth;
-
-
-			double perpCrs = strCrs - signAngle1 * M_PI_2;
-
-			tanPts[1] = PerpIntercept(linePts[1], perpCrs, center, dCrsFromPt, dDistFromPt, dTol);
-			double radDist = dDistFromPt;
-
-			dErr = radDist - radius;
-
-			delta = delta - dErr;
-			k++;
-		}
-
-
-		return;
-	}
+        return;
+    }
 }

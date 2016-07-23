@@ -1,12 +1,12 @@
-/**	\file SignAzimuthDifference.cpp
-*	\brief 
+/** \file SignAzimuthDifference.cpp
+*   \brief
 */
 
 /****************************************************************************/
-/*	SignAzimuthDifference.cpp													*/
+/*  SignAzimuthDifference.cpp                                               */
 /****************************************************************************/
 /*                                                                          */
-/*  Copyright 2008 - 2010 Paul Kohut                                        */
+/*  Copyright 2008 - 2016 Paul Kohut                                        */
 /*  Licensed under the Apache License, Version 2.0 (the "License"); you may */
 /*  not use this file except in compliance with the License. You may obtain */
 /*  a copy of the License at                                                */
@@ -26,11 +26,11 @@
 
 
 namespace GeoCalcs {
-	/**
-	*
-	*/
-	double _stdcall SignAzimuthDifference(double az1, double az2)
-	{
-		return Mod(az1 - az2 + M_PI, M_2PI) - M_PI;
-	}
+    /**
+    *
+    */
+    double SignAzimuthDifference(double az1, double az2)
+    {
+        return Mod(az1 - az2 + M_PI, M_2PI) - M_PI;
+    }
 }
