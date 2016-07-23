@@ -7,7 +7,7 @@ GeoForumlas is a collection of ellipsoid formulas, written in C++, that are base
 
 > Algorithms and methods are described for calculating geodetic locations (latitudes and longitudes) on the World Geodetic System of 1984 (WGS-84) ellipsoid, resulting from intersections of geodesic and non-geodesic paths. These algorithms utilize existing distance and azimuth calculation methods to compute intersections and tangent points needed for area navigation procedure construction. The methods apply corrections to an initial spherical approximation until the error is less than the maximum allowable error, as specified by the user.
 
-GeoFormulas can now be built as a DLL or staticly linked library. VBA macros for Microsoft Excel are also included in the directory, which allows full usage of the GeoFormulas API via the DLL. See the bottom of GeoExcelStub.cls for examples using the API.
+GeoFormulas can now be built as a DLL or statically linked library. VBA macros for Microsoft Excel are also included in the directory, which allows full usage of the GeoFormulas API via the DLL. See the bottom of GeoExcelStub.cls for examples using the API.
 
 GeoFormulas has some dependency on the STL. The version that comes with MSVC 7.1 and 8.0 are sufficient to build the GeoFormulas library.
 
@@ -72,6 +72,7 @@ Test Pt3
 
 *Output:*
 True if Pt3 is on geodesic, false otherwise.
+<br><br><br>
 
 ---
 #### Is Point on Arc
@@ -87,7 +88,7 @@ Arc direction
 
 *Output:*
 True if Pt1 is on arc, false otherwise.
-<br><br>
+<br><br><br><br><br><br><br><br>
 
 ---
 #### Arc Length
@@ -115,7 +116,7 @@ Crs23
 Pt3
 Dist13, Az31
 Dist23, Az32
-<br><br>
+<br><br><br><br><br><br><br><br><br>
 
 ---
 #### Distance - Distance Intercept (Arc Intercept)
@@ -130,7 +131,7 @@ Arc 2 radius
 *Output:*
 Pt3 - Intersection 1
 Pt4 - Intersection 2
-<br><br><br><br>
+<br><br><br><br><br><br><br><br><br>
 
 ---
 #### Geodesic - Arc Intercept
@@ -145,7 +146,7 @@ Arc 2 radius
 *Output:*
 Pt3 - Intercept 1
 Pt4 - Intercept 2
-<br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br>
 
 ---
 #### Tangent Fixed Radius Arc
@@ -162,7 +163,7 @@ Arc radius
 Pt4 - Arc center
 Pt5 - Tangent start point
 Pt6 - Tangent end point
-<br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br>
 
 ---
 #### Perpendicular Intercept
@@ -179,6 +180,7 @@ Dist13
 Az13
 Dist23
 Az23
+<br><br><br><br><br><br><br><br>
 
 ---
 #### Point to Arc Tangents
@@ -192,7 +194,7 @@ Arc radius
 *Output:*
 Pt3 - Tangent point 1
 Pt4 - Tangent point 2
-<br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 ---
 #### Perpendicular Tangent Points
@@ -209,7 +211,7 @@ Pt3 - Tangent point 1
 Pt4 - Tangent point 2
 Pt5 - Intercept point 1
 Pt6 - Intercept point 2
-<br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 ---
 #### Is Point on Locus
@@ -225,7 +227,7 @@ End point offset - locus end point Pt4
 
 *Output:*
 True if Pt5 is on locus between Pt3 and Pt4, false otherwise.
-<br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
 
 
 ---
@@ -244,7 +246,7 @@ Pt4 - Locus end point
 Dist13
 Dist24
 Pt6 - Pt5 projected perpendicular onto geodesic
-<br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
 
 ---
 #### Geodesic - Locus Intersect
@@ -265,6 +267,7 @@ Pt6 - Locus end point
 Dist35
 Dist46
 Pt7 - Intercept point on locus
+<br><br><br><br><br><br><br><br><br>
 
 ---
 #### Locus - Arc Intersect
@@ -284,7 +287,7 @@ Pt4 - Locus start point
 Pt5 - Locus end point
 Pt6 - Arc intercept point 1 on locus
 Pt7 - Arc intercept point 2 on locus
-<br><br>
+<br><br><br><br><br><br><br><br><br><br>
 
 ---
 #### Locus - Locus Intersect
@@ -310,6 +313,7 @@ Locus 2
 Pt7 - Locus start point
 Pt8 - Locus end point
 Pt9 - Intercept of locus 1 and locus 2
+<br><br><br><br><br><br><br><br><br><br>
 
 ---
 #### Locus Tangent Fixed Radius Arc
@@ -335,6 +339,7 @@ Locus 2
 Pt7 - Locus start point
 Pt8 - Locus end point
 Pt9 - Intercept of locus 1 and locus 2
+<br><br><br><br><br><br><br><br><br><br><br>
 
 ---
 #### Locus Perpendicular Intercept
@@ -350,7 +355,7 @@ dist 24
 Pt3 - Locus start point
 Pt4 - Locus end point
 Pt6 - Pt projected onto locus
-<br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br>
 
 ---
 Legal Stuff
