@@ -131,7 +131,7 @@ Arc 2 radius
 *Output:*
 Pt3 - Intersection 1
 Pt4 - Intersection 2
-<br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
 
 ---
 #### Geodesic - Arc Intercept
