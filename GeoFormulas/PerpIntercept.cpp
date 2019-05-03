@@ -78,7 +78,7 @@ namespace GeoCalcs {
         double dist23 = result.distance;
 
         double errarray[2], distarray[2];
-        errarray[0] = fabs(SignAzimuthDifference(crs31, crs32)) - M_PI;
+        errarray[0] = fabs(SignAzimuthDifference(crs31, crs32)) - M_PI_2;
         distarray[0] = dist13;
         distarray[1] = fabs(distarray[0] + errarray[0] * dist23);
 
