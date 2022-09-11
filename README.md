@@ -3,7 +3,7 @@ GeoFormulas and TerpsTest
 
 GeoFormulas
 -----------
-GeoForumlas is a collection of ellipsoid formulas, written in C++, that are based on the formulas found in Appendix 2 of [FAA document Order 8260.54A](http://www.faa.gov/documentLibrary/media/Order/8260_54A.pdf).
+GeoForumlas is a collection of ellipsoid formulas, written in C++, that are based on the formulas found in Appendix 2 of [FAA document Order 8260.54A](http://www.faa.gov/documentLibrary/media/Order/8260_54A.pdf): Note, [FAA document Order 8260.54A Change 1 and 2](https://www.faa.gov/documentLibrary/media/Order/FAA_Order_8260.58A_Including_Change_1_and_2.pdf), uses code and examples from this repo are used extensively in Appendix E.
 
 > Algorithms and methods are described for calculating geodetic locations (latitudes and longitudes) on the World Geodetic System of 1984 (WGS-84) ellipsoid, resulting from intersections of geodesic and non-geodesic paths. These algorithms utilize existing distance and azimuth calculation methods to compute intersections and tangent points needed for area navigation procedure construction. The methods apply corrections to an initial spherical approximation until the error is less than the maximum allowable error, as specified by the user.
 
