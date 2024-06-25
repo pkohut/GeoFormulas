@@ -90,7 +90,7 @@ namespace GeoCalcs {
             distarray[1] = dist;
             errarray[1] = radius - result.distance;
 
-            while (fabs(dErr) > dTol)
+            while (fabs(errarray[1]) > dTol) // replaced dErr with errarray[1] because otherwise this would result in an infinite loop (when removing the break below): dErr is never reset in the loop, so the condition never changes
             {
                 FindLinearRoot(distarray, errarray, dist);
                 if (std::isnan(dist))
@@ -102,7 +102,7 @@ namespace GeoCalcs {
                 errarray[0] = errarray[1];
                 distarray[1] = dist;
                 errarray[1] = radius - result.distance;
-                break;
+                // break; // This break does make the loop not a loop because the while will never be re-executed; it breaks after the first run.
             }
 
             if (i == 0)
