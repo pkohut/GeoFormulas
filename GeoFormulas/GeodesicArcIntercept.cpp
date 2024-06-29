@@ -90,7 +90,7 @@ namespace GeoCalcs {
             distarray[1] = dist;
             errarray[1] = radius - result.distance;
 
-            while (fabs(dErr) > dTol)
+            while (fabs(errarray[1]) > dTol)
             {
                 FindLinearRoot(distarray, errarray, dist);
                 if (std::isnan(dist))
@@ -102,7 +102,7 @@ namespace GeoCalcs {
                 errarray[0] = errarray[1];
                 distarray[1] = dist;
                 errarray[1] = radius - result.distance;
-                break;
+                
             }
 
             if (i == 0)
